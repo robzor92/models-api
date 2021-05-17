@@ -1,5 +1,5 @@
 #
-#   Copyright 2020 Logical Clocks AB
+#   Copyright 2021 Logical Clocks AB
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -14,17 +14,20 @@
 #   limitations under the License.
 #
 
-from hsfs import client
-from hsfs.constructor import fs_query
+import warnings
+
+from hsfs import util
+from hsfs.connection import Connection
+
+connection = Connection.connection
+setup_databricks = Connection.setup_databricks
 
 
-class QueryConstructorApi:
-    def construct_query(self, query):
-        _client = client.get_instance()
-        path_params = ["project", _client._project_id, "featurestores", "query"]
-        headers = {"content-type": "application/json"}
-        return fs_query.FsQuery.from_response_json(
-            _client._send_request(
-                "PUT", path_params, headers=headers, data=query.json()
-            )
-        )
+def fs_formatwarning(message, category, filename, lineno, line=None):
+    return "{}: {}\n".format(category.__name__, message)
+
+
+warnings.formatwarning = fs_formatwarning
+warnings.simplefilter("always", util.VersionWarning)
+
+__all__ = ["connection", "setup_databricks"]

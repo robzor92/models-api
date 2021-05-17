@@ -17,20 +17,19 @@
 import json
 
 import humps
-from hsfs import util
-from hsfs.core import expectations_engine
+from hsmr import util
+from hsmr.core import models_engine
 
 
-class Expectation:
-    """Metadata object representing an feature validation expectation in the Feature Store."""
+class Model:
+    """Metadata object representing a model in the Model Registry."""
 
     def __init__(
         self,
         name,
-        features,
-        rules,
+        version
         description=None,
-        featurestore_id=None,
+        model_registry_id=None,
         href=None,
         expand=None,
         items=None,
@@ -38,14 +37,13 @@ class Expectation:
         type=None,
     ):
         self._name = name
-        self._features = features
-        self._rules = rules
+        self._version = version
         self._description = description
-        self._featurestore_id = featurestore_id
+        self._model_registry_id = model_registry_id
 
     def save(self):
-        """Persist the expectation metadata object to the feature store."""
-        expectations_engine.ExpectationsEngine(self._featurestore_id).save(self)
+        """Persist the model metadata object to the model registry."""
+        expectations_engine.ModelsEngine(self._featurestore_id).save(self)
 
     @classmethod
     def from_response_json(cls, json_dict):
@@ -63,19 +61,27 @@ class Expectation:
     def to_dict(self):
         return {
             "name": self._name,
-            "description": self._description,
-            "features": self._features,
-            "rules": self._rules,
+            "version": self._version,
+            "description": self._description
         }
 
     @property
     def name(self):
-        """Name of the expectation, unique per feature store (project)."""
+        """Name of the model."""
         return self._name
 
     @name.setter
     def name(self, name):
         self._name = name
+
+    @property
+    def version(self):
+        """Version of the model."""
+        return self._rules
+
+    @rules.setter
+    def rules(self, rules):
+        self._rules = rules
 
     @property
     def description(self):
@@ -85,21 +91,3 @@ class Expectation:
     @description.setter
     def description(self, description):
         self._description = description
-
-    @property
-    def features(self):
-        """List of features this expectation is applied to."""
-        return self._features
-
-    @features.setter
-    def features(self, features):
-        self._features = features
-
-    @property
-    def rules(self):
-        """List of rules applied to the features of the expectation."""
-        return self._rules
-
-    @rules.setter
-    def rules(self, rules):
-        self._rules = rules

@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 
 __version__ = imp.load_source(
-    "hsfs.version", os.path.join("hsfs", "version.py")
+    "hsmr.version", os.path.join("hsmr", "version.py")
 ).__version__
 
 
@@ -13,21 +13,9 @@ def read(fname):
 
 
 setup(
-    name="hsfs",
+    name="hsmr",
     version=__version__,
-    install_requires=[
-        "pyhumps==1.6.1",
-        "requests",
-        "furl",
-        "boto3",
-        "pandas",
-        "numpy",
-        "pyjks",
-        "mock",
-        "avro==1.10.1",
-        "sqlalchemy",
-        "PyMySQL",
-    ],
+    install_requires=[],
     extras_require={
         "dev": [
             "pytest",
@@ -38,16 +26,15 @@ setup(
             "mkdocs-material==6.2.2",
             "mike==0.5.5",
             "keras-autodoc",
-            "markdown-include"],
-        "hive": ["pyhopshive[thrift]"]
+            "markdown-include"]
     },
     author="Logical Clocks AB",
-    author_email="moritz@logicalclocks.com",
-    description="HSFS: An environment independent client to interact with the Hopsworks Featurestore",
+    author_email="robin@logicalclocks.com",
+    description="HSMR: An environment independent client to interact with the Hopsworks Model Registry and Model Serving",
     license="Apache License 2.0",
-    keywords="Hopsworks, Feature Store, Spark, Machine Learning, MLOps, DataOps",
-    url="https://github.com/logicalclocks/feature-store-api",
-    download_url="https://github.com/logicalclocks/feature-store-api/releases/tag/"
+    keywords="Hopsworks, Feature Store, TensorFlow, PyTorch, Machine Learning, MLOps, DataOps",
+    url="https://github.com/logicalclocks/models-api",
+    download_url="https://github.com/logicalclocks/models-api/releases/tag/"
     + __version__,
     packages=find_packages(),
     long_description=read("../README.md"),

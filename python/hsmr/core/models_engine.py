@@ -1,5 +1,5 @@
 #
-#   Copyright 2020 Logical Clocks AB
+#   Copyright 2021 Logical Clocks AB
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -14,13 +14,19 @@
 #   limitations under the License.
 #
 
-from hsfs import client
+from hsmr.core import models_api
 
 
-class HostsApi:
-    def get(self):
-        _client = client.get_instance()
-        path_params = [
-            "hosts",
-        ]
-        return _client._send_request("GET", path_params)["items"]
+class ModelsEngine:
+    def __init__(self, model_registry_id):
+        """Models engine.
+
+        :param feature_store_id: id of the respective featurestore
+        :type feature_store_id: int
+        """
+        self.model_registry_id = model_registry_id
+        self.models_api = models_api.ModelsApi(model_registry_id)
+
+    def save(self, model):
+        print("expectation.rules[0].to_dict()" + str(expectation.rules[0].to_dict()))
+        self._expectations_api.create(expectation)

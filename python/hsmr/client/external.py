@@ -25,7 +25,7 @@ try:
 except ImportError:
     pass
 
-from hsfs.client import base, auth, exceptions
+from hsmr.client import base, auth, exceptions
 
 
 class Client(base.Client):

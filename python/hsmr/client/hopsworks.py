@@ -20,7 +20,7 @@ import textwrap
 import base64
 
 from pathlib import Path
-from hsfs.client import base, auth
+from hsmr.client import base, auth
 
 try:
     import jks

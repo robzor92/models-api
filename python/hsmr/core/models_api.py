@@ -1,5 +1,5 @@
 #
-#   Copyright 2020 Logical Clocks AB
+#   Copyright 2021 Logical Clocks AB
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -14,10 +14,10 @@
 #   limitations under the License.
 #
 
-from hsfs import client, expectation
+from hsmr import client, expectation
 
 
-class ExpectationsApi:
+class ModelsApi:
     def __init__(self, feature_store_id, entity_type=None):
         """Expectations endpoint for `featurestores` and `featuregroups` resource.
 
@@ -54,28 +54,6 @@ class ExpectationsApi:
         print("ExpectationsApi.expectation.payload" + str(payload))
         _client._send_request("PUT", path_params, headers=headers, data=payload)
 
-    def attach(self, feature_group, name):
-        """Attach a Feature Store expectation to a Feature Group.
-
-        :param feature_group: metadata object of the instance to attach the expectation to
-        :type feature_group: FeatureGroup
-        :param name: name of the expectation to be attached
-        :type name: str
-        """
-        _client = client.get_instance()
-        path_params = [
-            "project",
-            _client._project_id,
-            "featurestores",
-            self._feature_store_id,
-            self._entity_type,
-            feature_group.id,
-            "expectations",
-            name,
-        ]
-
-        _client._send_request("PUT", path_params)
-
     def delete(self, name):
         """Delete a Feature Store expectation.
 
@@ -86,40 +64,16 @@ class ExpectationsApi:
         path_params = [
             "project",
             _client._project_id,
-            "featurestores",
-            self._feature_store_id,
-            name,
+            "models",
+            id
         ]
 
         _client._send_request("DELETE", path_params)
 
-    def detach(self, feature_group, name):
-        """Detach a Feature Store expectation from a Feature Group.
-
-        :param feature_group: metadata object of the instance to attach the expectation to
-        :type feature_group: FeatureGroup
-        :param name: name of the expectation to be attached
-        :type name: str
-        """
-        _client = client.get_instance()
-        path_params = [
-            "project",
-            _client._project_id,
-            "featurestores",
-            self._feature_store_id,
-            self._entity_type,
-            feature_group.id,
-            "expectations",
-            name,
-        ]
-
-        _client._send_request("DELETE", path_params)
-
-    def get(self, name=None, feature_group=None):
-        """Get the expectations of a feature store or feature group.
+    def get(self, name=None, version=None):
+        """Get a model from the model registry
 
         Gets all feature store expectations if no feature group is specified.
-        Gets all feature store or feature group expectations if no name is specified.
 
         :param name: expectation name
         :type name: str
@@ -132,8 +86,7 @@ class ExpectationsApi:
         path_params = [
             "project",
             _client._project_id,
-            "featurestores",
-            self._feature_store_id,
+            "models"
         ]
 
         if feature_group is not None:
@@ -144,6 +97,6 @@ class ExpectationsApi:
         if name:
             path_params.append(name)
 
-        return expectation.Expectation.from_response_json(
+        return model.Model.from_response_json(
             _client._send_request("GET", path_params)
         )
