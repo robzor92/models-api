@@ -14,7 +14,7 @@
 #   limitations under the License.
 #
 
-from hsmr import client, expectation
+from hsml import client, expectation
 
 
 class ModelsApi:

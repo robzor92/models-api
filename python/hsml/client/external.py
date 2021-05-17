@@ -25,7 +25,7 @@ try:
 except ImportError:
     pass
 
-from hsmr.client import base, auth, exceptions
+from hsml.client import base, auth, exceptions
 
 
 class Client(base.Client):

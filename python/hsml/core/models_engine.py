@@ -14,7 +14,7 @@
 #   limitations under the License.
 #
 
-from hsmr.core import models_api
+from hsml.core import models_api
 
 
 class ModelsEngine:

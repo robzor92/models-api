@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 
 
 __version__ = imp.load_source(
-    "hsmr.version", os.path.join("hsmr", "version.py")
+    "hsml.version", os.path.join("hsml", "version.py")
 ).__version__
 
 
@@ -13,7 +13,7 @@ def read(fname):
 
 
 setup(
-    name="hsmr",
+    name="hsml",
     version=__version__,
     install_requires=[],
     extras_require={

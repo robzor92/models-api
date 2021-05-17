@@ -21,8 +21,8 @@ from abc import ABC, abstractmethod
 import requests
 import urllib3
 
-from hsmr.client import exceptions, auth
-from hsmr.decorators import connected
+from hsml.client import exceptions, auth
+from hsml.decorators import connected
 
 
 urllib3.disable_warnings(urllib3.exceptions.SecurityWarning)

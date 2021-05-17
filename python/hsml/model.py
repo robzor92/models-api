@@ -17,8 +17,8 @@
 import json
 
 import humps
-from hsmr import util
-from hsmr.core import models_engine
+from hsml import util
+from hsml.core import models_engine
 
 
 class Model:
