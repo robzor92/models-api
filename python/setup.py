@@ -30,7 +30,7 @@ setup(
     },
     author="Logical Clocks AB",
     author_email="robin@logicalclocks.com",
-    description="HSMR: An environment independent client to interact with the Hopsworks Model Registry and Model Serving",
+    description="HSML: An environment independent client to interact with the Hopsworks Experiments, Model Registry and Serving service",
     license="Apache License 2.0",
     keywords="Hopsworks, Feature Store, TensorFlow, PyTorch, Machine Learning, MLOps, DataOps",
     url="https://github.com/logicalclocks/models-api",
