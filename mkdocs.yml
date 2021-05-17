@@ -63,6 +63,8 @@ nav:
       - Expectation: generated/api/expectation_api.md
       - Validation: generated/api/validation_api.md
     - Contributing: CONTRIBUTING.md
+  - Machine Learning:
+      - Introduction: index.md
   - Hopsworks.ai:
     - Introduction: hopsworksai/index.md
     - Getting Started:
