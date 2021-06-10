@@ -92,7 +92,7 @@ class Connection:
             stored, defaults to `"default"`.
         secrets_store: The secrets storage to be used, either `"secretsmanager"`,
             `"parameterstore"` or `"local"`, defaults to `"parameterstore"`.
-        hostname_verification: Whether or not to verify Hopsworks’ certificate, defaults
+        hostname_verification: Whether or not to verify Hopsworks´ certificate, defaults
             to `True`.
         trust_store_path: Path on the file system containing the Hopsworks certificates,
             defaults to `None`.
