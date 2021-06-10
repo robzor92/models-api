@@ -19,7 +19,7 @@ try:
 except ImportError:
     pass
 
-from hsfs.core.tfdata_engine import TFDataEngine
+from hsml.core.tfdata_engine import TFDataEngine
 
 
 class TFDataEngineTest(tf.test.TestCase):
@@ -68,7 +68,7 @@ class TFDataEngineTest(tf.test.TestCase):
         return tf.train.Example(features=tf.train.Features(feature=feature))
 
     def test_infer_tf_dtype(self):
-        example = self._example_with_string(True, 5, b"hsfs", 1.2836)
+        example = self._example_with_string(True, 5, b"hsml", 1.2836)
 
         feature_description = {}
         for k, v in sorted(example.features.feature.items()):

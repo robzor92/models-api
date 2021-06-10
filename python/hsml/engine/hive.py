@@ -21,8 +21,8 @@ import boto3
 from pyhive import hive
 from urllib.parse import urlparse
 
-from hsfs import client, feature, util
-from hsfs.core import (
+from hsml import client, feature, util
+from hsml.core import (
     feature_group_api,
     dataset_api,
     job_api,
@@ -31,7 +31,7 @@ from hsfs.core import (
     training_dataset_api,
     training_dataset_job_conf,
 )
-from hsfs.constructor import query
+from hsml.constructor import query
 
 
 class Engine:

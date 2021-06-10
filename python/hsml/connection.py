@@ -19,9 +19,9 @@ import importlib.util
 
 from requests.exceptions import ConnectionError
 
-from hsfs.decorators import connected, not_connected
-from hsfs import engine, client
-from hsfs.core import feature_store_api, project_api, hosts_api, services_api, rules_api
+from hsml.decorators import connected, not_connected
+from hsml import engine, client
+from hsml.core import feature_store_api, project_api, hosts_api, services_api, rules_api
 
 AWS_DEFAULT_REGION = "default"
 HOPSWORKS_PORT_DEFAULT = 443
@@ -37,15 +37,15 @@ class Connection:
     store but also any feature store which has been shared with the project you connect
     to.
 
-    This class provides convenience classmethods accessible from the `hsfs`-module:
+    This class provides convenience classmethods accessible from the `hsml`-module:
 
     !!! example "Connection factory"
-        For convenience, `hsfs` provides a factory method, accessible from the top level
+        For convenience, `hsml` provides a factory method, accessible from the top level
         module, so you don't have to import the `Connection` class manually:
 
         ```python
-        import hsfs
-        conn = hsfs.connection()
+        import hsml
+        conn = hsml.connection()
         ```
 
     !!! hint "Save API Key as File"
@@ -58,8 +58,8 @@ class Connection:
         instantiating a connection:
 
         ```python hl_lines="6"
-            import hsfs
-            conn = hsfs.connection(
+            import hsml
+            conn = hsml.connection(
                 'my_instance',                      # DNS of your Feature Store instance
                 443,                                # Port to reach your Hopsworks instance, defaults to 443
                 'my_project',                       # Name of your Hopsworks Feature Store project
@@ -169,8 +169,8 @@ class Connection:
 
         !!! example
             ```python
-            import hsfs
-            conn = hsfs.connection()
+            import hsml
+            conn = hsml.connection()
             conn.close()
             conn.connect()
             ```
@@ -303,7 +303,7 @@ class Connection:
         api_key_file: str = None,
         api_key_value: str = None,
     ):
-        """Connection factory method, accessible through `hsfs.connection()`."""
+        """Connection factory method, accessible through `hsml.connection()`."""
         return cls(
             host,
             port,

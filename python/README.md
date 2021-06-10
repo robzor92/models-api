@@ -9,16 +9,16 @@
     src="https://img.shields.io/badge/docs-HSFS-orange"
     alt="Hopsworks Feature Store Documentation"
   /></a>
-  <a href="https://pypi.org/project/hsfs/"><img
-    src="https://img.shields.io/pypi/v/hsfs?color=blue"
+  <a href="https://pypi.org/project/hsml/"><img
+    src="https://img.shields.io/pypi/v/hsml?color=blue"
     alt="PyPiStatus"
   /></a>
-  <a href="https://archiva.hops.works/#artifact/com.logicalclocks/hsfs"><img
+  <a href="https://archiva.hops.works/#artifact/com.logicalclocks/hsml"><img
     src="https://img.shields.io/badge/java-HSFS-green"
     alt="Scala/Java Artifacts"
   /></a>
-  <a href="https://pepy.tech/project/hsfs/month"><img
-    src="https://pepy.tech/badge/hsfs/month"
+  <a href="https://pepy.tech/project/hsml/month"><img
+    src="https://pepy.tech/badge/hsml/month"
     alt="Downloads"
   /></a>
   <a href="https://github.com/psf/black"><img
@@ -26,7 +26,7 @@
     alt="CodeStyle"
   /></a>
   <a><img
-    src="https://img.shields.io/pypi/l/hsfs?color=green"
+    src="https://img.shields.io/pypi/l/hsml?color=green"
     alt="License"
   /></a>
 </p>
@@ -47,9 +47,9 @@ additional connection information, such as host and port, is required. For more 
 
 Instantiate a connection and get the project feature store handler
 ```python
-import hsfs
+import hsml
 
-connection = hsfs.connection()
+connection = hsml.connection()
 fs = connection.get_feature_store()
 ```
 
@@ -134,7 +134,7 @@ train_input = tf_data_object.tf_record_dataset(batch_size=32,
 
 A short introduction to the Scala API:
 ```scala
-import com.logicalclocks.hsfs._
+import com.logicalclocks.hsml._
 val connection = HopsworksConnection.builder().build()
 val fs = connection.getFeatureStore();
 val attendances_features_fg = fs.getFeatureGroup("games_features", 1);

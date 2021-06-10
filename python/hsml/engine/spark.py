@@ -31,11 +31,11 @@ try:
 except ImportError:
     pass
 
-from hsfs import feature, training_dataset_feature, client, util
-from hsfs.storage_connector import StorageConnector
-from hsfs.client.exceptions import FeatureStoreException
-from hsfs.core import hudi_engine
-from hsfs.constructor import query
+from hsml import feature, training_dataset_feature, client, util
+from hsml.storage_connector import StorageConnector
+from hsml.client.exceptions import FeatureStoreException
+from hsml.core import hudi_engine
+from hsml.constructor import query
 
 
 class Engine:
@@ -441,7 +441,7 @@ class Engine:
     def profile(self, dataframe, relevant_columns, correlations, histograms):
         """Profile a dataframe with Deequ."""
         return (
-            self._jvm.com.logicalclocks.hsfs.engine.SparkEngine.getInstance().profile(
+            self._jvm.com.logicalclocks.hsml.engine.SparkEngine.getInstance().profile(
                 dataframe._jdf, relevant_columns, correlations, histograms
             )
         )
@@ -454,14 +454,14 @@ class Engine:
             rules = []
             for rule in expectation.rules:
                 rules.append(
-                    self._jvm.com.logicalclocks.hsfs.metadata.validation.Rule.builder()
+                    self._jvm.com.logicalclocks.hsml.metadata.validation.Rule.builder()
                     .name(
-                        self._jvm.com.logicalclocks.hsfs.metadata.validation.RuleName.valueOf(
+                        self._jvm.com.logicalclocks.hsml.metadata.validation.RuleName.valueOf(
                             rule.get("name")
                         )
                     )
                     .level(
-                        self._jvm.com.logicalclocks.hsfs.metadata.validation.Level.valueOf(
+                        self._jvm.com.logicalclocks.hsml.metadata.validation.Level.valueOf(
                             rule.get("level")
                         )
                     )
@@ -469,7 +469,7 @@ class Engine:
                     .max(rule.get("max", None))
                     .pattern(rule.get("pattern", None))
                     .acceptedType(
-                        self._jvm.com.logicalclocks.hsfs.metadata.validation.AcceptedType.valueOf(
+                        self._jvm.com.logicalclocks.hsml.metadata.validation.AcceptedType.valueOf(
                             rule.get("accepted_type")
                         )
                         if rule.get("accepted_type") is not None
@@ -479,7 +479,7 @@ class Engine:
                     .build()
                 )
             expectation = (
-                self._jvm.com.logicalclocks.hsfs.metadata.Expectation.builder()
+                self._jvm.com.logicalclocks.hsml.metadata.Expectation.builder()
                 .name(expectation.name)
                 .description(expectation.description)
                 .features(expectation.features)
@@ -488,7 +488,7 @@ class Engine:
             )
             expectations_java.append(expectation)
 
-        return self._jvm.com.logicalclocks.hsfs.engine.DataValidationEngine.getInstance().validate(
+        return self._jvm.com.logicalclocks.hsml.engine.DataValidationEngine.getInstance().validate(
             dataframe._jdf, expectations_java
         )
 
