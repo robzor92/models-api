@@ -135,7 +135,7 @@ class Connection:
         self._api_key_file = api_key_file
         self._api_key_value = api_key_value
         self._connected = False
-        self._rules_api = rules_api.RulesApi()
+        self._models_api = models_api.ModelsApi()
 
         self.connect()
 
