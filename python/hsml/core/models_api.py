@@ -14,7 +14,7 @@
 #   limitations under the License.
 #
 
-from hsml import client, expectation
+from hsml import client, model
 
 
 class ModelsApi:
@@ -29,7 +29,7 @@ class ModelsApi:
         self._feature_store_id = feature_store_id
         self._entity_type = entity_type
 
-    def create(self, expectation):
+    def create(self, model):
         """Create and Feature Store expectation or Attach it by name to a Feature Group.
 
         :param expectation: expectation object to be created for a feature store
@@ -45,12 +45,12 @@ class ModelsApi:
         ]
 
         headers = {"content-type": "application/json"}
-        print("ExpectationsApi.expectation.to_dict()" + str(expectation.to_dict()))
+        print("ExpectationsApi.expectation.to_dict()" + str(model.to_dict()))
         print(
             "ExpectationsApi.expectation.rules[0].to_dict()"
-            + str(expectation.rules[0].to_dict())
+            + str(model.rules[0].to_dict())
         )
-        payload = expectation.json() if expectation else None
+        payload = model.json() if model else None
         print("ExpectationsApi.expectation.payload" + str(payload))
         _client._send_request("PUT", path_params, headers=headers, data=payload)
 
