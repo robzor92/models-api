@@ -77,11 +77,11 @@ class Model:
     @property
     def version(self):
         """Version of the model."""
-        return self._rules
+        return self._version
 
-    @rules.setter
-    def rules(self, rules):
-        self._rules = rules
+    @version.setter
+    def version(self, version):
+        self._version = version
 
     @property
     def description(self):
