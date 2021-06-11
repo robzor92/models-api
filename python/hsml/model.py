@@ -27,7 +27,7 @@ class Model:
     def __init__(
         self,
         name,
-        version
+        version,
         description=None,
         model_registry_id=None,
         href=None,
