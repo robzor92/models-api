@@ -20,7 +20,7 @@ import importlib.util
 from requests.exceptions import ConnectionError
 
 from hsml.decorators import connected, not_connected
-from hsml import engine, client
+from hsml import client
 from hsml.core import models_api
 
 AWS_DEFAULT_REGION = "default"
