@@ -1,5 +1,5 @@
 #
-#   Copyright 2020 Logical Clocks AB
+#   Copyright 2021 Logical Clocks AB
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ from requests.exceptions import ConnectionError
 
 from hsml.decorators import connected, not_connected
 from hsml import engine, client
-from hsml.core import feature_store_api, project_api, hosts_api, services_api, rules_api
+from hsml.core import models_api
 
 AWS_DEFAULT_REGION = "default"
 HOPSWORKS_PORT_DEFAULT = 443
