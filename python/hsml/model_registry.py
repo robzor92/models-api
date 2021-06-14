@@ -75,7 +75,7 @@ class ModelRegistry:
             )
             version = self.DEFAULT_VERSION
         return self._models_api.get(
-            name=name, version=version
+            name, version
         )
 
     @property
