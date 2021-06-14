@@ -28,7 +28,8 @@ class Model:
         self,
         name,
         version,
-        created,
+        created=None,
+        environment=None,
         description=None,
         model_registry_id=None,
         href=None,
@@ -40,6 +41,8 @@ class Model:
         self._name = name
         self._version = version
         self._description = description
+        self._created = created
+        self._environment = environment
         self._model_registry_id = model_registry_id
 
     def save(self):
@@ -101,3 +104,13 @@ class Model:
     @created.setter
     def created(self, created):
         self._created = created
+
+    @property
+    def environment(self):
+        """Anaconda environment of the model."""
+        return self._environment
+
+    @environment.setter
+    def created(self, environment):
+        self._environment = environment
+
