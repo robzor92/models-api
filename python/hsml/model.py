@@ -28,6 +28,7 @@ class Model:
         self,
         name,
         version,
+        created,
         description=None,
         model_registry_id=None,
         href=None,
@@ -91,3 +92,12 @@ class Model:
     @description.setter
     def description(self, description):
         self._description = description
+
+    @property
+    def created(self):
+        """Creation date of the model."""
+        return self._created
+
+    @created.setter
+    def created(self, created):
+        self._created = created
