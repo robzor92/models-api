@@ -60,10 +60,9 @@ class ModelsApi:
         path_params = [
             "project",
             _client._project_id,
-            "models",
-            name
+            "models"
         ]
-        query_params = {"version": version}
+        query_params = {'filter_by[]': ["name_eq:" + name, "version:" + version]}
         model_json = _client._send_request("GET", path_params, query_params)[0]
         return model.Model.from_response_json(model_json)
 
