@@ -151,7 +151,7 @@ class Connection:
         # Returns
             `FeatureStore`. A feature store handle object to perform operations on.
         """
-        return self._models_api.get()
+        return self._models_api
 
     @not_connected
     def connect(self):
