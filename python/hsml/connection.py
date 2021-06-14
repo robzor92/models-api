@@ -140,11 +140,10 @@ class Connection:
         self.connect()
 
     @connected
-    def get_feature_store(self, name: str = None):
-        """Get a reference to a feature store to perform operations on.
+    def get_model_registry(self):
+        """Get a reference to a model registry to perform operations on.
 
-        Defaulting to the project's default feature store. Shared feature stores can be
-        retrieved by passing the `name` argument.
+        Defaulting to the project's default model registry store.
 
         # Arguments
             name: The name of the feature store, defaults to `None`.
@@ -152,9 +151,7 @@ class Connection:
         # Returns
             `FeatureStore`. A feature store handle object to perform operations on.
         """
-        if not name:
-            name = client.get_instance()._project_name.lower() + "_featurestore"
-        return self._feature_store_api.get(name)
+        return self._models_api.get()
 
     @not_connected
     def connect(self):
@@ -178,21 +175,21 @@ class Connection:
         self._connected = True
         try:
             # determine engine, needed to init client
-            if (self._engine is not None and self._engine.lower() == "spark") or (
-                self._engine is None and importlib.util.find_spec("pyspark")
-            ):
-                self._engine = "spark"
-            elif (self._engine is not None and self._engine.lower() == "hive") or (
-                self._engine is None and not importlib.util.find_spec("pyspark")
-            ):
-                self._engine = "hive"
-            elif self._engine is not None and self._engine.lower() == "training":
-                self._engine = "training"
-            else:
-                raise ConnectionError(
-                    "Engine you are trying to initialize is unknown. "
-                    "Supported engines are `'spark'`, `'hive'` and `'training'`."
-                )
+            #if (self._engine is not None and self._engine.lower() == "spark") or (
+            #    self._engine is None and importlib.util.find_spec("pyspark")
+            #):
+            #    self._engine = "spark"
+            #elif (self._engine is not None and self._engine.lower() == "hive") or (
+            #    self._engine is None and not importlib.util.find_spec("pyspark")
+            #):
+            #    self._engine = "hive"
+            #elif self._engine is not None and self._engine.lower() == "training":
+            #    self._engine = "training"
+            #else:
+            #    raise ConnectionError(
+            #         "Engine you are trying to initialize is unknown. "
+            #         "Supported engines are `'spark'`, `'hive'` and `'training'`."
+            #    )
 
             # init client
             if client.base.Client.REST_ENDPOINT not in os.environ:
@@ -216,10 +213,10 @@ class Connection:
             # init engine
             engine.init(self._engine)
 
-            self._feature_store_api = feature_store_api.FeatureStoreApi()
-            self._project_api = project_api.ProjectApi()
-            self._hosts_api = hosts_api.HostsApi()
-            self._services_api = services_api.ServicesApi()
+            self._models_api = models_api.ModelsApi()
+            #self._project_api = project_api.ProjectApi()
+            #self._hosts_api = hosts_api.HostsApi()
+            #self._services_api = services_api.ServicesApi()
         except (TypeError, ConnectionError):
             self._connected = False
             raise
@@ -234,7 +231,7 @@ class Connection:
         Usage is recommended but optional.
         """
         client.stop()
-        self._feature_store_api = None
+        self._models_api = None
         engine.stop()
         self._connected = False
         print("Connection closed.")
@@ -485,16 +482,6 @@ class Connection:
     @not_connected
     def api_key_value(self, api_key_value):
         self._api_key_value = api_key_value
-
-    def get_rules(self):
-        """Get a rule with a certain name or all rules available for data validation."""
-
-        return self._rules_api.get()
-
-    def get_rule(self, name: str):
-        """Get a rule with a certain name or all rules available for data validation."""
-
-        return self._rules_api.get(name)
 
     def __enter__(self):
         self.connect()
