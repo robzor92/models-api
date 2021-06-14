@@ -21,7 +21,7 @@ from requests.exceptions import ConnectionError
 
 from hsml.decorators import connected, not_connected
 from hsml import client
-from hsml.core import models_api
+from hsml.core import models_api, model_registry_api
 
 AWS_DEFAULT_REGION = "default"
 HOPSWORKS_PORT_DEFAULT = 443
@@ -136,6 +136,7 @@ class Connection:
         self._api_key_value = api_key_value
         self._connected = False
         self._models_api = models_api.ModelsApi()
+        self._model_registry_api = model_registry_api.ModelRegistryApi()
 
         self.connect()
 
@@ -143,15 +144,10 @@ class Connection:
     def get_model_registry(self):
         """Get a reference to a model registry to perform operations on.
 
-        Defaulting to the project's default model registry store.
-
-        # Arguments
-            name: The name of the feature store, defaults to `None`.
-
         # Returns
-            `FeatureStore`. A feature store handle object to perform operations on.
+            `ModelRegistry`. A model registry handle object to perform operations on.
         """
-        return self._models_api
+        return self._model_registry_api().get()
 
     @not_connected
     def connect(self):
