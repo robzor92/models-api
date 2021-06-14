@@ -14,8 +14,8 @@
 #   limitations under the License.
 #
 
-from hsfs import client
-from hsfs import model
+from hsml import client
+from hsml import model
 
 class ModelsApi:
 
