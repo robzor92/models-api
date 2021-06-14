@@ -211,7 +211,7 @@ class Connection:
                 client.init("hopsworks")
 
             # init engine
-            engine.init(self._engine)
+            #engine.init(self._engine)
 
             self._models_api = models_api.ModelsApi()
             #self._project_api = project_api.ProjectApi()
