@@ -23,7 +23,7 @@ from typing import Optional, Union, List, Dict, TypeVar
 from hsml import (
     model
 )
-from hsfs.core import (
+from hsml.core import (
     models_api
 )
 
