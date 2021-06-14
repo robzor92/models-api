@@ -31,6 +31,7 @@ class Model:
         created=None,
         environment=None,
         description=None,
+        experiment_id=None,
         model_registry_id=None,
         href=None,
         expand=None,
@@ -43,6 +44,7 @@ class Model:
         self._description = description
         self._created = created
         self._environment = environment
+        self._experiment_id = experiment_id
         self._model_registry_id = model_registry_id
 
     def save(self):
@@ -111,6 +113,14 @@ class Model:
         return self._environment
 
     @environment.setter
-    def created(self, environment):
+    def environment(self, environment):
         self._environment = environment
 
+    @property
+    def experiment_id(self):
+        """experiment_id of the model."""
+        return self._experiment_id
+
+    @experiment_id.setter
+    def experiment_id(self, experiment_id):
+        self._experiment_id = experiment_id
