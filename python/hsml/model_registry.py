@@ -21,7 +21,8 @@ import datetime
 from typing import Optional, Union, List, Dict, TypeVar
 
 from hsml import (
-    model
+    model,
+    util
 )
 from hsml.core import (
     models_api
