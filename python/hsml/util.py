@@ -14,6 +14,8 @@
 #   limitations under the License.
 #
 
+import json
+
 class VersionWarning(Warning):
     pass
 
