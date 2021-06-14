@@ -124,3 +124,12 @@ class Model:
     @experiment_id.setter
     def experiment_id(self, experiment_id):
         self._experiment_id = experiment_id
+
+    @property
+    def experiment_project_name(self):
+        """experiment_project_name of the model."""
+        return self._experiment_project_name
+
+    @experiment_project_name.setter
+    def experiment_project_name(self, experiment_project_name):
+        self._experiment_project_name = experiment_project_name
