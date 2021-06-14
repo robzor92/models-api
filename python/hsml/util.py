@@ -16,3 +16,10 @@
 
 class VersionWarning(Warning):
     pass
+
+class MLEncoder(json.JSONEncoder):
+    def default(self, o):
+        try:
+            return o.to_dict()
+        except AttributeError:
+            return super().default(o)

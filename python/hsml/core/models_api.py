@@ -14,73 +14,20 @@
 #   limitations under the License.
 #
 
-from hsml import client, model
-
+from hsfs import client
+from hsfs import model
 
 class ModelsApi:
-    def __init__(self, feature_store_id, entity_type=None):
-        """Expectations endpoint for `featurestores` and `featuregroups` resource.
 
-        :param feature_store_id: id of the respective featurestore
-        :type feature_store_id: int
-        :param entity_type: "featuregroups"
-        :type entity_type: str
-        """
-        self._feature_store_id = feature_store_id
-        self._entity_type = entity_type
+    def __init__(self):
 
-    def create(self, model):
-        """Create and Feature Store expectation or Attach it by name to a Feature Group.
+    def save(self, model_instance):
+        """Save model metadata to the model registry.
 
-        :param expectation: expectation object to be created for a feature store
-        :type expectation: `Expectation`
-        """
-        _client = client.get_instance()
-        path_params = [
-            "project",
-            _client._project_id,
-            "featurestores",
-            self._feature_store_id,
-            "expectations",
-        ]
-
-        headers = {"content-type": "application/json"}
-        print("ExpectationsApi.expectation.to_dict()" + str(model.to_dict()))
-        print(
-            "ExpectationsApi.expectation.rules[0].to_dict()"
-            + str(model.rules[0].to_dict())
-        )
-        payload = model.json() if model else None
-        print("ExpectationsApi.expectation.payload" + str(payload))
-        _client._send_request("PUT", path_params, headers=headers, data=payload)
-
-    def delete(self, name):
-        """Delete a Feature Store expectation.
-
-        :param name: name of the expectation to be deleted
-        :type name: str
-        """
-        _client = client.get_instance()
-        path_params = [
-            "project",
-            _client._project_id,
-            "models",
-            id
-        ]
-
-        _client._send_request("DELETE", path_params)
-
-    def get(self, name=None, version=None):
-        """Get a model from the model registry
-
-        Gets all feature store expectations if no feature group is specified.
-
-        :param name: expectation name
-        :type name: str
-        :param feature_group: feature group to get the expectations of
-        :type feature_group: FeatureGroup
-        :return: list of expectations
-        :rtype: list of dict
+        :param model_instance: metadata object of feature group to be saved
+        :type model_instance: Model
+        :return: updated metadata object of the model
+        :rtype: Model
         """
         _client = client.get_instance()
         path_params = [
@@ -88,15 +35,95 @@ class ModelsApi:
             _client._project_id,
             "models"
         ]
+        headers = {"content-type": "application/json"}
+        return model_instance.update_from_response_json(
+            _client._send_request(
+                "POST",
+                path_params,
+                headers=headers,
+                data=model_instance.json(),
+            ),
+        )
 
-        if feature_group is not None:
-            path_params.extend([self._entity_type, feature_group.id, "expectations"])
-        else:
-            path_params.append("expectations")
+    def get(self, name, version):
+        """Get the metadata of a model with a certain name and version.
 
-        if name:
-            path_params.append(name)
+        :param name: name of the model
+        :type name: str
+        :param version: version of the model
+        :type version: int
+        :return: model metadata object
+        :rtype: Model
+        """
+        _client = client.get_instance()
+        path_params = [
+            "project",
+            _client._project_id,
+            "models",
+            name
+        ]
+        query_params = {"version": version}
+        model_json = _client._send_request("GET", path_params, query_params)[0]
+        return model.Model.from_response_json(model_json)
 
-        return model.Model.from_response_json(
-            _client._send_request("GET", path_params)
+    def delete(self, model_instance):
+        """Delete the model and metadata.
+
+        :param model_instance: metadata object of model to delete
+        :type model_instance: Model
+        """
+        _client = client.get_instance()
+        path_params = [
+            "project",
+            _client._project_id,
+            "models",
+            model_instance
+        ]
+        _client._send_request("DELETE", path_params)
+
+    def update_metadata(
+        self,
+        feature_group_instance,
+        feature_group_copy,
+        query_parameter,
+        query_parameter_value=True,
+    ):
+        """Update the metadata of a feature group.
+
+        This only updates description and schema/features. The
+        `feature_group_copy` is the metadata object sent to the backend, while
+        `feature_group_instance` is the user object, which is only updated
+        after a successful REST call.
+
+        # Arguments
+            feature_group_instance: FeatureGroup. User metadata object of the
+                feature group.
+            feature_group_copy: FeatureGroup. Metadata object of the feature
+                group with the information to be updated.
+            query_parameter: str. Query parameter that controls which information is updated. E.g. "updateMetadata",
+                or "validationType".
+            query_parameter_value: Str. Value of the query_parameter.
+
+        # Returns
+            FeatureGroup. The updated feature group metadata object.
+        """
+        _client = client.get_instance()
+        path_params = [
+            "project",
+            _client._project_id,
+            "featurestores",
+            self._feature_store_id,
+            "featuregroups",
+            feature_group_instance.id,
+        ]
+        headers = {"content-type": "application/json"}
+        query_params = {query_parameter: query_parameter_value}
+        return feature_group_instance.update_from_response_json(
+            _client._send_request(
+                "PUT",
+                path_params,
+                query_params,
+                headers=headers,
+                data=feature_group_copy.json(),
+            ),
         )
