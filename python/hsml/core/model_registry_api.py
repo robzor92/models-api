@@ -14,6 +14,7 @@ class ModelRegistryApi:
         """
         _client = client.get_instance()
         path_params = ["project", _client._project_id, "models"]
-        return ModelRegistry.from_response_json(
-            _client._send_request("GET", path_params)
-        )
+        return ModelRegistry.from_response_json({'projectName': 'herp', 'projectId': 3, 'numModels': 3})
+        #return ModelRegistry.from_response_json(
+        #    _client._send_request("GET", path_params)
+        #)
