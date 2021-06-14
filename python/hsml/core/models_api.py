@@ -19,8 +19,6 @@ from hsfs import model
 
 class ModelsApi:
 
-    def __init__(self):
-
     def save(self, model_instance):
         """Save model metadata to the model registry.
 
