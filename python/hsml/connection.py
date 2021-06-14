@@ -147,7 +147,7 @@ class Connection:
         # Returns
             `ModelRegistry`. A model registry handle object to perform operations on.
         """
-        return self._model_registry_api().get()
+        return self._model_registry_api.get()
 
     @not_connected
     def connect(self):
