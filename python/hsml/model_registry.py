@@ -41,7 +41,7 @@ class ModelRegistry:
         self._project_id = project_id
         self._num_models = num_models
 
-        self._models_api = models_api.ModelsApi
+        self._models_api = models_api.ModelsApi()
 
     @classmethod
     def from_response_json(cls, json_dict):
