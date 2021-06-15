@@ -26,9 +26,8 @@ class Model:
 
     def __init__(
         self,
-        id,
         name,
-        version,
+        version=None,
         created=None,
         environment=None,
         description=None,
@@ -44,7 +43,7 @@ class Model:
         count=None,
         type=None,
     ):
-        self._id = id
+        self._id = name + "_" + version
         self._name = name
         self._version = version
         self._description = description
