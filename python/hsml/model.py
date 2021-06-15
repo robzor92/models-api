@@ -18,7 +18,7 @@ import json
 
 import humps
 from hsml import util
-from hsml.core import models_engine
+from hsml.core import models_api
 
 
 class Model:
@@ -57,9 +57,23 @@ class Model:
         self._user_full_name = user_full_name
         self._model_registry_id = model_registry_id
 
+        self._models_api = models_api.ModelsApi()
+
     def save(self):
         """Persist the model metadata object to the model registry."""
         expectations_engine.ModelsEngine(self._featurestore_id).save(self)
+
+    def delete(self):
+        """Delete the model
+
+        !!! danger "Potentially dangerous operation"
+            This operation drops all metadata associated with **this version** of the
+            model **and** in addition to the model artifacts.
+
+        # Raises
+            `RestAPIError`.
+        """
+        self._models_api.delete(self)
 
     @classmethod
     def from_response_json(cls, json_dict):

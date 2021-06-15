@@ -77,7 +77,7 @@ class ModelsApi:
             "project",
             _client._project_id,
             "models",
-            model_instance
+            model_instance.id
         ]
         _client._send_request("DELETE", path_params)
 
