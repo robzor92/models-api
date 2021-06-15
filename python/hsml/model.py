@@ -36,6 +36,7 @@ class Model:
         experiment_project_name=None,
         metrics=None,
         program=None,
+        user_full_name=None,
         model_registry_id=None,
         href=None,
         expand=None,
@@ -53,6 +54,7 @@ class Model:
         self._experiment_project_name = experiment_project_name
         self._metrics = metrics
         self._program = program
+        self._user_full_name = user_full_name
         self._model_registry_id = model_registry_id
 
     def save(self):
@@ -168,3 +170,12 @@ class Model:
     @program.setter
     def program(self, program):
         self._program = program
+
+    @property
+    def user_full_name(self):
+        """user_full_name of the model."""
+        return self._user_full_name
+
+    @user_full_name.setter
+    def user_full_name(self, user_full_name):
+        self._user_full_name = user_full_name
