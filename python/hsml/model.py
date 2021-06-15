@@ -32,6 +32,7 @@ class Model:
         environment=None,
         description=None,
         experiment_id=None,
+        experiment_project_name=None
         model_registry_id=None,
         href=None,
         expand=None,
@@ -45,6 +46,7 @@ class Model:
         self._created = created
         self._environment = environment
         self._experiment_id = experiment_id
+        self._experiment_project_name = experiment_project_name
         self._model_registry_id = model_registry_id
 
     def save(self):
