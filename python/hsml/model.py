@@ -32,7 +32,7 @@ class Model:
         environment=None,
         description=None,
         experiment_id=None,
-        experiment_project_name=None
+        experiment_project_name=None,
         model_registry_id=None,
         href=None,
         expand=None,
