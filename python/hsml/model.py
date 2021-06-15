@@ -157,4 +157,12 @@ class Model:
     @metrics.setter
     def metrics(self, metrics):
         self._metrics = metrics
-        
+
+    @property
+    def program(self):
+        """program of the model."""
+        return self._program
+
+    @program.setter
+    def program(self, program):
+        self._program = program
