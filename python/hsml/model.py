@@ -34,6 +34,7 @@ class Model:
         description=None,
         experiment_id=None,
         experiment_project_name=None,
+        metrics=None,
         model_registry_id=None,
         href=None,
         expand=None,
@@ -49,6 +50,7 @@ class Model:
         self._environment = environment
         self._experiment_id = experiment_id
         self._experiment_project_name = experiment_project_name
+        self._metrics = metrics
         self._model_registry_id = model_registry_id
 
     def save(self):
@@ -146,3 +148,13 @@ class Model:
     @experiment_project_name.setter
     def experiment_project_name(self, experiment_project_name):
         self._experiment_project_name = experiment_project_name
+
+    @property
+    def metrics(self):
+        """metrics of the model."""
+        return self._metrics
+
+    @metrics.setter
+    def metrics(self, metrics):
+        self._metrics = metrics
+        
