@@ -81,7 +81,7 @@ class ModelRegistry:
     def create_model(
         self,
         name: str,
-        type: Optional[str] = "NONE": str,
+        type: Optional[str] = "NONE":,
         version: Optional[int] = None,
         metrics: Optional[dict] = None,
         description: Optional[str] = None,
