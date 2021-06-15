@@ -63,8 +63,8 @@ class ModelsApi:
             "models"
         ]
         query_params = {'filter_by': ["name_eq:" + name, "version:" + str(version)]}
-        model_json = _client._send_request("GET", path_params, query_params)[0]
-        return model.Model.from_response_json(model_json)
+        model_json = _client._send_request("GET", path_params, query_params)
+        return model.Model.from_response_json(model_json)[0]
 
     def delete(self, model_instance):
         """Delete the model and metadata.
