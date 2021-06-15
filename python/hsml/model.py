@@ -26,6 +26,7 @@ class Model:
 
     def __init__(
         self,
+        id,
         name,
         version,
         created=None,
@@ -40,6 +41,7 @@ class Model:
         count=None,
         type=None,
     ):
+        self._id = id
         self._name = name
         self._version = version
         self._description = description
@@ -72,6 +74,15 @@ class Model:
             "version": self._version,
             "description": self._description
         }
+
+    @property
+    def id(self):
+        """Id of the model."""
+        return self._id
+
+    @id.setter
+    def id(self, id):
+        self._id = id
 
     @property
     def name(self):
