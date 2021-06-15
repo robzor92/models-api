@@ -61,7 +61,7 @@ class ModelsApi:
             "project",
             _client._project_id,
             "models",
-            name + "_" + version
+            name + "_" + str(version)
         ]
         query_params = {}
         model_json = _client._send_request("GET", path_params, query_params)
