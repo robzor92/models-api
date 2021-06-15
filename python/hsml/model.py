@@ -43,7 +43,7 @@ class Model:
         count=None,
         type=None,
     ):
-        self._id = name + "_" + version
+        self._id = name + "_" + str(version)
         self._name = name
         self._version = version
         self._description = description
