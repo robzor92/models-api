@@ -93,6 +93,5 @@ class DatasetApi:
                 "GET",
                 path_params,
                 headers=headers,
-                query_params=query_params,
-                data=model_instance.json(),
+                query_params=query_params
             )
