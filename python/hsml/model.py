@@ -65,9 +65,11 @@ class Model:
         #self._dataset_api.mkdir()
         #attach xattr
         dataset_model_path = "Models/" + self._name
-
-        resp = self._dataset_api.get(dataset_model_path)
-        print(resp)
+        version=1
+        if self._version is None:
+            resp = self._dataset_api.get(dataset_model_path)
+            print(resp)
+        self._version = version
 
         model_archive = util.zip(model_path)
         self._dataset_api.upload(model_path, "Models/" + self._name + "/" + self._version)
