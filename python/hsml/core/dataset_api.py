@@ -24,11 +24,11 @@ from hsml import client, util
 class DatasetApi:
     DEFAULT_FLOW_CHUNK_SIZE = 1048576
 
-    def upload(self, local_path, upload_path):
-
-        local_abs_path = os.path.join(path, name)
+    def upload(self, local_abs_path, upload_path):
 
         size = os.path.getsize(local_abs_path)
+
+        _, tail = os.path.split(local_abs_path)
 
         num_chunks = math.ceil(size / self.DEFAULT_FLOW_CHUNK_SIZE)
 
@@ -46,7 +46,7 @@ class DatasetApi:
               query_params["flowChunkNumber"] = chunk_number
 
               self._upload_request(
-                  query_params, path, name, chunk
+                  query_params, upload_path, tail, chunk
               )
 
               chunk_number += 1
