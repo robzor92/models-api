@@ -57,10 +57,13 @@ class Model:
         self._model_registry_id = model_registry_id
 
         self._models_api = models_api.ModelsApi()
+        self._dataset_api = _dataset_api.DatasetApi()
 
-    def save(self):
+    def save(self, model_path):
         """Persist the model metadata object to the model registry."""
-        expectations_engine.ModelsEngine(self._featurestore_id).save(self)
+        #self._dataset_api.mkdir()
+
+        self._dataset_api.upload(model_path, '/Projects')
 
     def delete(self):
         """Delete the model
