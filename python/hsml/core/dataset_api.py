@@ -28,11 +28,11 @@ class DatasetApi:
 
         size = os.path.getsize(local_abs_path)
 
-        _, tail = os.path.split(local_abs_path)
+        _, file_name = os.path.split(local_abs_path)
 
         num_chunks = math.ceil(size / self.DEFAULT_FLOW_CHUNK_SIZE)
 
-        base_params = self._get_flow_base_params(name, num_chunks, size)
+        base_params = self._get_flow_base_params(file_name, num_chunks, size)
 
         chunk_number = 1
         with open(local_abs_path) as f:
