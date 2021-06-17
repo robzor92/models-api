@@ -64,14 +64,13 @@ class Model:
         """Persist the model metadata object to the model registry."""
         #self._dataset_api.mkdir()
         #attach xattr
-        dataset_model_path = '/Projects/' + client.get_instance()._project_id + "/dataset/upload/Models/" + self._name
+        dataset_model_path = "Models/" + self._name
 
         resp = self._dataset_api.get(dataset_model_path)
 
 
         model_archive = util.zip(model_path)
-        self._dataset_api.upload(model_path,
-        '/Projects/' + client.get_instance()._project_id + "/dataset/upload/Models/" + self._name + "/" + self._version)
+        self._dataset_api.upload(model_path, "Models/" + self._name + "/" + self._version)
 
     def delete(self):
         """Delete the model
