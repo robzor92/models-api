@@ -15,6 +15,8 @@
 #
 
 import json
+import shutil
+import os
 
 class VersionWarning(Warning):
     pass
@@ -25,3 +27,6 @@ class MLEncoder(json.JSONEncoder):
             return o.to_dict()
         except AttributeError:
             return super().default(o)
+
+def zip(local_path):
+    shutil.make_archive(local_path + '/archive', 'zip', local_path)

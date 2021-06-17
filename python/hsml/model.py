@@ -66,9 +66,9 @@ class Model:
         #self._dataset_api.mkdir()
         #attach xattr
 
-        shutil.make_archive(model_path, 'zip', os.getcwd(), 'model')
-        #self._dataset_api.upload(model_path,
-        #'/Projects/' + _client._project_id + "/dataset/upload/Models/" + self._name + "/" + self._version)
+        model_archive = util.zip(model_path)
+        self._dataset_api.upload(model_path,
+        '/Projects/' + _client._project_id + "/dataset/upload/Models/" + self._name + "/" + self._version)
 
     def delete(self):
         """Delete the model
