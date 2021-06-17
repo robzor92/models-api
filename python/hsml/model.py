@@ -15,7 +15,7 @@
 #
 
 import json
-
+import shutil
 import humps
 from hsml import util
 from hsml import client
@@ -65,8 +65,10 @@ class Model:
         """Persist the model metadata object to the model registry."""
         #self._dataset_api.mkdir()
         #attach xattr
-        self._dataset_api.upload(model_path,
-        '/Projects/' + _client._project_id + "/dataset/upload/Models/" + self._name + "/" + self._version)
+
+        shutil.make_archive(model_path, 'zip', os.getcwd(), 'model')
+        #self._dataset_api.upload(model_path,
+        #'/Projects/' + _client._project_id + "/dataset/upload/Models/" + self._name + "/" + self._version)
 
     def delete(self):
         """Delete the model
