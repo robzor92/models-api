@@ -39,7 +39,7 @@ class DatasetApi:
                 chunk_number = 1
                 with open(local_abs_path) as f:
                     while True:
-                      chunk = self.f.read(self.DEFAULT_FLOW_CHUNK_SIZE)
+                      chunk = f.read(self.DEFAULT_FLOW_CHUNK_SIZE)
                       if not chunk:
                           break
 
