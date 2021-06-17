@@ -58,7 +58,7 @@ class DatasetApi:
             "templateId": -1,
             "flowChunkSize": self.DEFAULT_FLOW_CHUNK_SIZE,
             "flowTotalSize": size,
-            "flowIdentifier": size + "_" + file_name,
+            "flowIdentifier": str(size) + "_" + file_name,
             "flowFilename": file_name,
             "flowRelativePath": file_name,
             "flowTotalChunks": num_chunks,
