@@ -18,6 +18,7 @@ import json
 
 import humps
 from hsml import util
+from hsml import client
 from hsml.core import models_api, dataset_api
 
 
@@ -58,12 +59,14 @@ class Model:
 
         self._models_api = models_api.ModelsApi()
         self._dataset_api = dataset_api.DatasetApi()
+        _client = client.get_instance()
 
     def save(self, model_path):
         """Persist the model metadata object to the model registry."""
         #self._dataset_api.mkdir()
-
-        self._dataset_api.upload(model_path, '/Projects')
+        #attach xattr
+        self._dataset_api.upload(model_path,
+        '/Projects/' + _client._project_id + "/dataset/upload/Models/" + self._name + "/" + self._version)
 
     def delete(self):
         """Delete the model

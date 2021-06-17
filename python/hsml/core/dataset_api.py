@@ -15,8 +15,8 @@
 #
 
 import math
-
 import os
+import shutil
 
 from hsml import client, util
 
@@ -25,33 +25,34 @@ class DatasetApi:
     DEFAULT_FLOW_CHUNK_SIZE = 1048576
 
     def upload(self, local_path, upload_path):
-        for path, subdirs, files in os.walk(local_path):
-            for name in files:
 
-                local_abs_path = os.path.join(path, name)
+            local_abs_path = os.path.join(path, name)
 
-                size = os.path.getsize(local_abs_path)
+            size = os.path.getsize(local_abs_path)
 
-                num_chunks = math.ceil(size / self.DEFAULT_FLOW_CHUNK_SIZE)
+            num_chunks = math.ceil(size / self.DEFAULT_FLOW_CHUNK_SIZE)
 
-                base_params = self._get_flow_base_params(name, num_chunks, size)
+            base_params = self._get_flow_base_params(name, num_chunks, size)
 
-                chunk_number = 1
-                with open(local_abs_path) as f:
-                    while True:
-                      chunk = f.read(self.DEFAULT_FLOW_CHUNK_SIZE)
-                      if not chunk:
-                          break
+            chunk_number = 1
+            with open(local_abs_path) as f:
+                while True:
+                  chunk = f.read(self.DEFAULT_FLOW_CHUNK_SIZE)
+                  if not chunk:
+                      break
 
-                      query_params = base_params
-                      query_params["flowCurrentChunkSize"] = len(chunk)
-                      query_params["flowChunkNumber"] = chunk_number
+                  query_params = base_params
+                  query_params["flowCurrentChunkSize"] = len(chunk)
+                  query_params["flowChunkNumber"] = chunk_number
 
-                      self._upload_request(
-                          query_params, path, name, chunk
-                      )
+                  self._upload_request(
+                      query_params, path, name, chunk
+                  )
 
-                      chunk_number += 1
+                  chunk_number += 1
+          else:
+
+
 
     def _get_flow_base_params(self, file_name, num_chunks, size):
         return {
