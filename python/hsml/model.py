@@ -59,7 +59,6 @@ class Model:
 
         self._models_api = models_api.ModelsApi()
         self._dataset_api = dataset_api.DatasetApi()
-        _client = client.get_instance()
 
     def save(self, model_path):
         """Persist the model metadata object to the model registry."""
@@ -68,7 +67,7 @@ class Model:
 
         model_archive = util.zip(model_path)
         self._dataset_api.upload(model_path,
-        '/Projects/' + _client._project_id + "/dataset/upload/Models/" + self._name + "/" + self._version)
+        '/Projects/' + client.get_instance()._project_id + "/dataset/upload/Models/" + self._name + "/" + self._version)
 
     def delete(self):
         """Delete the model
