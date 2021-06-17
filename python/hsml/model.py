@@ -66,7 +66,7 @@ class Model:
         #attach xattr
         dataset_model_path = '/Projects/' + client.get_instance()._project_id + "/dataset/upload/Models/" + self._name
 
-        resp = self._dataset_api.list(dataset_model_path)
+        resp = self._dataset_api.get(dataset_model_path)
 
 
         model_archive = util.zip(model_path)

@@ -89,12 +89,10 @@ class DatasetApi:
         ]
         query_params = {'action': 'listing'}
         headers = {"content-type": "application/json"}
-        return model_instance.update_from_response_json(
-            _client._send_request(
+        return _client._send_request(
                 "GET",
                 path_params,
                 headers=headers,
                 query_params=query_params,
                 data=model_instance.json(),
-            ),
-        )
+            )
