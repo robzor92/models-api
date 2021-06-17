@@ -18,7 +18,7 @@ import json
 
 import humps
 from hsml import util
-from hsml.core import models_api
+from hsml.core import models_api, dataset_api
 
 
 class Model:
@@ -57,7 +57,7 @@ class Model:
         self._model_registry_id = model_registry_id
 
         self._models_api = models_api.ModelsApi()
-        self._dataset_api = _dataset_api.DatasetApi()
+        self._dataset_api = dataset_api.DatasetApi()
 
     def save(self, model_path):
         """Persist the model metadata object to the model registry."""
