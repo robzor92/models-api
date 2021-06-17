@@ -71,8 +71,8 @@ class Model:
             print(resp)
         self._version = version
 
-        model_archive = util.zip(model_path)
-        self._dataset_api.upload(model_path, "Models/" + self._name + "/" + str(self._version))
+        archive_path = util.zip(model_path)
+        self._dataset_api.upload(archive_path, "Models/" + self._name + "/" + str(self._version))
 
     def delete(self):
         """Delete the model
