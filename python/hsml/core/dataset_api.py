@@ -86,6 +86,28 @@ class DatasetApi:
             "dataset",
             remote_path
         ]
+        headers = {"content-type": "application/json"}
+        return _client._send_request(
+                "GET",
+                path_params,
+                headers=headers
+            )
+
+    def list(self, remote_path):
+        """Save model metadata to the model registry.
+
+        :param model_instance: metadata object of feature group to be saved
+        :type model_instance: Model
+        :return: updated metadata object of the model
+        :rtype: Model
+        """
+        _client = client.get_instance()
+        path_params = [
+            "project",
+            _client._project_id,
+            "dataset",
+            remote_path
+        ]
         query_params = {'action': 'listing'}
         headers = {"content-type": "application/json"}
         return _client._send_request(

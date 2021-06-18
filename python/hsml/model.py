@@ -19,6 +19,7 @@ import shutil
 import humps
 from hsml import util
 from hsml import client
+from hsml.client.exceptions import RestAPIError
 from hsml.core import models_api, dataset_api
 
 
@@ -59,25 +60,12 @@ class Model:
 
         self._models_api = models_api.ModelsApi()
         self._dataset_api = dataset_api.DatasetApi()
+        self._models_engine = models_engine.Engine()
+
 
     def save(self, model_path):
         """Persist the model metadata object to the model registry."""
-        #self._dataset_api.mkdir()
-        #attach xattr
-        dataset_model_path = "Models/" + self._name
-        try:
-            self._dataset_api.get(dataset_model_path)
-        except RestAPIError as e:
-            self._dataset_api.mkdir(dataset_model_path)
-
-        version=1
-        if self._version is None:
-            resp = self._dataset_api.get(dataset_model_path)
-            print(resp)
-        self._version = version
-
-        archive_path = util.zip(model_path)
-        self._dataset_api.upload(archive_path, "Models/" + self._name + "/" + str(self._version))
+        self._models_engine.save(self, model_path)
 
     def delete(self):
         """Delete the model
