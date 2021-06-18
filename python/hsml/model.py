@@ -21,6 +21,7 @@ from hsml import util
 from hsml import client
 from hsml.client.exceptions import RestAPIError
 from hsml.core import models_api, dataset_api
+from hsml.engine import models_engine
 
 
 class Model:
