@@ -16,7 +16,7 @@
 
 import json
 import datetime
-import importlib.util
+import os
 
 from hsml import client, util
 from hsml.client.exceptions import RestAPIError
@@ -34,15 +34,28 @@ class Engine:
         #attach xattr
         dataset_model_path = "Models/" + model_instance._name
         try:
-            self._dataset_api.get(dataset_model_path)
+            self._dataset_api.list(dataset_model_path)
         except RestAPIError:
             self._dataset_api.mkdir(dataset_model_path)
 
-        version=1
         if model_instance._version is None:
-            resp = self._dataset_api.get(dataset_model_path)
-            print(resp)
-        model_instance._version = version
+            model_instance._version = 1
+
+        dataset_model_version_path = "Models/" + model_instance._name + "/" + model_instance._version
+        model_version_dir_already_exists = False
+        try:
+            self._dataset_api.get(dataset_model_version_path)
+            model_version_dir_already_exists = True
+        except RestAPIError:
+            self._dataset_api.mkdir(dataset_model_version_path)
+
+        if model_version_dir_already_exists:
+            raise Exception("bad luck, it there")
 
         archive_path = util.zip(local_model_path)
-        self._dataset_api.upload(archive_path, "Models/" + model_instance._name + "/" + str(model_instance._version))
+
+        self._dataset_api.upload(archive_path, dataset_model_version_path)
+
+        os.remove(archive_path)
+
+
