@@ -40,8 +40,10 @@ class Engine:
 
         if model_instance._version is None:
             model_instance._version = 1
+        else:
+            #Figure out highest new version
 
-        dataset_model_version_path = "Models/" + model_instance._name + "/" + model_instance._version
+        dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
         model_version_dir_already_exists = False
         try:
             self._dataset_api.get(dataset_model_version_path)
