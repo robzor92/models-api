@@ -35,7 +35,7 @@ class ModelsApi:
             "project",
             _client._project_id,
             "models",
-            model_instance.name + "_" + model_instance.version
+            model_instance.name + "_" + str(model_instance.version)
         ]
         headers = {"content-type": "application/json"}
         return model_instance.update_from_response_json(
