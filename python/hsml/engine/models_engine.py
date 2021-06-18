@@ -30,8 +30,6 @@ class Engine:
         self._dataset_api = dataset_api.DatasetApi()
 
     def save(self, model_instance, local_model_path):
-        #self._dataset_api.mkdir()
-        #attach xattr
         dataset_model_path = "Models/" + model_instance._name
         try:
             self._dataset_api.get(dataset_model_path)
@@ -60,6 +58,8 @@ class Engine:
 
         if model_version_dir_already_exists:
             raise Exception("bad luck, it there")
+
+        self._dataset_api.post(model_instance)
 
         archive_path = util.zip(local_model_path)
 
