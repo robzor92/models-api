@@ -1,5 +1,5 @@
 #
-#   Copyright 2020 Logical Clocks AB
+#   Copyright 2021 Logical Clocks AB
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -14,54 +14,8 @@
 #   limitations under the License.
 #
 
-from hsml.engine import spark
+from hsml.engine import models_engine
 from hsml.client import exceptions
 
 _engine = None
 _engine_type = None
-
-
-def init(engine_type):
-    global _engine_type
-    global _engine
-    if not _engine:
-        if engine_type == "spark":
-            _engine_type = "spark"
-            _engine = spark.Engine()
-        elif engine_type == "hive" or engine_type == "training":
-            try:
-                from hsml.engine import hive
-            except ImportError:
-                raise exceptions.FeatureStoreException(
-                    "Trying to instantiate Hive as engine, but 'hive' extras are "
-                    "missing in HSFS installation. Install with `pip install "
-                    "hsml[hive]`."
-                )
-            _engine_type = "hive"
-            _engine = hive.Engine()
-        elif engine_type == "training":
-            _engine = "training"
-
-
-def get_instance():
-    global _engine
-    if _engine:
-        if _engine == "training":
-            raise Exception(
-                "`training` engine doesn't support this operation. "
-                "Supported engines are `'spark'` and `'hive'`."
-            )
-        return _engine
-    raise Exception("Couldn't find execution engine. Try reconnecting to Hopsworks.")
-
-
-def get_type():
-    global _engine_type
-    if _engine_type:
-        return _engine_type
-    raise Exception("Couldn't find execution engine. Try reconnecting to Hopsworks.")
-
-
-def stop():
-    global _engine
-    _engine = None
