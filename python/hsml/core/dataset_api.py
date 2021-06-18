@@ -94,3 +94,27 @@ class DatasetApi:
                 headers=headers,
                 query_params=query_params
             )
+
+    def mkdir(self, remote_path):
+        """Save model metadata to the model registry.
+
+        :param model_instance: metadata object of feature group to be saved
+        :type model_instance: Model
+        :return: updated metadata object of the model
+        :rtype: Model
+        """
+        _client = client.get_instance()
+        path_params = [
+            "project",
+            _client._project_id,
+            "dataset",
+            remote_path
+        ]
+        query_params = {'action': 'create', 'searchable': 'true', 'generate_readme': 'false', 'type': "DATASET"}
+        headers = {"content-type": "application/json"}
+        return _client._send_request(
+                "POST",
+                path_params,
+                headers=headers,
+                query_params=query_params
+            )
