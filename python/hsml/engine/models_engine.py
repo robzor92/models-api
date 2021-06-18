@@ -59,7 +59,7 @@ class Engine:
         if model_version_dir_already_exists:
             raise Exception("bad luck, it there")
 
-        self._dataset_api.put(model_instance)
+        self._models_api.put(model_instance)
 
         archive_path = util.zip(local_model_path)
 
