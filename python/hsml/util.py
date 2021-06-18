@@ -29,4 +29,4 @@ class MLEncoder(json.JSONEncoder):
             return super().default(o)
 
 def zip(local_path):
-    return shutil.make_archive(local_path + '/archive', 'tar', local_path)
+    return shutil.make_archive(local_path + '/archive', 'zip', local_path)
