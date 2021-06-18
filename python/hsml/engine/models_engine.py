@@ -34,15 +34,23 @@ class Engine:
         #attach xattr
         dataset_model_path = "Models/" + model_instance._name
         try:
-            self._dataset_api.list(dataset_model_path)
+            self._dataset_api.get(dataset_model_path)
         except RestAPIError:
             self._dataset_api.mkdir(dataset_model_path)
 
         if model_instance._version is None:
             model_instance._version = 1
         else:
-            pass
-            #Figure out highest new version
+            next_version = 1
+            for item in api.list(dataset_model_path)['items']:
+                _, file_name = os.path.split(item['attributes']['path'])
+                try:
+                    current_version = int(file_name)
+                    if current_version > max_version:
+                        max_version = current_version
+                except:
+                    pass
+            model_instance._version = next_version
 
         dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
         model_version_dir_already_exists = False
