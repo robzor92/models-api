@@ -41,6 +41,7 @@ class Engine:
         if model_instance._version is None:
             model_instance._version = 1
         else:
+            pass
             #Figure out highest new version
 
         dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
