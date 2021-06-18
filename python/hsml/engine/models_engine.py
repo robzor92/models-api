@@ -41,16 +41,16 @@ class Engine:
         if model_instance._version is None:
             model_instance._version = 1
         else:
-            next_version = 1
+            current_highest_version = 1
             for item in api.list(dataset_model_path)['items']:
                 _, file_name = os.path.split(item['attributes']['path'])
                 try:
                     current_version = int(file_name)
-                    if current_version > max_version:
-                        max_version = current_version
+                    if current_version > current_highest_version:
+                        current_highest_version = current_version
                 except:
                     pass
-            model_instance._version = next_version
+            model_instance._version = current_highest_version + 1
 
         dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
         model_version_dir_already_exists = False
