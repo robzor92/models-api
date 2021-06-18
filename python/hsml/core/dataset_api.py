@@ -34,7 +34,7 @@ class DatasetApi:
         base_params = self._get_flow_base_params(file_name, num_chunks, size)
 
         chunk_number = 1
-        with open(local_abs_path) as f:
+        with open(local_abs_path, 'rb') as f:
             while True:
               chunk = f.read(self.DEFAULT_FLOW_CHUNK_SIZE)
               if not chunk:
