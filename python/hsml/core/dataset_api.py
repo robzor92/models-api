@@ -45,7 +45,7 @@ class DatasetApi:
               query_params["flowChunkNumber"] = chunk_number
 
               self._upload_request(
-                  query_params, upload_path, tail, chunk
+                  query_params, upload_path, file_name, chunk
               )
 
               chunk_number += 1
