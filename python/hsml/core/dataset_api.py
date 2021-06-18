@@ -20,8 +20,6 @@ import shutil
 
 from hsml import client, util
 
-import tarfile
-
 class DatasetApi:
     DEFAULT_FLOW_CHUNK_SIZE = 1048576
 
@@ -36,7 +34,7 @@ class DatasetApi:
         base_params = self._get_flow_base_params(file_name, num_chunks, size)
 
         chunk_number = 1
-        with tarfile.open(local_abs_path, mode='r:*') as f:
+        with open(local_abs_path) as f:
             while True:
               chunk = f.read(self.DEFAULT_FLOW_CHUNK_SIZE)
               if not chunk:
