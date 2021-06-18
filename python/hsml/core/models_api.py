@@ -22,7 +22,7 @@ class ModelsApi:
     def __init__(self):
         pass
 
-    def post(self, model_instance):
+    def put(self, model_instance):
         """Save model metadata to the model registry.
 
         :param model_instance: metadata object of feature group to be saved
@@ -34,12 +34,13 @@ class ModelsApi:
         path_params = [
             "project",
             _client._project_id,
-            "models"
+            "models",
+            model_instance.name + "_" + model_instance.version
         ]
         headers = {"content-type": "application/json"}
         return model_instance.update_from_response_json(
             _client._send_request(
-                "POST",
+                "PUT",
                 path_params,
                 headers=headers,
                 data=model_instance.json(),
