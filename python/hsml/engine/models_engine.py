@@ -39,9 +39,7 @@ class Engine:
             self._dataset_api.mkdir(dataset_model_path)
 
         if model_instance._version is None:
-            model_instance._version = 1
-        else:
-            current_highest_version = 1
+            current_highest_version = 0
             for item in api.list(dataset_model_path)['items']:
                 _, file_name = os.path.split(item['attributes']['path'])
                 try:
