@@ -19,7 +19,7 @@ import datetime
 import importlib.util
 
 from hsml import client, util
-from hsml.client.exceptions import RestApiError
+from hsml.client.exceptions import RestAPIError
 from hsml.core import models_api, dataset_api
 
 
@@ -32,17 +32,17 @@ class Engine:
     def save(self, model_instance, local_model_path):
         #self._dataset_api.mkdir()
         #attach xattr
-        dataset_model_path = "Models/" + self._name
+        dataset_model_path = "Models/" + model_instance._name
         try:
             self._dataset_api.get(dataset_model_path)
         except RestAPIError:
             self._dataset_api.mkdir(dataset_model_path)
 
         version=1
-        if self._version is None:
+        if model_instance._version is None:
             resp = self._dataset_api.get(dataset_model_path)
             print(resp)
-        self._version = version
+        model_instance._version = version
 
         archive_path = util.zip(local_model_path)
-        self._dataset_api.upload(archive_path, "Models/" + self._name + "/" + str(self._version))
+        self._dataset_api.upload(archive_path, "Models/" + model_instance._name + "/" + str(model_instance._version))
