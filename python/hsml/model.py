@@ -65,6 +65,12 @@ class Model:
         #self._dataset_api.mkdir()
         #attach xattr
         dataset_model_path = "Models/" + self._name
+        try:
+            resp = self._dataset_api.get(dataset_model_path)
+        except RestAPIError as e:
+            print(e)
+            raise
+
         version=1
         if self._version is None:
             resp = self._dataset_api.get(dataset_model_path)
