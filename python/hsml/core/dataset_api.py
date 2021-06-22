@@ -198,19 +198,15 @@ class DatasetApi:
                 # Wait for zip file to appear. When it does, check that parent dir zipState is not set to CHOWNING
                 count = 0
                 while count < timeout:
-
                     if action is "zip":
                       # Get the status of the zipped file
                       zip_exists = self._path_exists(remote_path + ".zip")
                       # Get the zipState of the directory being zipped
                       dir_status = self.get(remote_path)
                       zip_state = dir_status['zipState'] if 'zipState' in dir_status else None
-
                       if zip_exists and zip_state == 'NONE' :
-                          print("Zipping completed.")
                           return
                       else:
-                          print("Zipping...")
                           time.sleep(1)
                     elif action is "unzip":
                       # Get the status of the unzipped dir
@@ -219,10 +215,8 @@ class DatasetApi:
                       dir_status = self.get(remote_path)
                       zip_state = dir_status['zipState'] if 'zipState' in dir_status else None
                       if unzipped_dir_exists and zip_state == 'NONE' :
-                          print("Unzipping completed.")
                           return
                       else:
-                          print("Unzipping...")
                           time.sleep(1)
                     count += 1
                 raise Exception("Timeout of {} seconds exceeded while {} {}.".format(timeout, action, remote_path))
