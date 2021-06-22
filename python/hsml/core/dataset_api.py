@@ -231,4 +231,4 @@ class DatasetApi:
         Returns:
             None
         """
-        _archive(remote_path, block=block, timeout=timeout, action='unzip')
+        self._archive(remote_path, block=block, timeout=timeout, action='unzip')
