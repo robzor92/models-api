@@ -142,7 +142,7 @@ class DatasetApi:
                 query_params=query_params
             )
 
-    def _path_exists(remote_path):
+    def _path_exists(self, remote_path):
         """
         Check if path exists.
 
@@ -163,7 +163,7 @@ class DatasetApi:
         except Exception:
             return False
 
-    def _archive(remote_path, block=False, timeout=120, action='zip'):
+    def _archive(self, remote_path, block=False, timeout=120, action='unzip'):
             """
             Create an archive (zip file) of a file or directory in a Hopsworks dataset.
 
