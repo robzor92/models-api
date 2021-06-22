@@ -1,5 +1,5 @@
 #
-#   Copyright 2020 Logical Clocks AB
+#   Copyright 2021 Logical Clocks AB
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -33,7 +33,7 @@ class Model:
         version=None,
         created=None,
         environment=None,
-        description=None,
+        description='A collection of models for ' + name,
         experiment_id=None,
         experiment_project_name=None,
         metrics=None,
