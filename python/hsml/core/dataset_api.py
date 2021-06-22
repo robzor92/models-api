@@ -17,6 +17,7 @@
 import math
 import os
 import shutil
+import time
 
 from hsml import client, util
 
@@ -141,7 +142,7 @@ class DatasetApi:
                 query_params=query_params
             )
 
-    def unzip(self, remote_path, project_name=None, block=False, timeout=120):
+    def unzip(self, remote_path, block=False, timeout=120):
         """
         Extract the dir or file in Hopsworks, specified by the remote_path.
 
@@ -159,9 +160,9 @@ class DatasetApi:
         Returns:
             None
         """
-        _archive(remote_path, project_name=project_name, block=block, timeout=timeout, action='unzip')
+        _archive(remote_path, block=block, timeout=timeout, action='unzip')
 
-    def _archive(remote_path, project_name=None, block=False, timeout=120, action='zip'):
+    def _archive(remote_path, block=False, timeout=120, action='zip'):
         """
         Create an archive (zip file) of a file or directory in a Hopsworks dataset.
 
@@ -183,7 +184,7 @@ class DatasetApi:
             remote_path
         ]
 
-        query_params = {'action': 'unzip'}
+        query_params = {'action': action}
         headers = {"content-type": "application/json"}
 
         _client._send_request(
