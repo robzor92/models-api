@@ -64,7 +64,7 @@ class Engine:
         if 'HOPSWORKS_JOB_NAME' in os.environ:
             model_query_params['jobName'] = os.environ['HOPSWORKS_JOB_NAME']
         elif 'HOPSWORKS_KERNEL_ID' in os.environ:
-            model_query_params['kernelId'] = os.environ['HOPSWORKS_KERNEL_NAME']
+            model_query_params['kernelId'] = os.environ['HOPSWORKS_KERNEL_ID']
 
         self._models_api.put(model_instance)
 
