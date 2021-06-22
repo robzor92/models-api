@@ -74,6 +74,6 @@ class Engine:
 
         os.remove(archive_path)
 
-        self._dataset_api.unzip(dataset_model_version_path + "/archive.zip", block=True)
+        self._dataset_api.unzip(dataset_model_version_path + "/" + os.path.basename(local_model_path)".zip", block=True)
 
 
