@@ -140,3 +140,95 @@ class DatasetApi:
                 headers=headers,
                 query_params=query_params
             )
+
+    def unzip(self, remote_path, project_name=None, block=False, timeout=120):
+        """
+        Extract the dir or file in Hopsworks, specified by the remote_path.
+
+        Example usage:
+
+        >>> from hops import dataset
+        >>> dataset.extract("Projects/project_name/Resources/myremotefile.zip")
+
+        Args:
+            :remote_path: the path to the remote file or directory in the dataset
+            :project_name: whether this method should wait for the zipping process to complete before returning.
+            :block: whether to wait for the extraction to complete or not.
+            :timeout: number of seconds to wait for the extraction to complete before returning.
+
+        Returns:
+            None
+        """
+        _archive(remote_path, project_name=project_name, block=block, timeout=timeout, action='unzip')
+
+    def _archive(remote_path, project_name=None, block=False, timeout=120, action='zip'):
+        """
+        Create an archive (zip file) of a file or directory in a Hopsworks dataset.
+
+        Args:
+            :remote_path: the path to the remote file or directory in the dataset.
+            :action: Allowed values are zip/unzip. Whether to compress/extract respectively.
+            :block: whether this method should wait for the zipping process to complete before returning.
+            :project_name: whether this method should wait for the zipping process to complete beefore returning.
+            :timeout: number of seconds to wait for the action to complete before returning.
+        Returns:
+            None
+        """
+
+        _client = client.get_instance()
+        path_params = [
+            "project",
+            _client._project_id,
+            "dataset",
+            remote_path
+        ]
+
+        query_params = {'action': 'unzip'}
+        headers = {"content-type": "application/json"}
+
+        _client._send_request(
+            "POST",
+            path_params,
+            headers=headers,
+            query_params=query_params
+        )
+
+        if block is True:
+            # Wait for zip file to appear. When it does, check that parent dir zipState is not set to CHOWNING
+            count = 0
+            while count < timeout:
+                # Get the status of the zipped file
+                zip_exists = _path_exists(remote_path + ".zip", project_name)
+                # Get the zipState of the directory being zipped
+                dir_status = get(remote_path)
+                zip_state = dir_status['zipState'] if 'zipState' in dir_status else None
+
+                if zip_exists and zip_state == 'NONE' :
+                    print("Zipping completed.")
+                    return
+                else:
+                    print("Zipping...")
+                    time.sleep(1)
+                count += 1
+            raise Exception("Timeout of {} seconds exceeded while compressing {}.".format(timeout, remote_path))
+
+    def _path_exists(remote_path):
+        """
+        Check if path exists.
+
+        Example usage:
+
+        >>> from hops import dataset
+        >>> dataset.path_exists("Projects/project_name/Resources/myremotefile.txt")
+
+        Args:
+            :remote_path: the path to the remote file or directory in the dataset
+
+        Returns:
+            True if path exists, False otherwise
+        """
+        try:
+            get(remote_path)
+            return True
+        except Exception:
+            return False

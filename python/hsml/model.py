@@ -49,7 +49,7 @@ class Model:
         self._id = name + "_" + str(version)
         self._name = name
         self._version = version
-        
+
         if description is None:
             self._description = 'A collection of models for ' + name
 
