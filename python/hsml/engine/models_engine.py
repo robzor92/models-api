@@ -66,7 +66,7 @@ class Engine:
         elif 'HOPSWORKS_KERNEL_ID' in os.environ:
             model_query_params['kernelId'] = os.environ['HOPSWORKS_KERNEL_ID']
 
-        self._models_api.put(model_instance)
+        self._models_api.put(model_instance, model_query_params)
 
         archive_path = util.zip(local_model_path)
 
