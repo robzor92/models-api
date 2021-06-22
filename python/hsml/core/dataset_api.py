@@ -158,7 +158,7 @@ class DatasetApi:
             True if path exists, False otherwise
         """
         try:
-            get(remote_path)
+            self.get(remote_path)
             return True
         except Exception:
             return False
@@ -199,9 +199,9 @@ class DatasetApi:
                 count = 0
                 while count < timeout:
                     # Get the status of the zipped file
-                    zip_exists = _path_exists(remote_path + ".zip", project_name)
+                    zip_exists = self._path_exists(remote_path + ".zip", project_name)
                     # Get the zipState of the directory being zipped
-                    dir_status = get(remote_path)
+                    dir_status = self.get(remote_path)
                     zip_state = dir_status['zipState'] if 'zipState' in dir_status else None
 
                     if zip_exists and zip_state == 'NONE' :
