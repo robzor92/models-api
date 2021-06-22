@@ -33,7 +33,7 @@ class Model:
         version=None,
         created=None,
         environment=None,
-        description='A collection of models for ' + name,
+        description=None,
         experiment_id=None,
         experiment_project_name=None,
         metrics=None,
@@ -49,7 +49,10 @@ class Model:
         self._id = name + "_" + str(version)
         self._name = name
         self._version = version
-        self._description = description
+        
+        if description is None:
+            self._description = 'A collection of models for ' + name
+
         self._created = created
         self._environment = environment
         self._experiment_id = experiment_id
