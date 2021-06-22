@@ -22,7 +22,7 @@ class ModelsApi:
     def __init__(self):
         pass
 
-    def put(self, model_instance):
+    def put(self, model_instance, query_params):
         """Save model metadata to the model registry.
 
         :param model_instance: metadata object of feature group to be saved

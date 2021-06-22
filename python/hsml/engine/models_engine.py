@@ -59,6 +59,13 @@ class Engine:
         if model_version_dir_already_exists:
             raise Exception("bad luck, it there")
 
+        model_query_params = {}
+
+        if 'HOPSWORKS_JOB_NAME' in os.environ:
+            model_query_params['jobName'] = os.environ['HOPSWORKS_JOB_NAME']
+        elif 'HOPSWORKS_KERNEL_ID' in os.environ:
+            model_query_params['kernelId'] = os.environ['HOPSWORKS_KERNEL_NAME']
+
         self._models_api.put(model_instance)
 
         archive_path = util.zip(local_model_path)
