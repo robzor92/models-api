@@ -28,5 +28,46 @@ class MLEncoder(json.JSONEncoder):
         except AttributeError:
             return super().default(o)
 
+
+class NumpyEncoder(JSONEncoder):
+    """ Special json encoder for numpy types.
+    Note that some numpy types doesn't have native python equivalence,
+    hence json.dumps will raise TypeError.
+    In this case, you'll need to convert your numpy types into its closest python equivalence.
+    """
+
+    def try_convert(self, o):
+        import numpy as np
+        import pandas as pd
+
+        def encode_binary(x):
+            return base64.encodebytes(x).decode("ascii")
+
+        if isinstance(o, np.ndarray):
+            if o.dtype == np.object:
+                return [self.try_convert(x)[0] for x in o.tolist()]
+            elif o.dtype == np.bytes_:
+                return np.vectorize(encode_binary)(o), True
+            else:
+                return o.tolist(), True
+
+        if isinstance(o, np.generic):
+            return o.item(), True
+        if isinstance(o, bytes) or isinstance(o, bytearray):
+            return encode_binary(o), True
+        if isinstance(o, np.datetime64):
+            return np.datetime_as_string(o), True
+        if isinstance(o, (pd.Timestamp, datetime.date)):
+            return o.isoformat(), True
+        return o, False
+
+    def default(self, o):  # pylint: disable=E0202
+        res, converted = self.try_convert(o)
+        if converted:
+            return res
+        else:
+            return super().default(o)
+
+
 def zip(local_path):
     return shutil.make_archive(local_path, 'zip', local_path)

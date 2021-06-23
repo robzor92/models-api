@@ -104,7 +104,7 @@ class Model:
         return self
 
     def json(self):
-        return json.dumps(self, cls=util.MLEncoder)
+        return json.dumps(self, cls=util.NumpyEncoder)
 
     def to_dict(self):
         return {
