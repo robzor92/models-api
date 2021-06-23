@@ -260,3 +260,34 @@ class DatasetApi:
             None
         """
         self._archive(remote_path, block=block, timeout=timeout, action='unzip')
+
+    def move(self, source_path, destination_path):
+        """
+        Create an archive (zip file) of a file or directory in a Hopsworks dataset.
+
+        Args:
+            :remote_path: the path to the remote file or directory in the dataset.
+            :action: Allowed values are zip/unzip. Whether to compress/extract respectively.
+            :block: whether this method should wait for the zipping process to complete before returning.
+            :timeout: number of seconds to wait for the action to complete before returning.
+        Returns:
+            None
+        """
+
+        _client = client.get_instance()
+        path_params = [
+            "project",
+            _client._project_id,
+            "dataset",
+            remote_path
+        ]
+
+        query_params = {'action': 'move', 'destination_path': destination_path}
+        headers = {"content-type": "application/json"}
+
+        _client._send_request(
+            "POST",
+            path_params,
+            headers=headers,
+            query_params=query_params
+        )
