@@ -18,6 +18,8 @@ import json
 import shutil
 import os
 
+from json import JSONEncoder
+
 class VersionWarning(Warning):
     pass
 
