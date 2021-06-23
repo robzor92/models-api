@@ -39,6 +39,7 @@ class Model:
         metrics=None,
         program=None,
         user_full_name=None,
+        input_example=None,
         model_registry_id=None,
         href=None,
         expand=None,
@@ -60,6 +61,7 @@ class Model:
         self._metrics = metrics
         self._program = program
         self._user_full_name = user_full_name
+        self._input_example = input_example
         self._model_registry_id = model_registry_id
 
         self._models_api = models_api.ModelsApi()
@@ -208,3 +210,12 @@ class Model:
     @user_full_name.setter
     def user_full_name(self, user_full_name):
         self._user_full_name = user_full_name
+
+    @property
+    def input_example(self):
+        """input_example of the model."""
+        return self._input_example
+
+    @input_example.setter
+    def input_example(self, input_example):
+        self._input_example = input_example

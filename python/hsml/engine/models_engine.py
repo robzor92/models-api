@@ -91,7 +91,7 @@ class Engine:
         if model_instance.input_example is not None:
             data = self._handle_tensor_input(model_instance.input_example)
             print(data)
-            
+
     def _handle_tensor_input(self, input_tensor: Union[np.ndarray, dict]):
         if isinstance(input_tensor, dict):
             result = {}
