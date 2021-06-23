@@ -279,7 +279,7 @@ class DatasetApi:
             "project",
             _client._project_id,
             "dataset",
-            remote_path
+            source_path
         ]
 
         query_params = {'action': 'move', 'destination_path': destination_path}
