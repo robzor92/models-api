@@ -89,7 +89,7 @@ class Engine:
             dataset_model_version_path + "/" + file_name)
 
         self._dataset_api.rm(extracted_archive_path)
-
+        print(model_instance.input_example)
         if model_instance.input_example is not None:
             data = self._handle_tensor_input(model_instance.input_example)
             print(data)

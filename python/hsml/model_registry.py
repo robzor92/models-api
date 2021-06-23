@@ -86,7 +86,7 @@ class ModelRegistry:
         metrics: Optional[dict] = None,
         description: Optional[str] = None,
         signature: Optional[str] = None,
-        input_example: Optional[str] = None,
+        input_example: Optional[Union[pandas.core.frame.DataFrame, numpy.ndarray, dict, list]] = None,
         experiment_id: Optional[str] = None
     ):
         """Create a model metadata object.
