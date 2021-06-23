@@ -17,6 +17,8 @@
 import json
 import datetime
 import os
+from typing import Union
+import numpy as np
 
 from hsml import client, util
 from hsml.client.exceptions import RestAPIError
