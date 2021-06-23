@@ -86,7 +86,7 @@ class Engine:
             self._dataset_api.move(extracted_archive_path + "/" + file_name,
             dataset_model_version_path + "/" + file_name)
 
-        self._dataset_api.rm(extracted_archive_path))
+        self._dataset_api.rm(extracted_archive_path)
 
 
 
