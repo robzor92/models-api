@@ -110,7 +110,8 @@ class Model:
         return {
             "name": self._name,
             "version": self._version,
-            "description": self._description
+            "description": self._description,
+            "input_example", self._input_example
         }
 
     @property
