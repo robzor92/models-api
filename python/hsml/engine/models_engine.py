@@ -88,6 +88,19 @@ class Engine:
 
         self._dataset_api.rm(extracted_archive_path)
 
+        if model_instance.input_example is not None:
+            data = self._handle_tensor_input(model_instance.input_example)
+            print(data)
+            
+    def _handle_tensor_input(self, input_tensor: Union[np.ndarray, dict]):
+        if isinstance(input_tensor, dict):
+            result = {}
+            for name in input_tensor.keys():
+                result[name] = input_tensor[name].tolist()
+            return {"inputs": result}
+        else:
+            return {"inputs": input_tensor.tolist()}
+
 
 
 
