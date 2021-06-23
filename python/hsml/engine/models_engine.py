@@ -82,7 +82,7 @@ class Engine:
         self._dataset_api.rm(uploaded_archive_path)
 
         for artifact in os.listdir(local_model_path):
-            _, file_name = os.path.split(item)
+            _, file_name = os.path.split(artifact)
             self._dataset_api.move(extracted_archive_path + "/" + file_name,
             dataset_model_version_path + "/" + file_name)
 
