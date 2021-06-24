@@ -116,6 +116,7 @@ class Model:
 
     def to_dict(self):
         return {
+            "id": self._id,
             "name": self._name,
             "version": self._version,
             "description": self._description,
