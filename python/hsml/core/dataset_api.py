@@ -73,26 +73,19 @@ class DatasetApi:
             "POST", path_params, data=params, files={"file": (file_name, chunk)}
         )
 
-    def download(self, path)
+    def download(self, path):
 
         _client = client.get_instance()
         path_params = ["project", _client._project_id, "dataset", "download", "with_auth", path]
         query_params = {'type=DATASET'}
 
-        with _client._send_request("GET", path_params, query_params=query_params) as response:
-
-            if response.status_code // 100 != 2:
-                error_code, error_msg, user_msg = util._parse_rest_error(response.json())
-                raise RestAPIError("Could not perform action on job's execution (url: {}), server response: \n "
-                                   "HTTP code: {}, HTTP reason: {}, error code: {}, error msg: {}, user msg: {}".format(
-                                    self.resource, response.status_code, response.reason, error_code, error_msg, user_msg))
-
+        with _client._send_request("GET", path_params, query_params=query_params, stream=True) as response:
             with open(self.file, "wb") as f:
                 downloaded = 0
                 file_size = response.headers.get('Content-Length')
                 if not file_size:
                     print("Downloading file ...", end=" ")
-                for chunk in response.iter_content(chunk_size=self.chunk_size):
+                for chunk in response.iter_content(chunk_size=self.DEFAULT_FLOW_CHUNK_SIZE):
                     f.write(chunk)
                     downloaded += len(chunk)
                     if file_size:
