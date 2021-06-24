@@ -120,7 +120,7 @@ class Model:
             "name": self._name,
             "version": self._version,
             "description": self._description,
-            "input_example": self._input_example
+            "inputExample": self._input_example
         }
 
     @property
