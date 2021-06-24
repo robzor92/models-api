@@ -29,6 +29,7 @@ class Model:
 
     def __init__(
         self,
+        id,
         name,
         version=None,
         created=None,
@@ -48,7 +49,11 @@ class Model:
         count=None,
         type=None,
     ):
-        self._id = name + "_" + str(version)
+        if id is None:
+            self._id = name + "_" + str(version)'
+        else:
+            self._id = id'
+            
         self._name = name
         self._version = version
 
