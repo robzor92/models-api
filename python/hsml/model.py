@@ -39,6 +39,7 @@ class Model:
         metrics=None,
         program=None,
         user_full_name=None,
+        signature=None,
         input_example=None,
         model_registry_id=None,
         href=None,
@@ -62,6 +63,7 @@ class Model:
         self._program = program
         self._user_full_name = user_full_name
         self._input_example = input_example
+        self._signature = signature
         self._model_registry_id = model_registry_id
 
         self._models_api = models_api.ModelsApi()
@@ -220,3 +222,12 @@ class Model:
     @input_example.setter
     def input_example(self, input_example):
         self._input_example = input_example
+
+    @property
+    def signature(self):
+        """signature of the model."""
+        return self._signature
+
+    @signature.setter
+    def signature(self, signature):
+        self._signature = signature
