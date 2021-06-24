@@ -62,7 +62,6 @@ class Model:
         self._program = program
         self._user_full_name = user_full_name
         self._input_example = input_example
-        print(input_example)
         self._model_registry_id = model_registry_id
 
         self._models_api = models_api.ModelsApi()

@@ -143,7 +143,11 @@ class ModelRegistry:
         """
         return model.Model(
             name=name,
-            version=version
+            version=version,
+            description=description,
+            metrics=metrics,
+            input_example=input_example,
+            signature=signature
         )
 
     @property
