@@ -54,6 +54,8 @@ class Model:
 
         if description is None:
             self._description = 'A collection of models for ' + name
+        else:
+            self._description = description
 
         self._created = created
         self._environment = environment
