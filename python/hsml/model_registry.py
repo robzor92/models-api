@@ -142,6 +142,7 @@ class ModelRegistry:
             `Model`. The model metadata object.
         """
         return model.Model(
+            id=None,
             name=name,
             version=version,
             description=description,
