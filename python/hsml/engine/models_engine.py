@@ -68,14 +68,14 @@ class Engine:
         elif 'HOPSWORKS_KERNEL_ID' in os.environ:
             model_query_params['kernelId'] = os.environ['HOPSWORKS_KERNEL_ID']
 
-        print(model_instance.input_example)
         if model_instance.input_example is not None:
+            input_example_path = os.getcwd() + "/input_example.json"
             input_example = self._handle_tensor_input(model_instance.input_example)
-            with open('input_example.json', 'w+') as out:
+            with open(input_example_path, 'w+') as out:
                 json.dump(input_example, out, cls=util.NumpyEncoder)
-            self._dataset_api.upload(os.getcwd() + "/input_example.json", dataset_model_version_path)
-
-        model_instance.input_example = dataset_model_version_path + "/input_example.json"
+            self._dataset_api.upload(input_example_path, dataset_model_version_path)
+            os.remove(input_example_path)
+            model_instance.input_example = dataset_model_version_path + "/input_example.json"
 
         self._models_api.put(model_instance, model_query_params)
 
