@@ -219,7 +219,7 @@ class Model:
     @property
     def input_example(self):
         """input_example of the model."""
-        if self._input_example is not None and isinstance(var, str):
+        if self._input_example is not None and isinstance(self._input_example, str):
             self._dataset_api.get(self._input_example)
 
         return self._input_example
