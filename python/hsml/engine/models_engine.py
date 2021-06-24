@@ -68,6 +68,15 @@ class Engine:
         elif 'HOPSWORKS_KERNEL_ID' in os.environ:
             model_query_params['kernelId'] = os.environ['HOPSWORKS_KERNEL_ID']
 
+        print(model_instance.input_example)
+        if model_instance.input_example is not None:
+            input_example = self._handle_tensor_input(model_instance.input_example)
+            with open('input_example.json', 'w+') as out:
+                json.dump(input_example, out, cls=util.NumpyEncoder)
+            self._dataset_api.upload(os.getcwd() + "/input_example.json", dataset_model_version_path)
+
+        model_instance.input_example = dataset_model_version_path + "/input_example.json"
+
         self._models_api.put(model_instance, model_query_params)
 
         archive_path = util.zip(local_model_path)
@@ -89,12 +98,6 @@ class Engine:
             dataset_model_version_path + "/" + file_name)
 
         self._dataset_api.rm(extracted_archive_path)
-        print(model_instance.input_example)
-        if model_instance.input_example is not None:
-            input_example = self._handle_tensor_input(model_instance.input_example)
-            with open('input_example.json', 'w+') as out:
-                json.dump(input_example, out, cls=util.NumpyEncoder)
-            self._dataset_api.upload(os.getcwd() + "/input_example.json", dataset_model_version_path)
 
     def _handle_tensor_input(self, input_tensor: Union[np.ndarray, dict]):
         if isinstance(input_tensor, dict):
