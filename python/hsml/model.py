@@ -50,10 +50,10 @@ class Model:
         type=None,
     ):
         if id is None:
-            self._id = name + "_" + str(version)'
+            self._id = name + "_" + str(version)
         else:
-            self._id = id'
-            
+            self._id = id
+
         self._name = name
         self._version = version
 
