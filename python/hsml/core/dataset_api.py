@@ -80,7 +80,7 @@ class DatasetApi:
         query_params = {'type=DATASET'}
 
         with _client._send_request("GET", path_params, query_params=query_params, stream=True) as response:
-            with open(self.file, "wb") as f:
+            with open(os.getcwd() + "/inputs.json", "wb") as f:
                 downloaded = 0
                 file_size = response.headers.get('Content-Length')
                 if not file_size:
