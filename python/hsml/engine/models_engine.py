@@ -106,7 +106,7 @@ class Engine:
         self._dataset_api.rm(extracted_archive_path)
 
     def _is_scalar(self, x):
-        return np.isscalar(x) or x is None    
+        return np.isscalar(x) or x is None
 
     def _is_tensor(self, x):
         return isinstance(x, np.ndarray) or (
@@ -125,7 +125,7 @@ class Engine:
 
     def _handle_dataframe_input(self, input_ex):
         if isinstance(input_ex, dict):
-            if all([_is_scalar(x) for x in input_ex.values()]):
+            if all([self._is_scalar(x) for x in input_ex.values()]):
                 input_ex = pd.DataFrame([input_ex])
             else:
                 raise TypeError(
@@ -137,7 +137,7 @@ class Engine:
                     raise TensorsNotSupportedException(
                         "Row '{0}' has shape {1}".format(i, x.shape)
                     )
-            if all([_is_scalar(x) for x in input_ex]):
+            if all([self._is_scalar(x) for x in input_ex]):
                 input_ex = pd.DataFrame([input_ex], columns=range(len(input_ex)))
             else:
                 input_ex = pd.DataFrame(input_ex)
