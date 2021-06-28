@@ -19,6 +19,7 @@ import datetime
 import os
 from typing import Union
 import numpy as np
+import tempfile
 
 from hsml import client, util
 from hsml.client.exceptions import RestAPIError
