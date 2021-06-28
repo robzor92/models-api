@@ -116,10 +116,7 @@ class Engine:
                     try:
                         time.sleep(sleep_seconds)
                         print("Polling " + model_instance.name + " version " + str(model_instance.version) + " for model availability.")
-                        model = self._models_api.get(name=model_instance.name, version=model_instance.version)
-                        if resp.ok:
-                            print("Model now available.")
-                            return
+                        return self._models_api.get(name=model_instance.name, version=model_instance.version)
                         print(model_name + " not ready yet, retrying in " + str(sleep_seconds) + " seconds.")
                     except ModelNotFound:
                         pass
