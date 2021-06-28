@@ -71,7 +71,7 @@ class Engine:
 
         if model_instance.input_example is not None:
             input_example_path = os.getcwd() + "/input_example.json"
-            if self._is_tensor(model_instance.input_example:
+            if self._is_tensor(model_instance.input_example):
                 input_example = self._handle_tensor_input(model_instance.input_example)
             else:
                 input_example = self._handle_dataframe_input(model_instance.input_example)
