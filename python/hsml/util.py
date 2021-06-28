@@ -42,6 +42,7 @@ class NumpyEncoder(JSONEncoder):
     def try_convert(self, o):
         import numpy as np
         import pandas as pd
+        import base64
 
         def encode_binary(x):
             return base64.encodebytes(x).decode("ascii")

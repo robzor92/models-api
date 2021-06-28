@@ -17,6 +17,7 @@
 import json
 import datetime
 import os
+import time
 from typing import Union
 import numpy as np
 import pandas as pd
@@ -70,6 +71,9 @@ class Engine:
         elif 'HOPSWORKS_KERNEL_ID' in os.environ:
             model_query_params['kernelId'] = os.environ['HOPSWORKS_KERNEL_ID']
 
+        if 'ML_ID' in os.environ:
+            model_instance._experiment_id = os.environ['ML_ID']
+
         if model_instance.input_example is not None:
             input_example_path = os.getcwd() + "/input_example.json"
             if self._is_tensor(model_instance.input_example):
@@ -104,6 +108,22 @@ class Engine:
             dataset_model_version_path + "/" + file_name)
 
         self._dataset_api.rm(extracted_archive_path)
+
+        if synchronous:
+                start_time = time.time()
+                sleep_seconds = 5
+                for i in range(int(120/sleep_seconds)):
+                    try:
+                        time.sleep(sleep_seconds)
+                        print("Polling " + model_instance.name + " version " + str(model_instance.version) + " for model availability.")
+                        model = self._models_api.get(name=model_instance.name, version=model_instance.version)
+                        if resp.ok:
+                            print("Model now available.")
+                            return
+                        print(model_name + " not ready yet, retrying in " + str(sleep_seconds) + " seconds.")
+                    except ModelNotFound:
+                        pass
+                print("Model not available during polling, set a higher value for synchronous_timeout to wait longer.")
 
     def _is_scalar(self, x):
         return np.isscalar(x) or x is None
