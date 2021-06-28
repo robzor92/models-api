@@ -77,7 +77,7 @@ class DatasetApi:
 
         _client = client.get_instance()
         path_params = ["project", _client._project_id, "dataset", "download", "with_auth", path]
-        query_params = {'type=DATASET'}
+        query_params = {'type': 'DATASET'}
 
         with _client._send_request("GET", path_params, query_params=query_params, stream=True) as response:
             with open(os.getcwd() + "/inputs.json", "wb") as f:
