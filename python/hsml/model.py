@@ -17,6 +17,7 @@
 import json
 import shutil
 import humps
+
 from hsml import util
 from hsml import client
 from hsml.client.exceptions import RestAPIError
@@ -226,11 +227,7 @@ class Model:
     def input_example(self):
         """input_example of the model."""
         if self._input_example is not None and isinstance(self._input_example, str):
-            tmp_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
-            self._dataset_api.download(self._input_example, tmp_dir.name + '/inputs.json')
-            with open('inputs.json', 'rb') as f:
-                self._input_example = json.loads(f.read())
-            tmp_dir.cleanup()
+        self._input_example = self._models_engine.read_input_example(self._input_example)
         return self._input_example
 
     @input_example.setter
