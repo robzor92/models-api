@@ -108,7 +108,7 @@ class Engine:
         else:
             return {"inputs": input_tensor.tolist()}
 
-    def read_input_example(input_example_path):
+    def read_input_example(self, input_example_path):
         try:
             tmp_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
             self._dataset_api.download(input_example_path, tmp_dir.name + '/inputs.json')
