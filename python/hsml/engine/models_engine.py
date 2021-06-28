@@ -105,6 +105,9 @@ class Engine:
 
         self._dataset_api.rm(extracted_archive_path)
 
+    def _is_scalar(self, x):
+        return np.isscalar(x) or x is None    
+
     def _is_tensor(self, x):
         return isinstance(x, np.ndarray) or (
             isinstance(x, dict) and all([isinstance(ary, np.ndarray) for ary in x.values()])
