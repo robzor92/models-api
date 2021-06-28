@@ -227,7 +227,7 @@ class Model:
         """input_example of the model."""
         if self._input_example is not None and isinstance(self._input_example, str):
             self._dataset_api.download(self._input_example)
-
+            self._input_example = json.loads('inputs.json')
         return self._input_example
 
     @input_example.setter
