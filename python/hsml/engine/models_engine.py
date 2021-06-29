@@ -99,7 +99,6 @@ class Engine:
             zip_out_dir.cleanup()
 
         extracted_archive_path = dataset_model_version_path + "/" + os.path.basename(archive_path)
-        uploaded_archive_path = extracted_archive_path + ".zip"
 
         self._dataset_api.unzip(extracted_archive_path, block=True, timeout=480)
 
@@ -107,6 +106,10 @@ class Engine:
 
         for artifact in os.listdir(local_model_path):
             _, file_name = os.path.split(artifact)
+            print("from")
+            print(extracted_archive_path + "/" + file_name)
+            print("to")
+            print(dataset_model_version_path + "/" + file_name)
             self._dataset_api.move(extracted_archive_path + "/" + file_name,
             dataset_model_version_path + "/" + file_name)
 
