@@ -104,18 +104,18 @@ class Engine:
 
         self._dataset_api.rm(extracted_archive_path)
 
-        unzipped model_dir = dataset_model_version_path + "/" + os.path.splitext(os.path.basename(archive_path))[0]
+        unzipped_model_dir = dataset_model_version_path + "/" + os.path.splitext(os.path.basename(archive_path))[0]
 
         for artifact in os.listdir(local_model_path):
             _, file_name = os.path.split(artifact)
             print("from")
-            print(unzipped + "/" + file_name)
+            print(unzipped_model_dir + "/" + file_name)
             print("to")
             print(dataset_model_version_path + "/" + file_name)
-            self._dataset_api.move(unzipped + "/" + file_name,
+            self._dataset_api.move(unzipped_model_dir + "/" + file_name,
             dataset_model_version_path + "/" + file_name)
 
-        self._dataset_api.rm(extracted_archive_path)
+        self._dataset_api.rm(unzipped_model_dir)
 
         if await_registration > 0:
                 start_time = time.time()
