@@ -74,4 +74,4 @@ class NumpyEncoder(JSONEncoder):
 
 
 def zip(zip_out_dir, dir_to_zip):
-    return shutil.make_archive(zip_out_dir + "/archive.zip", 'zip', dir_to_zip)
+    return shutil.make_archive(zip_out_dir + "/archive", 'zip', dir_to_zip)
