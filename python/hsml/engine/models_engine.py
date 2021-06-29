@@ -89,10 +89,7 @@ class Engine:
 
         try:
             zip_out_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
-            print(zip_out_dir.name)
             archive_path = util.zip(zip_out_dir.name, local_model_path)
-            print("archive")
-            print(archive_path)
             self._dataset_api.upload(archive_path, dataset_model_version_path)
         except:
             raise
@@ -109,10 +106,6 @@ class Engine:
 
         for artifact in os.listdir(local_model_path):
             _, file_name = os.path.split(artifact)
-            print("from")
-            print(unzipped_model_dir + "/" + file_name)
-            print("to")
-            print(dataset_model_version_path + "/" + file_name)
             self._dataset_api.move(unzipped_model_dir + "/" + file_name,
             dataset_model_version_path + "/" + file_name)
 
