@@ -55,7 +55,7 @@ class NumpyEncoder(JSONEncoder):
 
         if isinstance(o, np.ndarray):
             if o.dtype == np.object:
-                return [self.try_convert(x)[0] for x in o.tolist()]
+                return [try_convert(x)[0] for x in o.tolist()]
             elif o.dtype == np.bytes_:
                 return np.vectorize(encode_binary)(o), True
             else:
@@ -72,7 +72,7 @@ class NumpyEncoder(JSONEncoder):
         return o, False
 
     def default(self, o):  # pylint: disable=E0202
-        res, converted = self.try_convert(o)
+        res, converted = try_convert(o)
         if converted:
             return res
         else:
@@ -94,14 +94,14 @@ def _handle_tensor_input(input_tensor: Union[np.ndarray, dict]):
         return {"data": input_tensor.tolist()}
 
 def input_example_to_json(input_example):
-    if self._is_ndarray(input_example):
-        return self._handle_tensor_input(input_example)
+    if _is_ndarray(input_example):
+        return _handle_tensor_input(input_example)
     else:
-        return self._handle_dataframe_input(input_example)
+        return _handle_dataframe_input(input_example)
 
 def _handle_dataframe_input(input_ex):
     if isinstance(input_ex, dict):
-        if all([self._is_scalar(x) for x in input_ex.values()]):
+        if all([_is_scalar(x) for x in input_ex.values()]):
             input_ex = pd.DataFrame([input_ex])
         else:
             raise TypeError(
@@ -113,7 +113,7 @@ def _handle_dataframe_input(input_ex):
                 raise TensorsNotSupportedException(
                     "Row '{0}' has shape {1}".format(i, x.shape)
                 )
-        if all([self._is_scalar(x) for x in input_ex]):
+        if all([_is_scalar(x) for x in input_ex]):
             input_ex = pd.DataFrame([input_ex], columns=range(len(input_ex)))
         else:
             input_ex = pd.DataFrame(input_ex)
@@ -141,17 +141,6 @@ def _handle_dataframe_input(input_ex):
         # No need to write default column index out
         del result["columns"]
     return result
-
-
-def read_input_example(model_instance, input_example_path):
-    try:
-        tmp_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
-        self._dataset_api.download(input_example_path, tmp_dir.name + '/inputs.json')
-        with open(tmp_dir.name + '/inputs.json', 'rb') as f:
-            return json.loads(f.read())
-    finally:
-        if tmp_dir is not None and os.path.exists(tmp_dir.name):
-            tmp_dir.cleanup()
 
 def zip(zip_out_dir, dir_to_zip):
     return shutil.make_archive(zip_out_dir + "/archive", 'zip', dir_to_zip)

@@ -133,6 +133,17 @@ class Engine:
                 print("Model not available during polling, set a higher value for await_registration to wait longer.")
 
 
+    def read_input_example(model_instance, input_example_path):
+        try:
+            tmp_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
+            self._dataset_api.download(input_example_path, tmp_dir.name + '/inputs.json')
+            with open(tmp_dir.name + '/inputs.json', 'rb') as f:
+                return json.loads(f.read())
+        finally:
+            if tmp_dir is not None and os.path.exists(tmp_dir.name):
+                tmp_dir.cleanup()
+
+
 
 
 
