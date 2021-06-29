@@ -62,7 +62,7 @@ class Engine:
             self._dataset_api.mkdir(dataset_model_version_path)
 
         if model_version_dir_already_exists:
-            raise Exception("bad luck, it there")
+            raise RestAPIError("A model named {} with version {} already exists".format(model_instance._name, model_instance._version))
 
         model_query_params = {}
 
@@ -89,13 +89,17 @@ class Engine:
 
         self._models_api.put(model_instance, model_query_params)
 
-        archive_path = util.zip(local_model_path)
+        try:
+            zip_out_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
+            archive_path = util.zip(zip_out_dir, local_model_path)
+            self._dataset_api.upload(archive_path, dataset_model_version_path)
+        except:
+            raise
+        finally
+            if os.path.exists(zip_out_dir):
+                shutil.rmtree(zip_out_dir)
 
-        self._dataset_api.upload(archive_path, dataset_model_version_path)
-
-        os.remove(archive_path)
-
-        extracted_archive_path = dataset_model_version_path + "/" + os.path.basename(local_model_path)
+        extracted_archive_path = dataset_model_version_path + "/" + os.path.basename(archive_path)
         uploaded_archive_path = extracted_archive_path + ".zip"
 
         self._dataset_api.unzip(uploaded_archive_path, block=True, timeout=480)
