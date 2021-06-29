@@ -91,6 +91,7 @@ class Engine:
 
         try:
             zip_out_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
+            print(zip_out_dir.name)
             archive_path = util.zip(zip_out_dir.name, local_model_path)
             print("archive")
             print(archive_path)
