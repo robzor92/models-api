@@ -97,8 +97,8 @@ class Engine:
         except:
             raise
         finally:
-            pass
-            #zip_out_dir.cleanup()
+            print("cleaning up " + zip_out_dir)
+            zip_out_dir.cleanup()
 
         extracted_archive_path = dataset_model_version_path + "/" + os.path.basename(archive_path)
 

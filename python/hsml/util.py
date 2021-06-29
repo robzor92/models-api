@@ -87,11 +87,11 @@ class NumpyEncoder(JSONEncoder):
         else:
             return {"data": input_tensor.tolist()}
 
-    def input_example_to_json(model_instance.input_example):
-        if self._is_ndarray(model_instance.input_example):
-            return self._handle_tensor_input(model_instance.input_example)
+    def input_example_to_json(input_example):
+        if self._is_ndarray(input_example):
+            return self._handle_tensor_input(input_example)
         else:
-            return self._handle_dataframe_input(model_instance.input_example)
+            return self._handle_dataframe_input(input_example)
 
     def _handle_dataframe_input(self, input_ex):
         if isinstance(input_ex, dict):
