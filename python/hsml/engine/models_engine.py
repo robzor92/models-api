@@ -34,7 +34,7 @@ class Engine:
         self._models_api = models_api.ModelsApi()
         self._dataset_api = dataset_api.DatasetApi()
 
-    def save(self, model_instance, local_model_path):
+    def save(self, model_instance, local_model_path, await_registration=120):
         dataset_model_path = "Models/" + model_instance._name
         try:
             self._dataset_api.get(dataset_model_path)
@@ -109,10 +109,10 @@ class Engine:
 
         self._dataset_api.rm(extracted_archive_path)
 
-        if synchronous:
+        if await_registration > 0:
                 start_time = time.time()
                 sleep_seconds = 5
-                for i in range(int(120/sleep_seconds)):
+                for i in range(int(await_registration/sleep_seconds)):
                     try:
                         time.sleep(sleep_seconds)
                         print("Polling " + model_instance.name + " version " + str(model_instance.version) + " for model availability.")
@@ -120,7 +120,7 @@ class Engine:
                         print(model_name + " not ready yet, retrying in " + str(sleep_seconds) + " seconds.")
                     except ModelNotFound:
                         pass
-                print("Model not available during polling, set a higher value for synchronous_timeout to wait longer.")
+                print("Model not available during polling, set a higher value for await_registration to wait longer.")
 
     def _is_scalar(self, x):
         return np.isscalar(x) or x is None
