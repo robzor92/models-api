@@ -73,5 +73,5 @@ class NumpyEncoder(JSONEncoder):
             return super().default(o)
 
 
-def zip(zip_out_dir, local_path):
-    return shutil.make_archive(zip_out_dir, 'zip', local_path)
+def zip(zip_out_dir, dir_to_zip):
+    return shutil.make_archive(zip_out_dir, 'zip', dir_to_zip)

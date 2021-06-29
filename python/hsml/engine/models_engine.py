@@ -95,7 +95,7 @@ class Engine:
             self._dataset_api.upload(archive_path, dataset_model_version_path)
         except:
             raise
-        finally
+        finally:
             if os.path.exists(zip_out_dir):
                 shutil.rmtree(zip_out_dir)
 
