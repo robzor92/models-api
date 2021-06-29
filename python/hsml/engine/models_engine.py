@@ -101,9 +101,9 @@ class Engine:
         extracted_archive_path = dataset_model_version_path + "/" + os.path.basename(archive_path)
         uploaded_archive_path = extracted_archive_path + ".zip"
 
-        self._dataset_api.unzip(uploaded_archive_path, block=True, timeout=480)
+        self._dataset_api.unzip(extracted_archive_path, block=True, timeout=480)
 
-        self._dataset_api.rm(uploaded_archive_path)
+        self._dataset_api.rm(extracted_archive_path)
 
         for artifact in os.listdir(local_model_path):
             _, file_name = os.path.split(artifact)
