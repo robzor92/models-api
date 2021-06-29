@@ -81,7 +81,7 @@ class Model:
 
     def save(self, model_path, await_registration=120):
         """Persist the model metadata object to the model registry."""
-        self._models_engine.save(self, model_path, await_registration=await_registration)
+        return self._models_engine.save(self, model_path, await_registration=await_registration)
 
     def delete(self):
         """Delete the model
