@@ -45,40 +45,40 @@ class NumpyEncoder(JSONEncoder):
     In this case, you'll need to convert your numpy types into its closest python equivalence.
     """
 
-    def try_convert(self, o):
-        import numpy as np
+    def convert(self, obj):
         import pandas as pd
+        import numpy as np
         import base64
 
         def encode_binary(x):
             return base64.encodebytes(x).decode("ascii")
 
-        if isinstance(o, np.ndarray):
-            if o.dtype == np.object:
-                return [try_convert(x)[0] for x in o.tolist()]
-            elif o.dtype == np.bytes_:
-                return np.vectorize(encode_binary)(o), True
+        if isinstance(obj, np.ndarray):
+            if obj.dtype == np.object:
+                return [try_convert(x)[0] for x in obj.tolist()]
+            elif obj.dtype == np.bytes_:
+                return np.vectorize(encode_binary)(obj), True
             else:
-                return o.tolist(), True
+                return obj.tolist(), True
 
-        if isinstance(o, np.generic):
-            return o.item(), True
-        if isinstance(o, bytes) or isinstance(o, bytearray):
-            return encode_binary(o), True
-        if isinstance(o, np.datetime64):
-            return np.datetime_as_string(o), True
-        if isinstance(o, (pd.Timestamp, datetime.date)):
-            return o.isoformat(), True
-        return o, False
+        if isinstance(obj, np.generic):
+            return obj.item(), True
+        if isinstance(obj, np.datetime64):
+            return np.datetime_as_string(obj), True
+        if isinstance(obj, (pd.Timestamp, datetime.date)):
+            return obj.isoformat(), True
+        if isinstance(obj, bytes) or isinstance(obj, bytearray):
+            return encode_binary(obj), True
+        return obj, False
 
-    def default(self, o):  # pylint: disable=E0202
-        res, converted = try_convert(o)
+    def default(self, obj):  # pylint: disable=E0202
+        res, converted = convert(obj)
         if converted:
             return res
         else:
-            return super().default(o)
+            return super().default(obj)
 
-def _is_scalar(x):
+def _is_numpy_scalar(x):
     return np.isscalar(x) or x is None
 
 def _is_ndarray(x):
@@ -101,7 +101,7 @@ def input_example_to_json(input_example):
 
 def _handle_dataframe_input(input_ex):
     if isinstance(input_ex, dict):
-        if all([_is_scalar(x) for x in input_ex.values()]):
+        if all([_is_numpy_scalar(x) for x in input_ex.values()]):
             input_ex = pd.DataFrame([input_ex])
         else:
             raise TypeError(
@@ -113,7 +113,7 @@ def _handle_dataframe_input(input_ex):
                 raise TensorsNotSupportedException(
                     "Row '{0}' has shape {1}".format(i, x.shape)
                 )
-        if all([_is_scalar(x) for x in input_ex]):
+        if all([_is_numpy_scalar(x) for x in input_ex]):
             input_ex = pd.DataFrame([input_ex], columns=range(len(input_ex)))
         else:
             input_ex = pd.DataFrame(input_ex)
