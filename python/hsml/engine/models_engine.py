@@ -34,7 +34,7 @@ class Engine:
         self._models_api = models_api.ModelsApi()
         self._dataset_api = dataset_api.DatasetApi()
 
-    def save(self, model_instance, local_model_path, await_registration=120):
+    def save(self, model_instance, local_model_path, await_registration=480):
         dataset_model_path = "Models/" + model_instance._name
         try:
             self._dataset_api.get(dataset_model_path)

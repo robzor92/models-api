@@ -30,12 +30,12 @@ from json import JSONEncoder
 class VersionWarning(Warning):
     pass
 
-class MLEncoder(json.JSONEncoder):
-    def default(self, o):
+class MLEncoder(JSONEncoder):
+    def default(self, obj):
         try:
-            return o.to_dict()
+            return obj.to_dict()
         except AttributeError:
-            return super().default(o)
+            return super().default(obj)
 
 
 class NumpyEncoder(JSONEncoder):
