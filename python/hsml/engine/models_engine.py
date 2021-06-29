@@ -76,7 +76,7 @@ class Engine:
 
         if model_instance.input_example is not None:
             input_example_path = os.getcwd() + "/input_example.json"
-            util.input_example_to_json(model_instance.input_example)
+            input_example = util.input_example_to_json(model_instance.input_example)
 
             with open(input_example_path, 'w+') as out:
                 json.dump(input_example, out, cls=util.NumpyEncoder)
