@@ -91,13 +91,12 @@ class Engine:
 
         try:
             zip_out_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
-            archive_path = util.zip(zip_out_dir, local_model_path)
+            archive_path = util.zip(zip_out_dir.name, local_model_path)
             self._dataset_api.upload(archive_path, dataset_model_version_path)
         except:
             raise
         finally:
-            if os.path.exists(zip_out_dir):
-                shutil.rmtree(zip_out_dir)
+            zip_out_dir.cleanup()
 
         extracted_archive_path = dataset_model_version_path + "/" + os.path.basename(archive_path)
         uploaded_archive_path = extracted_archive_path + ".zip"
