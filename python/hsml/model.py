@@ -117,8 +117,8 @@ class Model:
         return {
             "id": self._name + "_" + str(self._version),
             "experimentId": self._experiment_id,
-            "projectName", self._project_name,
-            "experimentProjectName", self._experiment_project_name,
+            "projectName": self._project_name,
+            "experimentProjectName": self._experiment_project_name,
             "name": self._name,
             "version": self._version,
             "description": self._description,
