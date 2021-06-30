@@ -131,7 +131,7 @@ class Engine:
     def download(self, model_instance):
         dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
         self._dataset_api.zip(dataset_model_version_path, block=True, timeout=480)
-        self._dataset_api.download(dataset_model_version_path + ".zip")
+        self._dataset_api.download(dataset_model_version_path + ".zip", os.getcwd())
         util.unzip(model_instance.version + ".zip")
         os.remove(model_instance.version + ".zip")
 
