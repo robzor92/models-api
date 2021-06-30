@@ -130,7 +130,7 @@ class Engine:
 
     def download(self, model_instance):
         model_name_path = os.getcwd() + "/" + model_instance._name
-        model_version_path = model_name_path + str(model_instance._version)
+        model_version_path = model_name_path + "/" + str(model_instance._version)
         if os.path.exists(model_version_path):
             raise Exception("dir already there yo")
         else:
