@@ -131,9 +131,11 @@ class Engine:
     def download(self, model_instance):
         dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
         self._dataset_api.zip(dataset_model_version_path, block=True, timeout=480)
-        self._dataset_api.download(dataset_model_version_path + ".zip", os.getcwd())
-        util.unzip(model_instance.version + ".zip")
-        os.remove(model_instance.version + ".zip")
+        zip_path = os.getcwd() + "/" + model_instance._name + "_" + str(model_instance._version) + ".zip"
+        self._dataset_api.download(dataset_model_version_path + ".zip", zip_path)
+        ret = util.unzip(zip_path)
+        os.remove(zip_path)
+        return ret
 
     def read_input_example(model_instance, input_example_path):
         try:
