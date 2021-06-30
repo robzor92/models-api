@@ -140,7 +140,7 @@ class Engine:
             zip_path = model_version_path + ".zip"
             self._dataset_api.download(dataset_model_version_path + ".zip", zip_path)
             ret = util.unzip(zip_path, extract_dir=model_name_path)
-            #os.remove(zip_path)
+            os.remove(zip_path)
             return model_version_path
 
     def read_input_example(model_instance, input_example_path):
