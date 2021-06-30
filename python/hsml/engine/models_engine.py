@@ -145,7 +145,7 @@ class Engine:
             os.remove(zip_path)
             return model_version_path
 
-    def read_input_example(model_instance, input_example_path):
+    def read_input_example(self, model_instance, input_example_path):
         try:
             tmp_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
             self._dataset_api.download(input_example_path, tmp_dir.name + '/inputs.json')
