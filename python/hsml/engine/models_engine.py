@@ -128,6 +128,12 @@ class Engine:
                         pass
                 print("Model not available during polling, set a higher value for await_registration to wait longer.")
 
+    def download(self, model_instance):
+        dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
+        self._dataset_api.zip(dataset_model_version_path, block=True, timeout=480)
+        self._dataset_api.download(dataset_model_version_path + ".zip")
+        util.unzip(model_instance.version + ".zip")
+        os.remove(model_instance.version + ".zip")
 
     def read_input_example(model_instance, input_example_path):
         try:

@@ -78,10 +78,13 @@ class Model:
         self._dataset_api = dataset_api.DatasetApi()
         self._models_engine = models_engine.Engine()
 
-
     def save(self, model_path, await_registration=120):
         """Persist the model metadata object to the model registry."""
         return self._models_engine.save(self, model_path, await_registration=await_registration)
+
+    def download(self):
+        """Download the model files to a local folder."""
+        return self._models_engine.download(self)
 
     def delete(self):
         """Delete the model
@@ -122,6 +125,7 @@ class Model:
             "projectName": self._project_name,
             "experimentProjectName": self._experiment_project_name,
             "name": self._name,
+            "signature": self._signature,
             "version": self._version,
             "description": self._description,
             "inputExample": self._input_example,

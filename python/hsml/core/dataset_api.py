@@ -285,6 +285,26 @@ class DatasetApi:
         """
         self._archive(remote_path, block=block, timeout=timeout, action='unzip')
 
+    def zip(self, remote_path, block=False, timeout=120):
+        """
+        Extract the dir or file in Hopsworks, specified by the remote_path.
+
+        Example usage:
+
+        >>> from hops import dataset
+        >>> dataset.extract("Projects/project_name/Resources/myremotefile.zip")
+
+        Args:
+            :remote_path: the path to the remote file or directory in the dataset
+            :project_name: whether this method should wait for the zipping process to complete before returning.
+            :block: whether to wait for the extraction to complete or not.
+            :timeout: number of seconds to wait for the extraction to complete before returning.
+
+        Returns:
+            None
+        """
+        self._archive(remote_path, block=block, timeout=timeout, action='zip')
+
     def move(self, source_path, destination_path):
         """
         Create an archive (zip file) of a file or directory in a Hopsworks dataset.

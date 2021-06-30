@@ -144,3 +144,6 @@ def _handle_dataframe_input(input_ex):
 
 def zip(zip_out_dir, dir_to_zip):
     return shutil.make_archive(zip_out_dir + "/archive", 'zip', dir_to_zip)
+
+def unzip(zip_file):
+    return shutil.unpack_archive(zip_file)
