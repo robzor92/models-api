@@ -74,6 +74,10 @@ class Engine:
         if 'ML_ID' in os.environ:
             model_instance._experiment_id = os.environ['ML_ID']
 
+        _client = client.get_instance()
+        model_instance._project_name = _client.project()
+        model_instance._experiment_project_name = _client.project()
+
         if model_instance.input_example is not None:
             input_example_path = os.getcwd() + "/input_example.json"
             input_example = util.input_example_to_json(model_instance.input_example)

@@ -19,7 +19,6 @@ import shutil
 import humps
 
 from hsml import util
-from hsml import client
 from hsml.core import models_api, dataset_api
 from hsml.engine import models_engine
 
@@ -118,6 +117,8 @@ class Model:
         return {
             "id": self._name + "_" + str(self._version),
             "experimentId": self._experiment_id,
+            "projectName", self._project_name,
+            "experimentProjectName", self._experiment_project_name,
             "name": self._name,
             "version": self._version,
             "description": self._description,
@@ -242,3 +243,21 @@ class Model:
     @signature.setter
     def signature(self, signature):
         self._signature = signature
+
+    @property
+    def project_name(self):
+        """project_name of the model."""
+        return self._project_name
+
+    @project_name.setter
+    def project_name(self, project_name):
+        self._project_name = project_name
+
+    @property
+    def experiment_project_name(self):
+        """experiment_project_name of the model."""
+        return self._experiment_project_name
+
+    @experiment_project_name.setter
+    def experiment_project_name(self, experiment_project_name):
+        self._experiment_project_name = experiment_project_name
