@@ -35,6 +35,7 @@ class Model:
         environment=None,
         description=None,
         experiment_id=None,
+        project_name=None
         experiment_project_name=None,
         metrics=None,
         program=None,
@@ -64,6 +65,7 @@ class Model:
         self._created = created
         self._environment = environment
         self._experiment_id = experiment_id
+        self._project_name = project_name
         self._experiment_project_name = experiment_project_name
         self._metrics = metrics
         self._program = program
