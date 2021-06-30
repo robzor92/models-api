@@ -35,7 +35,7 @@ class Model:
         environment=None,
         description=None,
         experiment_id=None,
-        project_name=None
+        project_name=None,
         experiment_project_name=None,
         metrics=None,
         program=None,
