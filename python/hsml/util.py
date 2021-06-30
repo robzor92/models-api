@@ -145,5 +145,5 @@ def _handle_dataframe_input(input_ex):
 def zip(zip_file_path, dir_to_zip_path):
     return shutil.make_archive(zip_file_path + "/archive", 'zip', dir_to_zip_path)
 
-def unzip(zip_file_path, unzipped_file_path):
+def unzip(zip_file_path):
     return shutil.unpack_archive(zip_file_path)

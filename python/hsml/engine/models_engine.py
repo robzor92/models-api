@@ -129,18 +129,19 @@ class Engine:
                 print("Model not available during polling, set a higher value for await_registration to wait longer.")
 
     def download(self, model_instance):
-        model_path = os.getcwd() + "/" + model_instance._name + "/" + str(model_instance._version)
-        if os.path.exists(model_path):
+        model_name_path = os.getcwd() + "/" + model_instance._name
+        model_version_path = model_name_path + str(model_instance._version)
+        if os.path.exists(model_version_path):
             raise Exception("dir already there yo")
         else:
-            os.makedirs(model_path)
+            os.mkdir(model_name_path)
             dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
             self._dataset_api.zip(dataset_model_version_path, block=True, timeout=480)
-            zip_path = model_path + ".zip"
-            self._dataset_api.download(dataset_model_version_path + ".zip", zip_path)
+            zip_path = model_version_path + ".zip"
+            self._dataset_api.download(dataset_model_version_path + ".zip", model_name_path)
             ret = util.unzip(zip_path)
             os.remove(zip_path)
-            return model_path
+            return model_version_path
 
     def read_input_example(model_instance, input_example_path):
         try:
