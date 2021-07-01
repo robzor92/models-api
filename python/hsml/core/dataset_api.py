@@ -245,9 +245,12 @@ class DatasetApi:
                     if action is "zip":
                       # Get the status of the zipped file
                       zip_exists = self._path_exists(remote_path + ".zip")
+                      print(zip_exists)
                       # Get the zipState of the directory being zipped
                       dir_status = self.get(remote_path)
+                      print(dir_status)
                       zip_state = dir_status['zipState'] if 'zipState' in dir_status else None
+                      print(zip_state)
                       if zip_exists and zip_state == 'NONE' :
                           return
                       else:
