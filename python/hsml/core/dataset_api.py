@@ -231,12 +231,12 @@ class DatasetApi:
             query_params = {'action': action}
             headers = {"content-type": "application/json"}
 
-            _client._send_request(
+            print(_client._send_request(
                 "POST",
                 path_params,
                 headers=headers,
                 query_params=query_params
-            )
+            ))
 
             if block is True:
                 # Wait for zip file to appear. When it does, check that parent dir zipState is not set to CHOWNING
