@@ -130,7 +130,7 @@ class Engine:
                 print("Model not available during polling, set a higher value for await_registration to wait longer.")
 
     def download(self, model_instance):
-        model_name_path = os.getcwd() + "/" + uuid.uuid4() + "/" + model_instance._name
+        model_name_path = os.getcwd() + "/" + str(uuid.uuid4()) + "/" + model_instance._name
         model_version_path = model_name_path + "/" + str(model_instance._version)
         if os.path.exists(model_version_path):
             raise AssertionError("Model already downloaded on path: " + model_version_path)
