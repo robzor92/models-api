@@ -136,7 +136,7 @@ class Engine:
             raise AssertionError("Model already downloaded on path: " + model_version_path)
         else:
             if not os.path.exists(model_name_path):
-                os.mkdir(model_name_path)
+                os.makedirs(model_name_path)
             dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
             self._dataset_api.zip(dataset_model_version_path, block=True, timeout=480)
             zip_path = model_version_path + ".zip"
