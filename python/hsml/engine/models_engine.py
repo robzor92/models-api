@@ -22,6 +22,7 @@ from typing import Union
 import numpy as np
 import pandas as pd
 import tempfile
+import uuid
 
 from hsml import client, util
 from hsml.client.exceptions import RestAPIError
@@ -129,10 +130,10 @@ class Engine:
                 print("Model not available during polling, set a higher value for await_registration to wait longer.")
 
     def download(self, model_instance):
-        model_name_path = os.getcwd() + "/" + model_instance._name
+        model_name_path = os.getcwd() + "/" + uuid.uuid4() + "/" + model_instance._name
         model_version_path = model_name_path + "/" + str(model_instance._version)
         if os.path.exists(model_version_path):
-            raise Exception("dir already there yo")
+            raise AssertionError("Model already downloaded on path: " + model_version_path)
         else:
             if not os.path.exists(model_name_path):
                 os.mkdir(model_name_path)
