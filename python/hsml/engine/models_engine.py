@@ -133,16 +133,23 @@ class Engine:
         model_name_path = os.getcwd() + "/" + str(uuid.uuid4()) + "/" + model_instance._name
         model_version_path = model_name_path + "/" + str(model_instance._version)
         if os.path.exists(model_version_path):
+            print("error")
             raise AssertionError("Model already downloaded on path: " + model_version_path)
         else:
             if not os.path.exists(model_name_path):
+                print("dir yo1")
                 os.makedirs(model_name_path)
             dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
+            print("dir yo2")
             self._dataset_api.zip(dataset_model_version_path, block=True, timeout=480)
+            print("dir yo3")
             zip_path = model_version_path + ".zip"
             self._dataset_api.download(dataset_model_version_path + ".zip", zip_path)
+            print("dir yo4")
             self._dataset_api.rm(dataset_model_version_path + ".zip")
+            print("dir yo5")
             ret = util.unzip(zip_path, extract_dir=model_name_path)
+            print("dir yo6")
             os.remove(zip_path)
             return model_version_path
 
