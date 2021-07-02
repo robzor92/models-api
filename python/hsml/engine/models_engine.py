@@ -147,7 +147,7 @@ class Engine:
             dataset_model_name_path = "Models/" + model_instance._name
             dataset_model_version_path = dataset_model_name_path + "/" + str(model_instance._version)
 
-            temp_download_dir = dataset_model_name_path + str(uuid.uuid4())
+            temp_download_dir = dataset_model_name_path +  "/" + str(uuid.uuid4())
             self._dataset_api.mkdir(temp_download_dir)
             print("dir yo2")
             self._dataset_api.zip(dataset_model_version_path, destination_path=temp_download_dir, block=True, timeout=480)
