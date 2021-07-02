@@ -253,7 +253,7 @@ class DatasetApi:
                       if destination_path is None:
                           zip_exists = self._path_exists(zip_path)
                       else:
-                          zip_exists = self._path_exists(destination_path + "/" + os.path.split(zip_path))
+                          zip_exists = self._path_exists(destination_path + "/" + os.path.split(zip_path)[1])
                       print(zip_exists)
                       # Get the zipState of the directory being zipped
                       dir_status = self.get(remote_path)
