@@ -144,15 +144,13 @@ class Engine:
 
             temp_download_dir = dataset_model_name_path + str(uuid.uuid4())
             self._dataset_api.mkdir(temp_download_dir)
-
-            self._dataset_api.mkdir(dataset_model_version_path)
             print("dir yo2")
             self._dataset_api.zip(dataset_model_version_path, destination_path=temp_download_dir, block=True, timeout=480)
             print("dir yo3")
             zip_path = model_version_path + ".zip"
             self._dataset_api.download(dataset_model_version_path + ".zip", zip_path)
             print("dir yo4")
-            self._dataset_api.rm(dataset_model_version_path + ".zip")
+            self._dataset_api.rm(temp_download_dir)
             print("dir yo5")
             util.unzip(zip_path, extract_dir=model_name_path)
             print("dir yo6")
