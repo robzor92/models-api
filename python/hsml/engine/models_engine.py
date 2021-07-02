@@ -139,16 +139,22 @@ class Engine:
             if not os.path.exists(model_name_path):
                 print("dir yo1")
                 os.makedirs(model_name_path)
-            dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
+            dataset_model_name_path = "Models/" + model_instance._name
+            dataset_model_version_path = dataset_model_name_path + "/" + str(model_instance._version)
+
+            temp_download_dir = dataset_model_name_path + str(uuid.uuid4())
+            self._dataset_api.mkdir(temp_download_dir)
+
+            self._dataset_api.mkdir(dataset_model_version_path)
             print("dir yo2")
-            self._dataset_api.zip(dataset_model_version_path, block=True, timeout=480)
+            self._dataset_api.zip(dataset_model_version_path, destination_path=temp_download_dir, block=True, timeout=480)
             print("dir yo3")
             zip_path = model_version_path + ".zip"
             self._dataset_api.download(dataset_model_version_path + ".zip", zip_path)
             print("dir yo4")
             self._dataset_api.rm(dataset_model_version_path + ".zip")
             print("dir yo5")
-            ret = util.unzip(zip_path, extract_dir=model_name_path)
+            util.unzip(zip_path, extract_dir=model_name_path)
             print("dir yo6")
             os.remove(zip_path)
             return model_version_path

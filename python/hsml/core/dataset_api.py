@@ -207,7 +207,7 @@ class DatasetApi:
         except Exception:
             return False
 
-    def _archive(self, remote_path, block=False, timeout=120, action='unzip'):
+    def _archive(self, remote_path, destination_path=None, block=False, timeout=120, action='unzip'):
             """
             Create an archive (zip file) of a file or directory in a Hopsworks dataset.
 
@@ -229,6 +229,11 @@ class DatasetApi:
             ]
 
             query_params = {'action': action}
+
+            if destination_path is not None:
+                query_params['destination_path'] = destination_path
+                query_params['destination_type'] = 'DATASET'
+
             headers = {"content-type": "application/json"}
 
             print(_client._send_request(
@@ -288,7 +293,7 @@ class DatasetApi:
         """
         self._archive(remote_path, block=block, timeout=timeout, action='unzip')
 
-    def zip(self, remote_path, block=False, timeout=120):
+    def zip(self, remote_path, destination_path=None, block=False, timeout=120):
         """
         Extract the dir or file in Hopsworks, specified by the remote_path.
 
@@ -306,7 +311,7 @@ class DatasetApi:
         Returns:
             None
         """
-        self._archive(remote_path, block=block, timeout=timeout, action='zip')
+        self._archive(remote_path, destination_path=destination_path, block=block, timeout=timeout, action='zip')
 
     def move(self, source_path, destination_path):
         """
