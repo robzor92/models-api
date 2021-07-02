@@ -111,8 +111,13 @@ class Engine:
 
         for artifact in os.listdir(local_model_path):
             _, file_name = os.path.split(artifact)
-            self._dataset_api.move(unzipped_model_dir + "/" + file_name,
-            dataset_model_version_path + "/" + file_name)
+            for i in range(5):
+                try:
+                    self._dataset_api.move(unzipped_model_dir + "/" + file_name,dataset_model_version_path + "/" + file_name)
+                except:
+                    sleep(1)
+                    pass
+
 
         self._dataset_api.rm(unzipped_model_dir)
 
