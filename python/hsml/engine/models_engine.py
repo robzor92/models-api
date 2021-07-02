@@ -115,7 +115,7 @@ class Engine:
                 try:
                     self._dataset_api.move(unzipped_model_dir + "/" + file_name,dataset_model_version_path + "/" + file_name)
                 except:
-                    sleep(1)
+                    time.sleep(1)
                     pass
 
 
