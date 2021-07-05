@@ -15,12 +15,8 @@
 #
 
 import json
-import datetime
 import os
 import time
-from typing import Union
-import numpy as np
-import pandas as pd
 import tempfile
 import uuid
 
@@ -128,8 +124,8 @@ class Engine:
                     try:
                         time.sleep(sleep_seconds)
                         print("Polling " + model_instance.name + " version " + str(model_instance.version) + " for model availability.")
+                        print(model_instance.name + " not ready yet, retrying in " + str(sleep_seconds) + " seconds.")
                         return self._models_api.get(name=model_instance.name, version=model_instance.version)
-                        print(model_name + " not ready yet, retrying in " + str(sleep_seconds) + " seconds.")
                     except ModelNotFound:
                         pass
                 print("Model not available during polling, set a higher value for await_registration to wait longer.")
@@ -138,27 +134,20 @@ class Engine:
         model_name_path = os.getcwd() + "/" + str(uuid.uuid4()) + "/" + model_instance._name
         model_version_path = model_name_path + "/" + str(model_instance._version)
         if os.path.exists(model_version_path):
-            print("error")
             raise AssertionError("Model already downloaded on path: " + model_version_path)
         else:
             if not os.path.exists(model_name_path):
-                print("dir yo1")
                 os.makedirs(model_name_path)
             dataset_model_name_path = "Models/" + model_instance._name
             dataset_model_version_path = dataset_model_name_path + "/" + str(model_instance._version)
 
             temp_download_dir = "/Resources" + "/" + str(uuid.uuid4())
             self._dataset_api.mkdir(temp_download_dir)
-            print("dir yo2")
             self._dataset_api.zip(dataset_model_version_path, destination_path=temp_download_dir, block=True, timeout=480)
-            print("dir yo3")
             zip_path = model_version_path + ".zip"
             self._dataset_api.download(temp_download_dir + "/" + str(model_instance._version) + ".zip", zip_path)
-            print("dir yo4")
             self._dataset_api.rm(temp_download_dir)
-            print("dir yo5")
             util.unzip(zip_path, extract_dir=model_name_path)
-            print("dir yo6")
             os.remove(zip_path)
             return model_version_path
 

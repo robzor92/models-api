@@ -125,7 +125,7 @@ class Model:
             "projectName": self._project_name,
             "experimentProjectName": self._experiment_project_name,
             "name": self._name,
-            "signature": self._signature,
+            "signature.py": self._signature,
             "version": self._version,
             "description": self._description,
             "inputExample": self._input_example,
@@ -244,7 +244,7 @@ class Model:
 
     @property
     def signature(self):
-        """signature of the model."""
+        """signature.py of the model."""
         return self._signature
 
     @signature.setter
