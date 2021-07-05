@@ -19,7 +19,7 @@ import humps
 import numpy
 import pandas
 
-from hsml.utils import Signature
+from hsml.utils.signature import Signature
 
 from typing import Optional, Union, List, Dict, TypeVar
 
