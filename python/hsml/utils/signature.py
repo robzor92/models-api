@@ -41,7 +41,7 @@ class Signature:
         signature_arr = []
 
         for column in columns:
-            signature_arr.append([{column: datatypes[column]}])
+            signature_arr.append({column: str(datatypes[column])})
 
         return signature_arr
 
