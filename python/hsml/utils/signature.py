@@ -22,11 +22,11 @@ class Signature(object):
             predictions: Optional[list] = None
         ):
 
-    if inputs is not None:
-        self._input = convert_to_signature(inputs)
+        if inputs is not None:
+            self._input = convert_to_signature(inputs)
 
-    if predictions is not None:
-        self._predictions = convert_to_signature(predictions)
+        if predictions is not None:
+            self._predictions = convert_to_signature(predictions)
 
     def convert_to_signature:
 
