@@ -44,6 +44,12 @@ class Signature(object):
 
         return signature_arr
 
+    def to_dict(self):
+        return {
+            "inputs": self._inputs,
+            "predictions": self._predictions
+        }
+
     @property
     def inputs(self):
         """inputs of the model."""
