@@ -92,6 +92,7 @@ class Engine:
 
         self._models_api.put(model_instance, model_query_params)
 
+        zip_out_dir=None
         try:
             zip_out_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
             archive_path = util.zip(zip_out_dir.name, local_model_path)
@@ -99,7 +100,8 @@ class Engine:
         except:
             raise
         finally:
-            zip_out_dir.cleanup()
+            if zip_out_dir is not None:
+                zip_out_dir.cleanup()
 
         extracted_archive_path = dataset_model_version_path + "/" + os.path.basename(archive_path)
 
@@ -111,18 +113,16 @@ class Engine:
 
         for artifact in os.listdir(local_model_path):
             _, file_name = os.path.split(artifact)
-            for i in range(5):
+            for i in range(3):
                 try:
-                    self._dataset_api.move(unzipped_model_dir + "/" + file_name,dataset_model_version_path + "/" + file_name)
+                    self._dataset_api.move(unzipped_model_dir + "/" + file_name, dataset_model_version_path + "/" + file_name)
                 except:
                     time.sleep(1)
                     pass
 
-
         self._dataset_api.rm(unzipped_model_dir)
 
         if await_registration > 0:
-                start_time = time.time()
                 sleep_seconds = 5
                 for i in range(int(await_registration/sleep_seconds)):
                     try:
