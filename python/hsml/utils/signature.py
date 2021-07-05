@@ -31,20 +31,8 @@ class Signature:
 
         self._predictions = self._convert_to_signature(predictions)
 
-    def _convert_to_signature(self, df):
-
-        if df is None:
-            return None
-
-        columns = df.columns
-        datatypes = df.dtypes
-
-        signature_arr = []
-
-        for column in columns:
-            signature_arr.append({column: str(datatypes[column])})
-
-        return signature_arr
+    def _convert_to_signature(self, data):
+        return ModelSignatureSpec(data)
 
     def to_dict(self):
         return {
