@@ -14,12 +14,12 @@
 #   limitations under the License.
 #
 
-class ModelSignature(object):
+class Signature(object):
 
     def __init__(
             self,
-            inputs=None,
-            predictions=None,
+            inputs: Optional[list] = None,
+            predictions: Optional[list] = None
         ):
 
     if inputs is not None:

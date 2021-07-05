@@ -15,7 +15,6 @@
 #
 
 import json
-import shutil
 import humps
 
 from hsml import util

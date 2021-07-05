@@ -18,7 +18,9 @@ import warnings
 import humps
 import numpy
 import pandas
-import datetime
+
+from hsml.utils import Signature
+
 from typing import Optional, Union, List, Dict, TypeVar
 
 from hsml import (
@@ -86,7 +88,7 @@ class ModelRegistry:
         version: Optional[int] = None,
         metrics: Optional[dict] = None,
         description: Optional[str] = None,
-        signature: Optional[str] = None,
+        signature: Optional[Signature] = None,
         input_example: Optional[Union[pandas.core.frame.DataFrame, numpy.ndarray, dict, list]] = None,
         experiment_id: Optional[str] = None
     ):
