@@ -28,11 +28,12 @@ class Signature:
         ):
 
         self._inputs = self._convert_to_signature(inputs)
+
         self._predictions = self._convert_to_signature(predictions)
 
     def _convert_to_signature(self, df):
 
-        is df is None:
+        if df is None:
             return None
 
         columns = df.columns
