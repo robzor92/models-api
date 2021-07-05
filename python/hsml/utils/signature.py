@@ -28,9 +28,8 @@ class Signature(object):
         if predictions is not None:
             self._predictions = convert_to_signature(predictions)
 
-    def convert_to_signature:
-
-        df = pd.DataFrame(data=d)
+    def convert_to_signature(df):
+    
         columns = df.columns
         datatypes = df.dtypes
 
