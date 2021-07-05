@@ -29,14 +29,14 @@ class Signature(object):
             self._predictions = convert_to_signature(predictions)
 
     def convert_to_signature(df):
-    
+
         columns = df.columns
         datatypes = df.dtypes
 
         signature_arr = []
 
         for column in columns:
-            signature_arr.append([{column: datatypes[column]}]
+            signature_arr.append([{column: datatypes[column]}])
 
         return signature_arr
 
