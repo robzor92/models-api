@@ -18,7 +18,8 @@ from typing import Dict, List, Union, Optional
 import numpy
 import pandas
 
-class Signature(object):
+class Signature:
+    """Metadata object representing a model signature for a model."""
 
     def __init__(
             self,
@@ -27,7 +28,7 @@ class Signature(object):
         ):
 
         if inputs is not None:
-            self._input = self._convert_to_signature(inputs)
+            self._inputs = self._convert_to_signature(inputs)
 
         if predictions is not None:
             self._predictions = self._convert_to_signature(predictions)
