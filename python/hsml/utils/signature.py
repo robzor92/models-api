@@ -14,12 +14,16 @@
 #   limitations under the License.
 #
 
+from typing import Dict, List, Union, Optional
+import numpy
+import pandas
+
 class Signature(object):
 
     def __init__(
             self,
-            inputs: Optional[list] = None,
-            predictions: Optional[list] = None
+            inputs: Optional[Union[dict, list, pandas.core.frame.DataFrame, numpy.ndarray]] = None,
+            predictions: Optional[Union[dict, list, pandas.core.frame.DataFrame, numpy.ndarray]] = None
         ):
 
         if inputs is not None:
