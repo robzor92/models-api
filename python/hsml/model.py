@@ -124,7 +124,7 @@ class Model:
             "projectName": self._project_name,
             "experimentProjectName": self._experiment_project_name,
             "name": self._name,
-            "signature.py": self._signature,
+            "signature": self._signature,
             "version": self._version,
             "description": self._description,
             "inputExample": self._input_example,
