@@ -27,13 +27,13 @@ class Signature:
             predictions: Optional[Union[dict, list, pandas.core.frame.DataFrame, numpy.ndarray]] = None
         ):
 
-        if inputs is not None:
-            self._inputs = self._convert_to_signature(inputs)
-
-        if predictions is not None:
-            self._predictions = self._convert_to_signature(predictions)
+        self._inputs = self._convert_to_signature(inputs)
+        self._predictions = self._convert_to_signature(predictions)
 
     def _convert_to_signature(self, df):
+
+        is df is None:
+            return None
 
         columns = df.columns
         datatypes = df.dtypes
