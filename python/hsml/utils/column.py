@@ -14,46 +14,39 @@
 #   limitations under the License.
 #
 
-from typing import Dict, List, Union, Optional
-import numpy
-import pandas
-
-class ColumnarSpec:
+class Column:
     """Metadata object representing a model signature for a model."""
 
     def __init__(
             self,
-            signature_array: None
+            name: None,
+            data_type: None
     ):
 
-        self._columns = self._convert_to_columns(signature_array)
-
-    def _convert_pandas_to_signature(self, data):
-
-        columns = data.columns
-        data_types = data.dtypes
-
-        signature_arr = []
-
-        for column in columns:
-            signature_arr.append({column: data_types[column]})
-
-        columns = []
-        for name in data:
-            columns.append(Column(name=name, dataType=data[name]))
-
-        return columns
+        self._name = name
+        self._data_type = data_type
 
     def to_dict(self):
         return {
-            "columns": self._columns
+            "name": self._name,
+            "dataType": self._data_type
         }
 
     @property
-    def columns(self):
-        """columns of the model."""
-        return self._columns
+    def name(self):
+        """name of the model."""
+        return self._name
 
-    @columns.setter
-    def columns(self, columns):
-        self._icolumns = columns
+    @name.setter
+    def name(self, name):
+        self._name = name
+
+    @property
+    def data_type(self):
+        """data_type of the model."""
+        return self._data_type
+
+    @data_type.setter
+    def data_type(self, data_type):
+        self._data_type = data_type
+

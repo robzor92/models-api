@@ -32,16 +32,7 @@ class ModelSignatureSpec:
             self._tensor_spec = None
 
     def _convert_pandas_to_signature(self, data):
-
-        columns = data.columns
-        data_types = data.dtypes
-
-        signature_arr = []
-
-        for column in columns:
-            signature_arr.append({column: data_types[column]})
-
-        return ModelSignatureSpec(data)
+        return ColumnarSpec(data)
 
     def to_dict(self):
         return {
