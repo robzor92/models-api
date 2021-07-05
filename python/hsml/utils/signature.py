@@ -27,12 +27,12 @@ class Signature(object):
         ):
 
         if inputs is not None:
-            self._input = convert_to_signature(inputs)
+            self._input = self._convert_to_signature(inputs)
 
         if predictions is not None:
-            self._predictions = convert_to_signature(predictions)
+            self._predictions = self._convert_to_signature(predictions)
 
-    def convert_to_signature(df):
+    def _convert_to_signature(self, df):
 
         columns = df.columns
         datatypes = df.dtypes
