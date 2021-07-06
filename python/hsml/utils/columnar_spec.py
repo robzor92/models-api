@@ -24,21 +24,16 @@ class ColumnarSpec:
             pandas_obj: None
     ):
 
-        self._columns = self._convert_to_columns(pandas_obj)
+        self._columns = self._convert_pandas_to_signature(pandas_obj)
 
     def _convert_pandas_to_signature(self, pandas_obj):
 
-        columns = pandas_obj.columns
-        data_types = pandas_obj.dtypes
-
-        signature_arr = []
-
-        for column in columns:
-            signature_arr.append({column: str(data_types[column])})
+        pandas_columns = pandas_obj.columns
+        pandas_data_types = pandas_obj.dtypes
 
         columns = []
-        for name in data:
-            columns.append(Column(name=name, dataType=data[name]))
+        for name in pandas_columns:
+            columns.append(Column(name=name, dataType=pandas_data_types[name]))
 
         return columns
 
@@ -54,4 +49,4 @@ class ColumnarSpec:
 
     @columns.setter
     def columns(self, columns):
-        self._icolumns = columns
+        self._columns = columns
