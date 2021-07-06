@@ -86,6 +86,17 @@ class Engine:
             os.remove(input_example_path)
             model_instance.input_example = dataset_model_version_path + "/input_example.json"
 
+        if model_instance.signature is not None:
+            signature_path = os.getcwd() + "/signature.json"
+            signature = model_instance.signature.json()
+
+            with open(signature_path, 'w+') as out:
+                json.dump(signature, out)
+
+            self._dataset_api.upload(signature_path, dataset_model_version_path)
+            os.remove(signature)
+            model_instance.input_example = dataset_model_version_path + "/signature.json"
+
         self._models_api.put(model_instance, model_query_params)
 
         zip_out_dir=None
