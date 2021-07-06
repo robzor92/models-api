@@ -94,7 +94,7 @@ class Engine:
                 json.dump(signature, out)
 
             self._dataset_api.upload(signature_path, dataset_model_version_path)
-            os.remove(signature)
+            os.remove(signature_path)
             model_instance.input_example = dataset_model_version_path + "/signature.json"
 
         self._models_api.put(model_instance, model_query_params)
