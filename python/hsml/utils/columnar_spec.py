@@ -33,7 +33,7 @@ class ColumnarSpec:
 
         columns = []
         for name in pandas_columns:
-            columns.append(Column(name=name, dataType=pandas_data_types[name]))
+            columns.append(Column(name=name, data_type=str(pandas_data_types[name])))
 
         return columns
 
