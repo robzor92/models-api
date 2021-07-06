@@ -21,15 +21,15 @@ class ColumnarSpec:
 
     def __init__(
             self,
-            signature_array: None
+            pandas_obj: None
     ):
 
-        self._columns = self._convert_to_columns(signature_array)
+        self._columns = self._convert_to_columns(pandas_obj)
 
-    def _convert_pandas_to_signature(self, data):
+    def _convert_pandas_to_signature(self, pandas_obj):
 
-        columns = data.columns
-        data_types = data.dtypes
+        columns = pandas_obj.columns
+        data_types = pandas_obj.dtypes
 
         signature_arr = []
 
