@@ -15,6 +15,8 @@
 #
 
 from typing import Dict, List, Union, Optional
+import json
+from hsml import util
 import numpy
 import pandas
 
@@ -41,6 +43,9 @@ class Signature:
             "inputs": self._inputs,
             "predictions": self._predictions
         }
+
+    def json(self):
+        return json.dumps(self, cls=util.MLEncoder)
 
     @property
     def inputs(self):
