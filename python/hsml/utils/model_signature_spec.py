@@ -27,7 +27,7 @@ class ModelSignatureSpec:
             data: Optional[Union[dict, list, pandas.core.frame.DataFrame, numpy.ndarray]] = None,
     ):
 
-        if isinstance(data, pd.Series) or isinstance(data, pd.DataFrame):
+        if isinstance(data, pd.Series) or isinstance(data, pandas.DataFrame):
             self._columnar_spec = self._convert_pandas_to_signature(data)
         else:
             self._tensor_spec = None
