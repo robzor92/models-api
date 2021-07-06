@@ -18,6 +18,8 @@ from typing import Dict, List, Union, Optional
 import numpy
 import pandas
 
+from hsml.utils.model_signature_spec import ModelSignatureSpec
+
 class Signature:
     """Metadata object representing a model signature for a model."""
 
