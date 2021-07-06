@@ -17,7 +17,7 @@
 from typing import Dict, List, Union, Optional
 from hsml.utils.columnar_spec import ColumnarSpec
 import numpy
-import pandas
+import pandas as pd
 
 class ModelSignatureSpec:
     """Metadata object representing a model signature for a model."""
@@ -27,7 +27,7 @@ class ModelSignatureSpec:
             data: Optional[Union[dict, list, pandas.core.frame.DataFrame, numpy.ndarray]] = None,
     ):
 
-        if isinstance(data, pd.Series) or isinstance(data, pandas.DataFrame):
+        if isinstance(data, pd.Series) or isinstance(data, pd.DataFrame):
             self._columnar_spec = self._convert_pandas_to_signature(data)
         else:
             self._tensor_spec = None

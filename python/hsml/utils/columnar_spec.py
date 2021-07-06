@@ -34,7 +34,7 @@ class ColumnarSpec:
         signature_arr = []
 
         for column in columns:
-            signature_arr.append({column: data_types[column]})
+            signature_arr.append({column: str(data_types[column])})
 
         columns = []
         for name in data:
