@@ -16,6 +16,7 @@
 
 from typing import Dict, List, Union, Optional
 from hsml.utils.columnar_spec import ColumnarSpec
+from hsml.utils.tensor_spec import TensorSpec
 import numpy
 import pandas
 
@@ -28,14 +29,17 @@ class ModelSignatureSpec:
     ):
 
         if isinstance(data, pandas.Series) or isinstance(data, pandas.DataFrame):
-            self._columnar_spec = self._convert_pandas_to_signature(data)
+            self._columnar_spec = self._convert_columnar_to_signature(data)
             self._tensor_spec = None
         else:
             self._tensor_spec = None
 
 
-    def _convert_pandas_to_signature(self, data):
+    def _convert_columnar_to_signature(self, data):
         return ColumnarSpec(data)
+
+    def _convert_tensor_to_signature(self, data):
+        return TensorSpec(data)
 
     def to_dict(self):
         return {

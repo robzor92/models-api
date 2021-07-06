@@ -15,6 +15,7 @@
 #
 
 from hsml.utils.column import Column
+import pandas
 
 class ColumnarSpec:
     """Metadata object representing a model signature for a model."""
@@ -26,16 +27,21 @@ class ColumnarSpec:
 
         self._columns = self._convert_pandas_to_signature(pandas_obj)
 
-    def _convert_pandas_to_signature(self, pandas_obj):
-
-        pandas_columns = pandas_obj.columns
-        pandas_data_types = pandas_obj.dtypes
-
+    def _convert_pandas_to_signature(self, columnar_obj):
         columns = []
-        for name in pandas_columns:
-            columns.append(Column(name=name, data_type=str(pandas_data_types[name])))
-
+        if isinstance(columnar_obj, pandas.DataFrame):
+            pandas_columns = columnar_obj.columns
+            pandas_data_types = columnar_obj.dtypes
+            columns = []
+            for name in pandas_columns:
+                columns.append(Column(name=name, data_type=str(pandas_data_types[name])))
+        elif isinstance(columnar_obj, pandas.Series):
+            columns.append(Column(name='series', data_type=columnar_obj.dtypes))
         return columns
+
+    def _convert_spark_to_signature(self, spark_df):
+        pass
+        #TODO implement Spark DF to signature
 
     def to_dict(self):
         return {
