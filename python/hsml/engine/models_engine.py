@@ -124,9 +124,13 @@ class Engine:
                     try:
                         time.sleep(sleep_seconds)
                         print("Polling " + model_instance.name + " version " + str(model_instance.version) + " for model availability.")
-                        print(model_instance.name + " not ready yet, retrying in " + str(sleep_seconds) + " seconds.")
-                        return self._models_api.get(name=model_instance.name, version=model_instance.version)
-                    except ModelNotFound:
+                        model = self._models_api.get(name=model_instance.name, version=model_instance.version)
+                        if model is None:
+                            print(model_instance.name + " not ready yet, retrying in " + str(sleep_seconds) + " seconds.")
+                        else:
+                            print("Model is now registered.")
+                            return model
+                    except RestAPIError:
                         pass
                 print("Model not available during polling, set a higher value for await_registration to wait longer.")
 
