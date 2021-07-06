@@ -15,6 +15,7 @@
 #
 
 from typing import Dict, List, Union, Optional
+from hsml.utils.columnar_spec import ColumnarSpec
 import numpy
 import pandas
 

@@ -14,9 +14,7 @@
 #   limitations under the License.
 #
 
-from typing import Dict, List, Union, Optional
-import numpy
-import pandas
+from hsml.utils.column import Column
 
 class ColumnarSpec:
     """Metadata object representing a model signature for a model."""
