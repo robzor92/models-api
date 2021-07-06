@@ -155,15 +155,28 @@ class Engine:
             os.remove(zip_path)
             return model_version_path
 
-    def read_input_example(self, model_instance, input_example_path):
+    def read_input_example(self, model_instance):
         try:
             tmp_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
-            self._dataset_api.download(input_example_path, tmp_dir.name + '/inputs.json')
+            self._dataset_api.download(model_instance._input_example, tmp_dir.name + '/inputs.json')
             with open(tmp_dir.name + '/inputs.json', 'rb') as f:
                 return json.loads(f.read())
         finally:
             if tmp_dir is not None and os.path.exists(tmp_dir.name):
                 tmp_dir.cleanup()
+
+    def read_signature(self, model_instance):
+        try:
+            tmp_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
+            self._dataset_api.download(model_instance._signature, tmp_dir.name + '/signature.json')
+            with open(tmp_dir.name + '/inputs.json', 'rb') as f:
+                return json.loads(f.read())
+        finally:
+            if tmp_dir is not None and os.path.exists(tmp_dir.name):
+                tmp_dir.cleanup()
+
+
+
 
 
 

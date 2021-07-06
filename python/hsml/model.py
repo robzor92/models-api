@@ -234,7 +234,7 @@ class Model:
     def input_example(self):
         """input_example of the model."""
         if self._input_example is not None and isinstance(self._input_example, str):
-            self._input_example = self._models_engine.read_input_example(self, self._input_example)
+            self._input_example = self._models_engine.read_input_example(self)
         return self._input_example
 
     @input_example.setter
@@ -243,7 +243,9 @@ class Model:
 
     @property
     def signature(self):
-        """signature.py of the model."""
+        """signature of the model."""
+        if self._signature is not None and isinstance(self._signature, str):
+            self._signature = self._models_engine.read_signature(self)
         return self._signature
 
     @signature.setter
