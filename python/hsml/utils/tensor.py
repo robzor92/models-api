@@ -14,7 +14,7 @@
 #   limitations under the License.
 #
 
-class Column:
+class Tensor:
     """Metadata object representing a model signature for a model."""
 
     def __init__(

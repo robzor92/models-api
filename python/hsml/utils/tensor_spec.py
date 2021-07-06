@@ -30,7 +30,7 @@ class TensorSpec:
         self._shape = shape
 
     def _get_tensor_spec(self, tensor_obj):
-        pass
+        return 1, 2
 
     def to_dict(self):
         return {
