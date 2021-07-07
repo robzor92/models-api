@@ -42,9 +42,9 @@ class ModelSignatureSpec:
 
     def to_dict(self):
         sig_dict = {}
-        if self._columnar_spec is not None:
+        if hasattr(self, "columnarSpec"):
             sig_dict["columnarSpec"] = self._columnar_spec
-        if self._tensor_spec is not None:
+        if hasattr(self, "tensorSpec"):
             sig_dict["tensorSpec"] = self._tensor_spec
         return sig_dict
 
