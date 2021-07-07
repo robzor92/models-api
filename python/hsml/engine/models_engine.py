@@ -180,7 +180,7 @@ class Engine:
         try:
             tmp_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
             self._dataset_api.download(model_instance._signature, tmp_dir.name + '/signature.json')
-            with open(tmp_dir.name + '/inputs.json', 'rb') as f:
+            with open(tmp_dir.name + '/signature.json', 'rb') as f:
                 return json.loads(f.read())
         finally:
             if tmp_dir is not None and os.path.exists(tmp_dir.name):
