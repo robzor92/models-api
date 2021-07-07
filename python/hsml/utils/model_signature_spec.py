@@ -30,7 +30,6 @@ class ModelSignatureSpec:
 
         if isinstance(data, pandas.Series) or isinstance(data, pandas.DataFrame):
             self._columnar_spec = self._convert_columnar_to_signature(data)
-            self._tensor_spec = None
         else:
             self._tensor_spec = None
 
@@ -42,10 +41,12 @@ class ModelSignatureSpec:
         return TensorSpec(data)
 
     def to_dict(self):
-        return {
-            "columnarSpec": self._columnar_spec,
-            "tensorSpec": self._tensor_spec
-        }
+        sig_dict = {}
+        if self._columnar_spec is not None:
+            sig_dict["columnarSpec"] = self._columnar_spec
+        if self._tensor_spec is not None:
+            sig_dict["tensorSpec"] = self._tensor_spec
+        return sig_dict
 
     @property
     def columnar_spec(self):
