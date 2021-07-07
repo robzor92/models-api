@@ -32,7 +32,6 @@ class Signature:
         ):
 
         self._inputs = self._convert_to_signature(inputs)
-
         self._predictions = self._convert_to_signature(predictions)
 
     def _convert_to_signature(self, data):
@@ -46,6 +45,13 @@ class Signature:
 
     def json(self):
         return json.dumps(self, cls=util.MLEncoder)
+
+    def update_from_response_json(self, json_dict):
+        json_decamelized = humps.decamelize(json_dict)
+        _ = json_decamelized.pop("type")
+        # here we lose the information that the user set, e.g. write_options
+        self.__init__(**json_decamelized)
+        return self
 
     @property
     def inputs(self):
