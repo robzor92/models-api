@@ -37,6 +37,7 @@ class ColumnarSpec:
                 columns.append(Column(name=name, data_type=str(pandas_data_types[name])))
         elif isinstance(columnar_obj, pandas.Series):
             columns.append(Column(name='series', data_type=str(columnar_obj.dtypes)))
+        print(len(columns))
         return columns
 
     def _convert_spark_to_signature(self, spark_df):
