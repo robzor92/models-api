@@ -14,11 +14,8 @@
 #   limitations under the License.
 #
 
-import json
 import shutil
-import os
 import datetime
-import tempfile
 
 from typing import Union
 import numpy as np
@@ -117,23 +114,6 @@ def _handle_dataframe_input(input_ex):
             input_ex = pd.DataFrame([input_ex], columns=range(len(input_ex)))
         else:
             input_ex = pd.DataFrame(input_ex)
-    elif not isinstance(input_ex, pd.DataFrame):
-        try:
-            import pyspark.sql.dataframe
-
-            if isinstance(input_example, pyspark.sql.dataframe.DataFrame):
-                raise Exception(
-                    "Examples can not be provided as Spark Dataframe. "
-                    "Please make sure your example is of a small size and "
-                    "turn it into a pandas DataFrame."
-                )
-        except ImportError:
-            pass
-        raise TypeError(
-            "Unexpected type of input_example. Expected one of "
-            "(pandas.DataFrame, numpy.ndarray, dict, list), "
-            "got {}".format(type(input_example))
-        )
     result = input_ex.to_dict(orient="split")
     # Do not include row index
     del result["index"]
