@@ -91,6 +91,8 @@ class Engine:
             signature = json.load(model_instance.signature.json())
 
             with open(signature_path, 'w+') as out:
+                print("siggy")
+                print(signature)
                 json.dump(signature, out)
 
             self._dataset_api.upload(signature_path, dataset_model_version_path)
