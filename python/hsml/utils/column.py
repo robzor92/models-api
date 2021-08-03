@@ -23,30 +23,30 @@ class Column:
             data_type: None
     ):
 
-        self._name = name
-        self._data_type = data_type
+        self.name = name
+        self.data_type = data_type
 
     def to_dict(self):
         return {
-            "name": self._name,
-            "dataType": self._data_type
+            "name": self.name,
+            "dataType": self.data_type
         }
 
     @property
     def name(self):
         """name of the model."""
-        return self._name
+        return self.name
 
     @name.setter
     def name(self, name):
-        self._name = name
+        self.name = name
 
     @property
     def data_type(self):
         """data_type of the model."""
-        return self._data_type
+        return self.data_type
 
     @data_type.setter
     def data_type(self, data_type):
-        self._data_type = data_type
+        self.data_type = data_type
 

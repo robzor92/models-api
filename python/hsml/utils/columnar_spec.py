@@ -25,7 +25,7 @@ class ColumnarSpec:
             pandas_obj: None
     ):
 
-        self._columns = self._convert_pandas_to_signature(pandas_obj)
+        self.columns = self._convert_pandas_to_signature(pandas_obj)
 
     def _convert_pandas_to_signature(self, columnar_obj):
         columns = []
@@ -46,14 +46,14 @@ class ColumnarSpec:
 
     def to_dict(self):
         return {
-            "columns": self._columns
+            "columns": self.columns
         }
 
     @property
     def columns(self):
         """columns of the model."""
-        return self._columns
+        return self.columns
 
     @columns.setter
     def columns(self, columns):
-        self._columns = columns
+        self.columns = columns

@@ -31,16 +31,16 @@ class Signature:
             predictions: Optional[Union[dict, list, pandas.core.frame.DataFrame, numpy.ndarray]] = None
         ):
 
-        self._inputs = self._convert_to_signature(inputs)
-        self._predictions = self._convert_to_signature(predictions)
+        self.inputs = self._convert_to_signature(inputs)
+        self.predictions = self._convert_to_signature(predictions)
 
     def _convert_to_signature(self, data):
         return ModelSignatureSpec(data)
 
     def to_dict(self):
         return {
-            "inputs": self._inputs,
-            "predictions": self._predictions
+            "inputs": self.inputs,
+            "predictions": self.predictions
         }
 
     def json(self):
@@ -48,26 +48,24 @@ class Signature:
 
     def update_from_response_json(self, json_dict):
         json_decamelized = humps.decamelize(json_dict)
-        _ = json_decamelized.pop("type")
-        # here we lose the information that the user set, e.g. write_options
         self.__init__(**json_decamelized)
         return self
 
     @property
     def inputs(self):
         """inputs of the model."""
-        return self._inputs
+        return self.inputs
 
     @inputs.setter
     def inputs(self, inputs):
-        self._inputs = inputs
+        self.inputs = inputs
 
     @property
     def predictions(self):
         """predictions of the model."""
-        return self._predictions
+        return self.predictions
 
     @predictions.setter
     def predictions(self, predictions):
-        self._predictions = predictions
+        self.predictions = predictions
 
