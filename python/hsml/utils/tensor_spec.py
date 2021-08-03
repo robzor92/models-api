@@ -37,22 +37,3 @@ class TensorSpec:
             "shape": self._shape,
             "dataType": self._data_type
         }
-
-    @property
-    def shape(self):
-        """shape of the model."""
-        return self._shape
-
-    @shape.setter
-    def shape(self, shape):
-        self._shape = shape
-
-    @property
-    def data_type(self):
-        """data_type of the model."""
-        return self._data_type
-
-    @data_type.setter
-    def data_type(self, data_type):
-        self._data_type = data_type
-

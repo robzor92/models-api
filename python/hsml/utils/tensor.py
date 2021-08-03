@@ -31,22 +31,3 @@ class Tensor:
             "name": self._name,
             "dataType": self._data_type
         }
-
-    @property
-    def name(self):
-        """name of the model."""
-        return self._name
-
-    @name.setter
-    def name(self, name):
-        self._name = name
-
-    @property
-    def data_type(self):
-        """data_type of the model."""
-        return self._data_type
-
-    @data_type.setter
-    def data_type(self, data_type):
-        self._data_type = data_type
-

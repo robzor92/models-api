@@ -48,12 +48,3 @@ class ColumnarSpec:
         return {
             "columns": self.columns
         }
-
-    @property
-    def columns(self):
-        """columns of the model."""
-        return self.columns
-
-    @columns.setter
-    def columns(self, columns):
-        self.columns = columns

@@ -43,26 +43,7 @@ class ModelSignatureSpec:
     def to_dict(self):
         sig_dict = {}
         if hasattr(self, "columnarSpec"):
-            sig_dict["columnarSpec"] = self._columnar_spec
+            sig_dict["columnarSpec"] = self.columnar_spec
         if hasattr(self, "tensorSpec"):
-            sig_dict["tensorSpec"] = self._tensor_spec
+            sig_dict["tensorSpec"] = self.tensor_spec
         return sig_dict
-
-    @property
-    def columnar_spec(self):
-        """columnar_spec of the model."""
-        return self._columnar_spec
-
-    @columnar_spec.setter
-    def columnar_spec(self, columnar_spec):
-        self._columnar_spec = columnar_spec
-
-    @property
-    def tensor_spec(self):
-        """tensor_spec of the model."""
-        return self._tensor_spec
-
-    @tensor_spec.setter
-    def tensor_spec(self, tensor_spec):
-        self._tensor_spec = tensor_spec
-

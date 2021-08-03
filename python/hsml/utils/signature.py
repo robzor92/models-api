@@ -50,22 +50,3 @@ class Signature:
         json_decamelized = humps.decamelize(json_dict)
         self.__init__(**json_decamelized)
         return self
-
-    @property
-    def inputs(self):
-        """inputs of the model."""
-        return self.inputs
-
-    @inputs.setter
-    def inputs(self, inputs):
-        self.inputs = inputs
-
-    @property
-    def predictions(self):
-        """predictions of the model."""
-        return self.predictions
-
-    @predictions.setter
-    def predictions(self, predictions):
-        self.predictions = predictions
-
