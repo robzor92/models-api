@@ -36,17 +36,3 @@ class Signature:
 
     def _convert_to_signature(self, data):
         return ModelSignatureSpec(data)
-
-    def to_dict(self):
-        return {
-            "inputs": self.inputs,
-            "predictions": self.predictions
-        }
-
-    def json(self):
-        return json.dumps(self, cls=util.MLEncoder)
-
-    def update_from_response_json(self, json_dict):
-        json_decamelized = humps.decamelize(json_dict)
-        self.__init__(**json_decamelized)
-        return self
