@@ -33,9 +33,8 @@ class Engine:
 
     def save(self, model_instance, local_model_path, await_registration=480):
         dataset_model_path = "Models/" + model_instance._name
-        try:
-            self._dataset_api.get(dataset_model_path)
-        except RestAPIError:
+        model_name_path_exists = self._dataset_api.path_exists(dataset_model_path)
+        if not model_name_path_exists:
             self._dataset_api.mkdir(dataset_model_path)
 
         if model_instance._version is None:
@@ -51,14 +50,11 @@ class Engine:
             model_instance._version = current_highest_version + 1
 
         dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
-        model_version_dir_already_exists = False
-        try:
-            self._dataset_api.get(dataset_model_version_path)
-            model_version_dir_already_exists = True
-        except RestAPIError:
-            self._dataset_api.mkdir(dataset_model_version_path)
 
-        if model_version_dir_already_exists:
+        model_version_dir_exists = self._dataset_api.path_exists(dataset_model_version_path)
+        if not model_version_dir_exists:
+            self._dataset_api.mkdir(dataset_model_version_path)
+        else:
             raise RestAPIError("A model named {} with version {} already exists".format(model_instance._name, model_instance._version))
 
         model_query_params = {}

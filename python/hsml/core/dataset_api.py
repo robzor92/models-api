@@ -99,7 +99,7 @@ class DatasetApi:
     def get(self, remote_path):
         """Save model metadata to the model registry.
 
-        :param model_instance: metadata object of feature group to be saved
+        :param remote_path: metadata object of feature group to be saved
         :type model_instance: Model
         :return: updated metadata object of the model
         :rtype: Model
@@ -117,6 +117,21 @@ class DatasetApi:
                 path_params,
                 headers=headers
             )
+
+
+    def path_exists(remote_path):
+        """Save model metadata to the model registry.
+
+        :param remote_path: metadata object of feature group to be saved
+        :type model_instance: Model
+        :return: updated metadata object of the model
+        :rtype: Model
+        """
+        try:
+            get(remote_path)
+            return True
+        except RestAPIError:
+            return False
 
     def list(self, remote_path):
         """Save model metadata to the model registry.
