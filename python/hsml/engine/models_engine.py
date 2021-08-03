@@ -86,14 +86,14 @@ class Engine:
             signature_path = os.getcwd() + "/signature.json"
             signature = model_instance.signature
 
-            with open(signature_path, 'w+') as out:
-                print("siggy")
-                print(signature)
-                json.dump(signature, out)
+            #with open(signature_path, 'w+') as out:
+            #    print("siggy")
+            #    print(signature)
+            #    json.dump(signature, out)
 
-            self._dataset_api.upload(signature_path, dataset_model_version_path)
-            os.remove(signature_path)
-            model_instance.signature = dataset_model_version_path + "/signature.json"
+            #self._dataset_api.upload(signature_path, dataset_model_version_path)
+            #os.remove(signature_path)
+            #model_instance.signature = dataset_model_version_path + "/signature.json"
 
         self._models_api.put(model_instance, model_query_params)
 
