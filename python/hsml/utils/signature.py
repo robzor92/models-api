@@ -36,3 +36,6 @@ class Signature:
 
     def _convert_to_signature(self, data):
         return ModelSignatureSpec(data)
+        
+    def json():
+        json.dumps(self, default=lambda o: getattr(o, '__dict__', o))
