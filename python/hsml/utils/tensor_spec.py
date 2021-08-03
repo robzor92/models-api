@@ -24,16 +24,18 @@ class TensorSpec:
             self,
             tensor_obj: None
     ):
-        data_type, shape = self._get_tensor_spec(tensor_obj)
 
-        self._data_type = data_type
-        self._shape = shape
+        self.columns = self._convert_pandas_to_signature(tensor_obj)
 
-    def _get_tensor_spec(self, tensor_obj):
-        return 1, 2
-
-    def to_dict(self):
-        return {
-            "shape": self._shape,
-            "dataType": self._data_type
-        }
+    def _convert_tensor_to_signature(self, columnar_obj):
+        columns = []
+        if isinstance(columnar_obj, pandas.DataFrame):
+            pandas_columns = columnar_obj.columns
+            pandas_data_types = columnar_obj.dtypes
+            columns = []
+            for name in pandas_columns:
+                columns.append(Column(name=name, data_type=str(pandas_data_types[name])))
+        elif isinstance(columnar_obj, pandas.Series):
+            columns.append(Column(name='series', data_type=str(columnar_obj.dtypes)))
+        print(len(columns))
+        return columns

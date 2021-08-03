@@ -29,9 +29,9 @@ class ModelSignatureSpec:
     ):
 
         if isinstance(data, pandas.Series) or isinstance(data, pandas.DataFrame):
-            self._columnar_spec = self._convert_columnar_to_signature(data)
+            self.columnar_spec = self._convert_columnar_to_signature(data)
         else:
-            self.tensor_spec = None
+            self.tensor_spec = self._convert_tensor_to_signature(data)
 
 
     def _convert_columnar_to_signature(self, data):

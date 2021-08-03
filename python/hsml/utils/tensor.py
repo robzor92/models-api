@@ -23,8 +23,8 @@ class Tensor:
             data_type: None
     ):
 
-        self._name = name
-        self._data_type = data_type
+        self.name = name
+        self.data_type = data_type
 
     def to_dict(self):
         return {
