@@ -88,7 +88,7 @@ class Engine:
 
         if model_instance.signature is not None:
             signature_path = os.getcwd() + "/signature.json"
-            signature = json.load(model_instance.signature.json())
+            signature = model_instance.signature
 
             with open(signature_path, 'w+') as out:
                 print("siggy")
