@@ -16,7 +16,7 @@
 
 import math
 import os
-import shutil
+from hsml.client.exceptions import RestAPIError
 import time
 
 from hsml import client, util
@@ -119,7 +119,7 @@ class DatasetApi:
             )
 
 
-    def path_exists(remote_path):
+    def path_exists(self, remote_path):
         """Save model metadata to the model registry.
 
         :param remote_path: metadata object of feature group to be saved
@@ -128,7 +128,7 @@ class DatasetApi:
         :rtype: Model
         """
         try:
-            get(remote_path)
+            self.get(remote_path)
             return True
         except RestAPIError:
             return False
