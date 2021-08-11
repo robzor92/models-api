@@ -27,4 +27,4 @@ class TensorSignature:
         self.tensor = self._convert_tensor_to_signature(tensor_obj)
 
     def _convert_tensor_to_signature(self, tensor_obj):
-        Tensor(shape=tensor_obj.shape, data_type=tensor_obj.dtype)
+        Tensor(shape=tensor_obj.shape, data_type=str(tensor_obj.dtype))
