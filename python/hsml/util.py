@@ -107,7 +107,7 @@ def _handle_dataframe_input(input_ex):
     elif isinstance(input_ex, list):
         for i, x in enumerate(input_ex):
             if isinstance(x, np.ndarray) and len(x.shape) > 1:
-                raise TensorsNotSupportedException(
+                raise AssertionError(
                     "Row '{0}' has shape {1}".format(i, x.shape)
                 )
         if all([_is_numpy_scalar(x) for x in input_ex]):
