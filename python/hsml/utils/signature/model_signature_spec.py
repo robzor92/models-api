@@ -32,6 +32,8 @@ class ModelSignatureSpec:
             self.columnar_signature = self._convert_columnar_to_signature(data)
         elif isinstance(data, numpy.ndarray):
             self.tensor_signature = self._convert_tensor_to_signature(data)
+        else:
+            raise TypeError("{} is not a supported signature".format(type(data)))
 
     def _convert_columnar_to_signature(self, data):
         return ColumnarSignature(data)

@@ -21,10 +21,10 @@ class TensorSignature:
 
     def __init__(
             self,
-            tensor_obj: Optional[Union[dict, list, numpy.ndarray]] = None
+            numpy_obj: Optional[Union[numpy.ndarray]] = None
     ):
 
-        self.tensor = self._convert_tensor_to_signature(tensor_obj)
+        self.tensor = self._convert_tensor_to_signature(numpy_obj)
 
     def _convert_tensor_to_signature(self, tensor_obj):
-        Tensor(shape=tensor_obj.shape, data_type=str(tensor_obj.dtype))
+        return Tensor(shape=tensor_obj.shape, data_type=str(tensor_obj.dtype))

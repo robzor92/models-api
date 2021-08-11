@@ -41,7 +41,7 @@ class UnknownSecretStorageError(Exception):
     """This exception will be raised if an unused secrets storage is passed as a parameter."""
 
 
-class FeatureStoreException(Exception):
+class ModelRegistryException(Exception):
     """Generic feature store exception"""
 
 
