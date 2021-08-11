@@ -14,7 +14,7 @@
 #   limitations under the License.
 #
 
-from hsml.utils.tensor import Tensor
+from hsml.utils.signature.tensor import Tensor
 
 class TensorSignature:
     """Metadata object representing a tensor signature for a model."""

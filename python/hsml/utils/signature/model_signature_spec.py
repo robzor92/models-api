@@ -15,8 +15,8 @@
 #
 
 from typing import Dict, List, Union, Optional
-from hsml.utils.columnar_spec import ColumnarSignature
-from hsml.utils.tensor_spec import TensorSignature
+from hsml.utils.signature.columnar_spec import ColumnarSignature
+from hsml.utils.signature.tensor_spec import TensorSignature
 import numpy
 import pandas
 
