@@ -15,6 +15,7 @@
 #
 
 from hsml.utils.tensor import Tensor
+from typing import Dict, List, Union, Optional
 
 class TensorSignature:
     """Metadata object representing a tensor signature for a model."""

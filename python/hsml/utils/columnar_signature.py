@@ -15,6 +15,7 @@
 #
 
 from hsml.utils.column import Column
+from typing import Dict, List, Union, Optional
 import pandas
 
 class ColumnarSignature:
