@@ -14,20 +14,20 @@
 #   limitations under the License.
 #
 
-from hsml.utils.tensor import Tensor
-import numpy
+from hsml.utils.column import Column
+import pandas
 
-class TensorSpec:
-    """Metadata object representing a model signature for a model."""
+class ColumnarSignature:
+    """Metadata object representing a columnar signature for a model."""
 
     def __init__(
             self,
-            tensor_obj: None
+            pandas_obj: Optional[Union[dict, list, pandas.core.frame.DataFrame]] = None
     ):
 
-        self.columns = self._convert_pandas_to_signature(tensor_obj)
+        self.columns = self._convert_pandas_to_signature(pandas_obj)
 
-    def _convert_tensor_to_signature(self, columnar_obj):
+    def _convert_pandas_to_signature(self, columnar_obj):
         columns = []
         if isinstance(columnar_obj, pandas.DataFrame):
             pandas_columns = columnar_obj.columns
@@ -39,3 +39,12 @@ class TensorSpec:
             columns.append(Column(name='series', data_type=str(columnar_obj.dtypes)))
         print(len(columns))
         return columns
+
+    def _convert_spark_to_signature(self, spark_df):
+        pass
+        #TODO implement Spark DF to signature
+
+    def to_dict(self):
+        return {
+            "columns": self.columns
+        }

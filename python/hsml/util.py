@@ -58,14 +58,14 @@ class NumpyEncoder(JSONEncoder):
             else:
                 return obj.tolist(), True
 
-        if isinstance(obj, np.generic):
-            return obj.item(), True
-        if isinstance(obj, np.datetime64):
-            return np.datetime_as_string(obj), True
         if isinstance(obj, (pd.Timestamp, datetime.date)):
             return obj.isoformat(), True
         if isinstance(obj, bytes) or isinstance(obj, bytearray):
             return encode_binary(obj), True
+        if isinstance(obj, np.generic):
+            return obj.item(), True
+        if isinstance(obj, np.datetime64):
+            return np.datetime_as_string(obj), True
         return obj, False
 
     def default(self, obj):  # pylint: disable=E0202
@@ -115,11 +115,7 @@ def _handle_dataframe_input(input_ex):
         else:
             input_ex = pd.DataFrame(input_ex)
     result = input_ex.to_dict(orient="split")
-    # Do not include row index
     del result["index"]
-    if all(input_ex.columns == range(len(input_ex.columns))):
-        # No need to write default column index out
-        del result["columns"]
     return result
 
 def zip(zip_file_path, dir_to_zip_path):

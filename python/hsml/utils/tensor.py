@@ -19,15 +19,15 @@ class Tensor:
 
     def __init__(
             self,
-            name: None,
-            data_type: None
+            data_type: None,
+            shape: None
     ):
 
-        self.name = name
         self.data_type = data_type
+        self.shape = shape
 
     def to_dict(self):
         return {
-            "name": self._name,
-            "dataType": self._data_type
+            "shape": self.shape,
+            "dataType": self.data_type
         }

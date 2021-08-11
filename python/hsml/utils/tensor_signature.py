@@ -14,28 +14,17 @@
 #   limitations under the License.
 #
 
-from typing import Dict, List, Union, Optional
-import json
-from hsml import util
-import numpy
-import pandas
+from hsml.utils.tensor import Tensor
 
-from hsml.utils.model_signature_spec import ModelSignatureSpec
-
-class Signature:
-    """Metadata object representing a model signature for a model."""
+class TensorSignature:
+    """Metadata object representing a tensor signature for a model."""
 
     def __init__(
             self,
-            inputs=None
-            predictions=None
-        ):
+            tensor_obj: Optional[Union[dict, list, numpy.ndarray]] = None
+    ):
 
-        self.inputs = self._convert_to_signature(inputs)
-        self.predictions = self._convert_to_signature(predictions)
+        self.tensor = self._convert_tensor_to_signature(tensor_obj)
 
-    def _convert_to_signature(self, data):
-        return ModelSignatureSpec(data)
-
-    def json(self):
-        return json.dumps(self, default=lambda o: getattr(o, '__dict__', o))
+    def _convert_tensor_to_signature(self, tensor_obj):
+        Tensor(shape=tensor_obj.shape, data_type=tensor_obj.dtype)

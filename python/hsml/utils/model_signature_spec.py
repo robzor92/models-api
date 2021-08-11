@@ -15,8 +15,8 @@
 #
 
 from typing import Dict, List, Union, Optional
-from hsml.utils.columnar_spec import ColumnarSpec
-from hsml.utils.tensor_spec import TensorSpec
+from hsml.utils.columnar_spec import ColumnarSignature
+from hsml.utils.tensor_spec import TensorSignature
 import numpy
 import pandas
 
@@ -25,25 +25,24 @@ class ModelSignatureSpec:
 
     def __init__(
             self,
-            data: Optional[Union[dict, list, pandas.core.frame.DataFrame, numpy.ndarray]] = None,
+            data=None
     ):
 
         if isinstance(data, pandas.Series) or isinstance(data, pandas.DataFrame):
-            self.columnar_spec = self._convert_columnar_to_signature(data)
-        else:
-            self.tensor_spec = self._convert_tensor_to_signature(data)
-
+            self.columnar_signature = self._convert_columnar_to_signature(data)
+        elif isinstance(data, numpy.ndarray):
+            self.tensor_signature = self._convert_tensor_to_signature(data)
 
     def _convert_columnar_to_signature(self, data):
-        return ColumnarSpec(data)
+        return ColumnarSignature(data)
 
     def _convert_tensor_to_signature(self, data):
-        return TensorSpec(data)
+        return TensorSignature(data)
 
     def to_dict(self):
         sig_dict = {}
-        if hasattr(self, "columnarSpec"):
-            sig_dict["columnarSpec"] = self.columnar_spec
-        if hasattr(self, "tensorSpec"):
-            sig_dict["tensorSpec"] = self.tensor_spec
+        if hasattr(self, "columnarSignature"):
+            sig_dict["columnarSignature"] = self.columnar_signature
+        if hasattr(self, "tensorSignature"):
+            sig_dict["tensorSignature"] = self.tensor_signature
         return sig_dict
