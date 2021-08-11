@@ -39,7 +39,7 @@ class Engine:
 
         if model_instance._version is None:
             current_highest_version = 0
-            for item in self._dataset_api.list(dataset_model_path)['items']:
+            for item in self._dataset_api.list(dataset_model_path, "NAME:desc")['items']:
                 _, file_name = os.path.split(item['attributes']['path'])
                 try:
                     current_version = int(file_name)

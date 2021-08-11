@@ -132,8 +132,7 @@ class DatasetApi:
             return True
         except RestAPIError:
             return False
-
-    def list(self, remote_path):
+    def list(self, remote_path, sort_by=None, limit=1000):
         """Save model metadata to the model registry.
 
         :param model_instance: metadata object of feature group to be saved
@@ -148,7 +147,7 @@ class DatasetApi:
             "dataset",
             remote_path
         ]
-        query_params = {'action': 'listing'}
+        query_params = {'action': 'listing', 'sort_by': sort_by, 'limit': limit}
         headers = {"content-type": "application/json"}
         return _client._send_request(
                 "GET",
