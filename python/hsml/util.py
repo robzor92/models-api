@@ -97,26 +97,14 @@ def input_example_to_json(input_example):
         return _handle_dataframe_input(input_example)
 
 def _handle_dataframe_input(input_ex):
-    if isinstance(input_ex, dict):
-        if all([_is_numpy_scalar(x) for x in input_ex.values()]):
-            input_ex = pd.DataFrame([input_ex])
-        else:
-            raise TypeError(
-                "Data in the dictionary must be scalar or of type numpy.ndarray"
-            )
-    elif isinstance(input_ex, list):
-        for i, x in enumerate(input_ex):
-            if isinstance(x, np.ndarray) and len(x.shape) > 1:
-                raise AssertionError(
-                    "Row '{0}' has shape {1}".format(i, x.shape)
-                )
-        if all([_is_numpy_scalar(x) for x in input_ex]):
-            input_ex = pd.DataFrame([input_ex], columns=range(len(input_ex)))
-        else:
-            input_ex = pd.DataFrame(input_ex)
-    result = input_ex.to_dict(orient="split")
-    del result["index"]
-    return result
+    if isinstance(input_ex, pd.DataFrame):
+        result = input_ex.to_dict(orient="split")
+        del result["index"]
+        return result
+    elif isinstance(input_ex, pd.Series):
+        return input_ex.to_dict()
+    else:
+        raise AssertionError
 
 def zip(zip_file_path, dir_to_zip_path):
     return shutil.make_archive(zip_file_path + "/archive", 'zip', dir_to_zip_path)
