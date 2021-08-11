@@ -14,7 +14,7 @@
 #   limitations under the License.
 #
 
-from hsml.utils.model.column import Column
+from hsml.utils.column import Column
 import pandas
 
 class ColumnarSignature:

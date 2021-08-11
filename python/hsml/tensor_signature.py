@@ -13,3 +13,18 @@
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 #
+
+from hsml.utils.tensor import Tensor
+
+class TensorSignature:
+    """Metadata object representing a tensor signature for a model."""
+
+    def __init__(
+            self,
+            numpy_obj: Optional[Union[numpy.ndarray]] = None
+    ):
+
+        self.tensor = self._convert_tensor_to_signature(numpy_obj)
+
+    def _convert_tensor_to_signature(self, tensor_obj):
+        return Tensor(shape=tensor_obj.shape, data_type=str(tensor_obj.dtype))
