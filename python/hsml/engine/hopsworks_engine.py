@@ -15,7 +15,6 @@
 #
 
 from hsml.core import models_api, dataset_api, native_hdfs_api
-import os
 
 class Engine:
 
@@ -24,41 +23,16 @@ class Engine:
         self._dataset_api = dataset_api.DatasetApi()
         self._native_hdfs_api = native_hdfs_api.NativeHdfsApi()
 
-    def save(self, model_instance, local_model_path):
+    def save(self, model_instance, dataset_model_version_path):
 
         project_path = self._native_hdfs_api.project_path()
 
-        model_dir_hdfs = project_path + "/Models/" + model_instance.name
-
-        if not self._native_hdfs_api.exists(model_dir_hdfs):
-            self._native_hdfs_api.mkdir(model_dir_hdfs)
-            self._native_hdfs_api.chmod(model_dir_hdfs, "ug+rwx")
-
-        # User did not specify model_version, pick the current highest version + 1, set to 1 if no model exists
-        version_list = []
-        if not model_instance.version and self._native_hdfs_api.exists(model_dir_hdfs):
-            model_version_directories = self._native_hdfs_api.ls(model_dir_hdfs)
-            for version_dir in model_version_directories:
-                try:
-                    if self._native_hdfs_api.exists.isdir(version_dir):
-                        version_list.append(int(version_dir[len(model_dir_hdfs):]))
-                except:
-                    pass
-            if len(version_list) > 0:
-                model_version = max(version_list) + 1
-
-        if not model_version:
-            model_version = 1
-
-        # Path to directory in HDFS to put the model files
-        model_version_dir_hdfs = model_dir_hdfs + str(model_version)
+        model_version_dir_hdfs = project_path + "/" + dataset_model_version_path
 
         # If version directory already exists and we are not overwriting it then fail
         if self._native_hdfs_api.exists(model_version_dir_hdfs):
-            raise AssertionError("Could not create model directory: {}, the path already exists".format(model_version_dir_hdfs))
+            raise AssertionError("A model named {} with version {} already exists".format(model_instance._name, model_instance._version))
 
         # At this point we can create the version directory if it does not exist
         if not self._native_hdfs_api.exists(model_version_dir_hdfs):
             self._native_hdfs_api.mkdir(model_version_dir_hdfs)
-
-        return
