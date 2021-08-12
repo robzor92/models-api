@@ -14,7 +14,6 @@
 #   limitations under the License.
 #
 
-from typing import Dict, List, Union, Optional
 from hsml.utils.columnar_signature import ColumnarSignature
 from hsml.utils.tensor_signature import TensorSignature
 import numpy
@@ -28,7 +27,9 @@ class ModelSignatureSpec:
             data=None
     ):
 
-        if isinstance(data, pandas.Series) or isinstance(data, pandas.DataFrame):
+        if isinstance(data, pandas.Series) \
+           or isinstance(data, pandas.DataFrame)\
+           or isinstance(data, pyspark.sql.dataframe.DataFrame):
             self.columnar_signature = self._convert_columnar_to_signature(data)
         elif isinstance(data, numpy.ndarray):
             self.tensor_signature = self._convert_tensor_to_signature(data)

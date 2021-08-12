@@ -27,10 +27,12 @@ class ColumnarSignature:
 
     def __init__(
             self,
-            pandas_obj: Optional[Union[pandas.core.frame.DataFrame]] = None
+            columnar_obj: Optional[Union[pandas.core.frame.DataFrame, pyspark.sql.dataframe.DataFrame]] = None
     ):
-
-        self.columns = self._convert_pandas_to_signature(pandas_obj)
+         if isinstance(columnar_obj, pyspark.sql.dataframe.DataFrame):
+             self.columns = self._convert_spark_to_signature(columnar_obj)
+         else:
+             self.columns = self._convert_pandas_to_signature(columnar_obj)
 
     def _convert_pandas_to_signature(self, columnar_obj):
         columns = []
@@ -51,6 +53,8 @@ class ColumnarSignature:
             for dtype in types:
                 name, dtype = dtype
                 columns.append(Column(name=name, data_type=str(dtype)))
+        return columns
+
     def to_dict(self):
         return {
             "columns": self.columns
