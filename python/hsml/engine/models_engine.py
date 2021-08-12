@@ -14,10 +14,7 @@
 #   limitations under the License.
 #
 
-import json
-import os
-import tempfile
-import uuid
+import os, json, tempfile, uuid, time
 
 from hsml import client, util
 from hsml.core import models_api, dataset_api
@@ -37,7 +34,24 @@ class Engine:
             self._engine = local_engine.Engine()
 
     def save(self, model_instance, local_model_path, await_registration=480):
+
         self._engine.save(model_instance, local_model_path, await_registration)
+
+        if await_registration > 0:
+            sleep_seconds = 5
+            for i in range(int(await_registration/sleep_seconds)):
+                try:
+                    time.sleep(sleep_seconds)
+                    print("Polling " + model_instance.name + " version " + str(model_instance.version) + " for model availability.")
+                    model = self._models_api.get(name=model_instance.name, version=model_instance.version)
+                    if model is None:
+                        print(model_instance.name + " not ready yet, retrying in " + str(sleep_seconds) + " seconds.")
+                    else:
+                        print("Model is now registered.")
+                        return model
+                except RestAPIError:
+                    pass
+            print("Model not available during polling, set a higher value for await_registration to wait longer.")
 
     def download(self, model_instance):
         model_name_path = os.getcwd() + "/" + str(uuid.uuid4()) + "/" + model_instance._name
