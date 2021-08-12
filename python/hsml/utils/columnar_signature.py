@@ -17,6 +17,10 @@
 from hsml.utils.column import Column
 from typing import Dict, List, Union, Optional
 import pandas
+try:
+    import pyspark
+except:
+    pass
 
 class ColumnarSignature:
     """Metadata object representing a columnar signature for a model."""
@@ -41,9 +45,12 @@ class ColumnarSignature:
         return columns
 
     def _convert_spark_to_signature(self, spark_df):
-        pass
-        #TODO implement Spark DF to signature
-
+        columns = []
+        if isinstance(spark_df, pyspark.sql.dataframe.DataFrame):
+            types = spark_df.dtypes
+            for dtype in types:
+                name, dtype = dtype
+                columns.append(Column(name=name, data_type=str(dtype)))
     def to_dict(self):
         return {
             "columns": self.columns
