@@ -18,6 +18,10 @@ from hsml.utils.columnar_signature import ColumnarSignature
 from hsml.utils.tensor_signature import TensorSignature
 import numpy
 import pandas
+try:
+    import pyspark
+except:
+    pass
 
 class ModelSignatureSpec:
     """Metadata object representing a model signature for a model."""
