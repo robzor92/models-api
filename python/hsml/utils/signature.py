@@ -38,4 +38,4 @@ class Signature:
         return ModelSignatureSpec(data)
 
     def json(self):
-        return json.dumps(self, default=lambda o: getattr(o, '__dict__', o))
+        return json.dumps(self, default=lambda o: getattr(o, '__dict__', o), sort_keys=True, indent=2)
