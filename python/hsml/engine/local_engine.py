@@ -25,7 +25,7 @@ class Engine:
         self._models_api = models_api.ModelsApi()
         self._dataset_api = dataset_api.DatasetApi()
 
-    def save(self, model_instance, local_model_path, await_registration=480):
+    def save(self, model_instance, local_model_path):
         dataset_model_path = "Models/" + model_instance._name
         model_name_path_exists = self._dataset_api.path_exists(dataset_model_path)
         if not model_name_path_exists:

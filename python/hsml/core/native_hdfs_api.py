@@ -17,3 +17,5 @@ class NativeHdfsApi:
     def chmod(self, hdfs_path, mode):
         return hdfs.chmod(hdfs_path, mode)
 
+    def mkdir(self, path):
+        return hdfs.mkdir(path)

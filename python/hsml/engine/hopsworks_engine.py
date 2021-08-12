@@ -24,7 +24,7 @@ class Engine:
         self._dataset_api = dataset_api.DatasetApi()
         self._native_hdfs_api = native_hdfs_api.NativeHdfsApi()
 
-    def save(self, model_instance, local_model_path, await_registration=480):
+    def save(self, model_instance, local_model_path):
 
         project_path = self._native_hdfs_api.project_path()
 
@@ -59,15 +59,6 @@ class Engine:
 
         # At this point we can create the version directory if it does not exist
         if not self._native_hdfs_api.exists(model_version_dir_hdfs):
-            hdfs.mkdir(model_version_dir_hdfs)
-
-        if os.path.isdir(local_model_path):
-            if not local_model_path.endswith(constants.DELIMITERS.SLASH_DELIMITER):
-                local_model_path = local_model_path + constants.DELIMITERS.SLASH_DELIMITER
-            for filename in os.listdir(local_model_path):
-                self._native_hdfs_api.copy_to_hdfs(local_model_path + filename, model_dir_hdfs, overwrite=overwrite)
-
-        if os.path.isfile(local_model_path):
-            self._native_hdfs_api.copy_to_hdfs(local_model_path, model_dir_hdfs, overwrite=overwrite)
+            self._native_hdfs_api.mkdir(model_version_dir_hdfs)
 
         return
