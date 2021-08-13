@@ -20,7 +20,6 @@ class ProvenanceApi:
 
     def get_model_td(self, model_id):
         """Save model metadata to the model registry.
-https://localhost:8181/hopsworks-api/api/project/120/provenance/links?only_apps=true&full_link=true&filter_by=OUT_TYPE:MODEL&filter_by=IN_TYPE:TRAINING_DATASET&filter_by=OUT_ARTIFACT:mnist_1
         :param remote_path: metadata object of feature group to be saved
         :type model_instance: Model
         :return: updated metadata object of the model
