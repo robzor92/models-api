@@ -22,6 +22,10 @@ import time
 from hsml import client, util
 
 class DatasetApi:
+
+    def __init__(self):
+        pass
+
     DEFAULT_FLOW_CHUNK_SIZE = 1048576
 
     def upload(self, local_abs_path, upload_path):

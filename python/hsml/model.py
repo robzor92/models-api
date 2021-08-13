@@ -40,6 +40,7 @@ class Model:
         program=None,
         user_full_name=None,
         signature=None,
+        training_dataset=None,
         input_example=None,
         model_registry_id=None,
         href=None,
@@ -71,6 +72,7 @@ class Model:
         self._user_full_name = user_full_name
         self._input_example = input_example
         self._signature = signature
+        self._training_dataset = training_dataset
         self._model_registry_id = model_registry_id
 
         self._models_api = models_api.ModelsApi()
@@ -251,6 +253,17 @@ class Model:
     @signature.setter
     def signature(self, signature):
         self._signature = signature
+
+    @property
+    def training_dataset(self):
+        """signature of the model."""
+        if self._training_dataset is None:
+            self._training_dataset = self._models_engine.get_training_dataset(self)
+        return self._training_dataset
+
+    @training_dataset.setter
+    def training_dataset(self, training_dataset):
+        self._training_dataset = training_dataset
 
     @property
     def project_name(self):

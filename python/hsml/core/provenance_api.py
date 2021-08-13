@@ -18,6 +18,9 @@ from hsml import client, util
 
 class ProvenanceApi:
 
+    def __init__(self):
+        pass
+
     def get_model_td(self, model_id):
         """Save model metadata to the model registry.
         :param remote_path: metadata object of feature group to be saved
