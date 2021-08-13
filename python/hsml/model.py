@@ -77,7 +77,7 @@ class Model:
         self._dataset_api = dataset_api.DatasetApi()
         self._models_engine = models_engine.Engine()
 
-    def save(self, model_path, await_registration=120):
+    def save(self, model_path, await_registration=480):
         """Persist the model metadata object to the model registry."""
         return self._models_engine.save(self, model_path, await_registration=await_registration)
 

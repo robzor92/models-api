@@ -11,7 +11,7 @@ class NativeHdfsApi:
         return hdfs.path.exists(hdfs_path)
 
     def project_path(self):
-        project = os.environ["HOPSWORKS_PROJECT_NAME"]
+        project = os.environ["PROJECT_NAME"]
         return hdfs.path.abspath("/Projects/" + project + "/")
 
     def chmod(self, hdfs_path, mode):
