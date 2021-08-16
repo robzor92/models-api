@@ -17,7 +17,7 @@
 import os, json, tempfile, uuid, time
 
 from hsml import client, util
-from hsml.core import models_api, dataset_api, provenance_api
+from hsml.core import models_api, dataset_api
 from hsml.engine import local_engine, hopsworks_engine
 
 
@@ -26,7 +26,6 @@ class Engine:
     def __init__(self):
         self._models_api = models_api.ModelsApi()
         self._dataset_api = dataset_api.DatasetApi()
-        self._provenance_api = provenance_api.ProvenanceApi()
 
         try:
             import pydoop
@@ -184,16 +183,6 @@ class Engine:
         finally:
             if tmp_dir is not None and os.path.exists(tmp_dir.name):
                 tmp_dir.cleanup()
-
-    def get_training_dataset(self, model_instance):
-        return self._provenance_api.get_model_td(model_instance.id)
-
-
-
-
-
-
-
 
 
 

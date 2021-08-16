@@ -67,7 +67,7 @@ class ModelsApi:
             "models",
             name + "_" + str(version)
         ]
-        query_params = {}
+        query_params = {'expand=trainingdatasets'}
         model_json = _client._send_request("GET", path_params, query_params)
         return model.Model.from_response_json(model_json)
 

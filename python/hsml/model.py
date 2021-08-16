@@ -130,7 +130,8 @@ class Model:
             "version": self._version,
             "description": self._description,
             "inputExample": self._input_example,
-            "metrics": self._metrics
+            "metrics": self._metrics,
+            "trainingDataset": self._training_dataset
         }
 
     @property
@@ -256,9 +257,7 @@ class Model:
 
     @property
     def training_dataset(self):
-        """signature of the model."""
-        if self._training_dataset is None:
-            self._training_dataset = self._models_engine.get_training_dataset(self)
+        """_training_dataset of the model."""
         return self._training_dataset
 
     @training_dataset.setter
