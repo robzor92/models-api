@@ -30,11 +30,9 @@ HOSTNAME_VERIFICATION_DEFAULT = True
 CERT_FOLDER_DEFAULT = "hops"
 
 class Connection:
-    """A feature store connection object.
+    """A Model registry connection object.
 
-    The connection is project specific, so you can access the project's own feature
-    store but also any feature store which has been shared with the project you connect
-    to.
+    The connection is project specific, so you can access the project's own model registry.
 
     This class provides convenience classmethods accessible from the `hsml`-module:
 

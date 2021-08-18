@@ -71,6 +71,26 @@ class ModelsApi:
         model_json = _client._send_request("GET", path_params, query_params)
         return model.Model.from_response_json(model_json)
 
+    def get_models(self, name, metric=None, direction=None):
+        """Get the metadata of a model with a certain name and version.
+
+        :param name: name of the model
+        :type name: str
+        :param version: version of the model
+        :type version: int
+        :return: model metadata object
+        :rtype: Model
+        """
+        _client = client.get_instance()
+        path_params = [
+            "project",
+            _client._project_id,
+            "models"
+        ]
+        query_params = {'expand': 'trainingdatasets', 'filter_by': 'name_eq:' + name, 'sort_by': metric + ':' + direction, 'limit': '1'}
+        model_json = _client._send_request("GET", path_params, query_params)
+        return model.Model.from_response_json(model_json)
+
     def delete(self, model_instance):
         """Delete the model and metadata.
 

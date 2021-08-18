@@ -81,6 +81,51 @@ class ModelRegistry:
             name, version
         )
 
+    def get_models(self, name: str):
+        """Get a model entity from the model registry.
+
+        Getting a model from the Model Registry means getting its metadata handle
+        so you can subsequently download the model artifacts in consecutive download() call.
+
+        # Arguments
+            name: Name of the model to get.
+            version: Version of the model to retrieve, defaults to `None` and will
+                return the `version=1`.
+
+        # Returns
+            `Model`: The model metadata object.
+
+        # Raises
+            `RestAPIError`: If unable to retrieve model from the model registry.
+
+        """
+        return self._models_api.get_models(
+            name
+        )
+
+    def get_best_model(self, name: str, metric=None, direction=None):
+        """Get a model entity from the model registry.
+
+        Getting a model from the Model Registry means getting its metadata handle
+        so you can subsequently download the model artifacts in consecutive download() call.
+
+        # Arguments
+            name: Name of the model to get.
+            version: Version of the model to retrieve, defaults to `None` and will
+                return the `version=1`.
+
+        # Returns
+            `Model`: The model metadata object.
+
+        # Raises
+            `RestAPIError`: If unable to retrieve model from the model registry.
+
+        """
+
+        return self._models_api.get_models(
+            name, metric=metric, direction=direction
+        )
+
     def create_model(
         self,
         name: str,
