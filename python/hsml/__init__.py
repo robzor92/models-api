@@ -20,8 +20,6 @@ from hsml import util
 from hsml.connection import Connection
 
 connection = Connection.connection
-setup_databricks = Connection.setup_databricks
-
 
 def fs_formatwarning(message, category, filename, lineno, line=None):
     return "{}: {}\n".format(category.__name__, message)
