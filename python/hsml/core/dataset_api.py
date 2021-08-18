@@ -178,7 +178,7 @@ class DatasetApi:
         headers = {"content-type": "application/json"}
         query_params = {'action': 'PERMISSION', 'permissions': permissions}
         return _client._send_request(
-            "POST",
+            "PUT",
             path_params,
             headers=headers,
             query_params=query_params
