@@ -105,7 +105,7 @@ class Model:
         if "count" in json_decamelized:
             if json_decamelized["count"] == 0:
                 return []
-            return [cls(**expectation) for expectation in json_decamelized["items"]]
+            return [cls(**model) for model in json_decamelized["items"]]
         else:
             return cls(**json_decamelized)
             
