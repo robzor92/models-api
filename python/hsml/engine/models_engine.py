@@ -56,7 +56,7 @@ class Engine:
 
         dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
 
-        if self._dataset_api.path_exists(dataset_model_path):
+        if self._dataset_api.path_exists(dataset_model_version_path):
             raise RestAPIError("Model with name {} and version {} already exists".format(model_instance._name, model_instance._version))
 
         # create folders
