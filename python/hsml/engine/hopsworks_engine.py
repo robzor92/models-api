@@ -14,7 +14,7 @@
 #   limitations under the License.
 #
 
-from hsml.core import models_api, dataset_api, native_hdfs_api
+from hsml.core import native_hdfs_api
 
 class Engine:
 
@@ -23,16 +23,10 @@ class Engine:
         self._dataset_api = dataset_api.DatasetApi()
         self._native_hdfs_api = native_hdfs_api.NativeHdfsApi()
 
-    def save(self, model_instance, dataset_model_version_path):
+    def save(self, dataset_model_version_path):
 
         project_path = self._native_hdfs_api.project_path()
 
         model_version_dir_hdfs = project_path + "/" + dataset_model_version_path
 
-        # If version directory already exists and we are not overwriting it then fail
-        if self._native_hdfs_api.exists(model_version_dir_hdfs):
-            raise AssertionError("A model named {} with version {} already exists".format(model_instance._name, model_instance._version))
-
-        # At this point we can create the version directory if it does not exist
-        if not self._native_hdfs_api.exists(model_version_dir_hdfs):
-            self._native_hdfs_api.mkdir(model_version_dir_hdfs)
+        self._native_hdfs_api.mkdir(model_version_dir_hdfs)

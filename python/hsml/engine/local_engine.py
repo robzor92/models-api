@@ -14,19 +14,13 @@
 #   limitations under the License.
 #
 
-from hsml.core import models_api, dataset_api
-
+from hsml.core import dataset_api
 
 class Engine:
 
     def __init__(self):
-        self._models_api = models_api.ModelsApi()
         self._dataset_api = dataset_api.DatasetApi()
 
-    def save(self, model_instance, dataset_model_version_path):
+    def save(self, dataset_model_version_path):
 
-        model_version_dir_exists = self._dataset_api.path_exists(dataset_model_version_path)
-        if not model_version_dir_exists:
-            self._dataset_api.mkdir(dataset_model_version_path)
-        else:
-            raise AssertionError("A model named {} with version {} already exists".format(model_instance._name, model_instance._version))
+        self._dataset_api.mkdir(dataset_model_version_path)
