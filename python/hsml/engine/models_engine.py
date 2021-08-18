@@ -60,7 +60,7 @@ class Engine:
             raise RestAPIError("Model with name {} and version {} already exists".format(model_instance._name, model_instance._version))
 
         # create folders
-        self._engine.save(model_instance, dataset_model_version_path)
+        self._engine.save(dataset_model_version_path)
         self._dataset_api.chmod(dataset_model_version_path, 'EDITABLE')
 
         model_query_params = {}
