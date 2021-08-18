@@ -61,6 +61,7 @@ class Engine:
 
         # create folders
         self._engine.save(model_instance, dataset_model_version_path)
+        self._dataset_api.chmod(dataset_model_version_path, 'EDITABLE')
 
         model_query_params = {}
 
