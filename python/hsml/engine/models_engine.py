@@ -39,6 +39,7 @@ class Engine:
         model_name_path_exists = self._dataset_api.path_exists(dataset_model_path)
         if not model_name_path_exists:
             self._dataset_api.mkdir(dataset_model_path)
+            self._dataset_api.chmod(dataset_model_path, 'EDITABLE')
 
         # Set model version if not defined
         if model_instance._version is None:
@@ -61,8 +62,6 @@ class Engine:
         # create folders
         self._engine.save(model_instance, dataset_model_version_path)
 
-        self._dataset_api.chmod(dataset_model_version_path, 'EDITABLE')
-
         model_query_params = {}
 
         if 'HOPSWORKS_JOB_NAME' in os.environ:
@@ -75,7 +74,7 @@ class Engine:
 
         _client = client.get_instance()
         model_instance._project_name = _client._project_name
-        model_instance._experiment_project_name = _client._project_name
+        #model_instance._experiment_project_name = _client._project_name
 
         if model_instance.input_example is not None:
             input_example_path = os.getcwd() + "/input_example.json"
