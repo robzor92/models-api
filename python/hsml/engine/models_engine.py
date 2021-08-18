@@ -15,7 +15,7 @@
 #
 
 import os, json, tempfile, uuid, time
-
+from hsml.client.exceptions import RestAPIError
 from hsml import client, util
 from hsml.core import models_api, dataset_api
 from hsml.engine import local_engine, hopsworks_engine
@@ -57,7 +57,7 @@ class Engine:
         dataset_model_version_path = "Models/" + model_instance._name + "/" + str(model_instance._version)
 
         if self._dataset_api.path_exists(dataset_model_path):
-            raise RestApiError("Model with name {} and version {} already exists".format(model_instance._name, model_instance._version))
+            raise RestAPIError("Model with name {} and version {} already exists".format(model_instance._name, model_instance._version))
 
         # create folders
         self._engine.save(model_instance, dataset_model_version_path)
