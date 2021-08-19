@@ -15,6 +15,7 @@
 #
 
 import pydoop.hdfs as hdfs
+import os
 
 class NativeHdfsApi:
 
