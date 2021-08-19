@@ -18,10 +18,17 @@ from hsml.utils.columnar_signature import ColumnarSignature
 from hsml.utils.tensor_signature import TensorSignature
 import numpy
 import pandas
+
 try:
     import pyspark
 except:
     pass
+
+try:
+    import hsfs
+except:
+    pass
+
 
 class ModelSignatureSpec:
     """Metadata object representing a model signature for a model."""
@@ -31,9 +38,7 @@ class ModelSignatureSpec:
             data=None
     ):
 
-        if isinstance(data, pandas.Series) \
-           or isinstance(data, pandas.DataFrame)\
-           or isinstance(data, pyspark.sql.dataframe.DataFrame):
+        if isinstance(data, pandas.Series) or isinstance(data, pandas.DataFrame) or isinstance(data, hsfs.training_dataset.TrainingDataset) or isinstance(data, pyspark.sql.dataframe.DataFrame):
             self.columnar_signature = self._convert_columnar_to_signature(data)
         elif isinstance(data, numpy.ndarray):
             self.tensor_signature = self._convert_tensor_to_signature(data)

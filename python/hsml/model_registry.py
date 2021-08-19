@@ -122,9 +122,13 @@ class ModelRegistry:
 
         """
 
-        return self._models_api.get_models(
+        model = self._models_api.get_models(
             name, metric=metric, direction=direction
         )
+        if type(model) is list and len(model) > 0:
+            return model[0]
+        else:
+            return None
 
     def create_model(
         self,
