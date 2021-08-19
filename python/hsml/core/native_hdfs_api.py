@@ -15,7 +15,7 @@
 #
 
 import pydoop.hdfs as hdfs
-import os
+from hsml import client
 
 class NativeHdfsApi:
 
@@ -26,8 +26,8 @@ class NativeHdfsApi:
         return hdfs.path.exists(hdfs_path)
 
     def project_path(self):
-        project = os.environ["HADOOP_USER_NAME"].split("__")[0]
-        return hdfs.path.abspath("/Projects/" + project + "/")
+        _client = client.get_instance()
+        return hdfs.path.abspath("/Projects/" + _client._project_name + "/")
 
     def chmod(self, hdfs_path, mode):
         return hdfs.chmod(hdfs_path, mode)
