@@ -32,6 +32,13 @@ class ColumnarSignature:
         except:
             pass
 
+        try:
+            import hsfs
+            if isinstance(columnar_obj, hsfs.training_dataset.TrainingDataset):
+                self.columns = self._convert_td_to_signature(columnar_obj)
+        except:
+            pass
+
         if isinstance(columnar_obj, pandas.DataFrame):
             self.columns = self._convert_pandas_df_to_signature(columnar_obj)
         else:
@@ -56,6 +63,13 @@ class ColumnarSignature:
         for dtype in types:
             name, dtype = dtype
             columns.append(Column(name=name, data_type=str(dtype)))
+        return columns
+
+    def _convert_td_to_signature(self, td):
+        columns = []
+        features = td.schema
+        for feature in features:
+            columns.append(Column(name=feature.name, data_type=feature.type))
         return columns
 
     def to_dict(self):
