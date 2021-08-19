@@ -27,12 +27,13 @@ class Engine:
         self._models_api = models_api.ModelsApi()
         self._dataset_api = dataset_api.DatasetApi()
 
-        try:
-            import imageio
-            self._engine = hopsworks_engine.Engine()
-        except:
-            self._engine = local_engine.Engine()
-
+        #try:
+        #   import imageio
+        #    self._engine = hopsworks_engine.Engine()
+        #except:
+        #    self._engine = local_engine.Engine()
+        self._engine = hopsworks_engine.Engine()
+        
     def save(self, model_instance, local_model_path, await_registration=480):
 
         dataset_models_root_path = "Models"
