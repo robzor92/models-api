@@ -34,12 +34,16 @@ class Engine:
             self._engine = local_engine.Engine()
 
     def save(self, model_instance, local_model_path, await_registration=480):
-        # Make sure Models/modelName exists
-        dataset_model_path = "Models/" + model_instance._name
-        model_name_path_exists = self._dataset_api.path_exists(dataset_model_path)
-        if not model_name_path_exists:
+
+        dataset_models_root_path = "Models"
+
+        if not self._dataset_api.path_exists(dataset_models_root_path):
+            raise RestAPIError("Models dataset does not exist in this project. Please enable the Serving service or create it manually.")
+
+        dataset_model_path = dataset_models_root_path + "/" + model_instance._name
+
+        if not self._dataset_api.path_exists(dataset_model_path):
             self._dataset_api.mkdir(dataset_model_path)
-            self._dataset_api.chmod(dataset_model_path, 'EDITABLE')
 
         # Set model version if not defined
         if model_instance._version is None:
@@ -61,7 +65,6 @@ class Engine:
 
         # create folders
         self._engine.save(dataset_model_version_path)
-        self._dataset_api.chmod(dataset_model_version_path, 'EDITABLE')
 
         model_query_params = {}
 

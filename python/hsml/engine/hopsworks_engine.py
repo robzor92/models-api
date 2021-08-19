@@ -19,14 +19,10 @@ from hsml.core import native_hdfs_api
 class Engine:
 
     def __init__(self):
-        self._models_api = models_api.ModelsApi()
-        self._dataset_api = dataset_api.DatasetApi()
         self._native_hdfs_api = native_hdfs_api.NativeHdfsApi()
 
     def save(self, dataset_model_version_path):
-
         project_path = self._native_hdfs_api.project_path()
-
         model_version_dir_hdfs = project_path + "/" + dataset_model_version_path
-
         self._native_hdfs_api.mkdir(model_version_dir_hdfs)
+        self._native_hdfs_api.chmod(model_version_dir_hdfs, "ug+rwx")
