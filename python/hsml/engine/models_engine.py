@@ -28,7 +28,7 @@ class Engine:
         self._dataset_api = dataset_api.DatasetApi()
 
         try:
-            import pydoop
+            import imageio
             self._engine = hopsworks_engine.Engine()
         except:
             self._engine = local_engine.Engine()
