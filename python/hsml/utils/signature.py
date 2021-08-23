@@ -27,7 +27,7 @@ class Signature:
 
     def __init__(
             self,
-            inputs: Optional[Union[pandas.core.frame.DataFrame, TypeVar("pyspark.sql.dataframe.DataFrame"), TypeVar("hsfs.training_dataset.TrainingDataset"), pandas.Series, numpy.ndarray]] = None
+            inputs: Optional[Union[pandas.core.frame.DataFrame, TypeVar("pyspark.sql.dataframe.DataFrame"), TypeVar("hsfs.training_dataset.TrainingDataset"), pandas.Series, numpy.ndarray]] = None,
             predictions: Optional[Union[pandas.core.frame.DataFrame, TypeVar("pyspark.sql.dataframe.DataFrame"), pandas.Series, numpy.ndarray]] = None
         ):
         
