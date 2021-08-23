@@ -27,8 +27,8 @@ class Signature:
 
     def __init__(
             self,
-            inputs=None,
-            predictions=None
+            inputs: Optional[Union[pandas.core.frame.DataFrame, pyspark.sql.dataframe.DataFrame, hsfs.training_dataset.TrainingDataset, pandas.DataFrame, pandas.Series, numpy.ndarray]] = None
+            predictions: Optional[Union[pandas.core.frame.DataFrame, pyspark.sql.dataframe.DataFrame, pandas.DataFrame, pandas.Series, numpy.ndarray]] = None
         ):
         
         if inputs is not None:

@@ -21,7 +21,6 @@ from hsml.core import models_api, dataset_api
 from hsml.engine import local_engine, hopsworks_engine
 import importlib
 
-
 class Engine:
 
     def __init__(self):

@@ -133,13 +133,12 @@ class ModelRegistry:
     def create_model(
         self,
         name: str,
-        type: Optional[str] = "NONE",
         version: Optional[int] = None,
         metrics: Optional[dict] = None,
         description: Optional[str] = None,
+        input_example: Optional[Union[pandas.core.frame.DataFrame, numpy.ndarray]] = None,
         signature: Optional[Signature] = None,
-        input_example: Optional[Union[dict, list, pandas.core.frame.DataFrame, numpy.ndarray]] = None,
-        experiment_id: Optional[str] = None
+        training_dataset: Optional[TypeVar("hsfs.training_dataset.TrainingDataset")] = None
     ):
         """Create a model metadata object.
 
@@ -199,7 +198,8 @@ class ModelRegistry:
             description=description,
             metrics=metrics,
             input_example=input_example,
-            signature=signature
+            signature=signature,
+            training_dataset=training_dataset
         )
 
     @property
