@@ -14,33 +14,48 @@
 #   limitations under the License.
 #
 
-from typing import Dict, List, Union, Optional
+from typing import Union, Optional, TypeVar
 import json
-from hsml import util
 import numpy
 import pandas
-from typing import Optional, Union, TypeVar
 
 from hsml.utils.model_signature_spec import ModelSignatureSpec
+
 
 class Signature:
     """Metadata object representing a model signature for a model."""
 
     def __init__(
-            self,
-            inputs: Optional[Union[pandas.DataFrame, pandas.Series, TypeVar("pyspark.sql.dataframe.DataFrame"), TypeVar("hsfs.training_dataset.TrainingDataset"), numpy.ndarray]] = None,
-            predictions: Optional[Union[pandas.DataFrame, pandas.Series, TypeVar("pyspark.sql.dataframe.DataFrame"), numpy.ndarray]] = None
-        ):
-        
+        self,
+        inputs: Optional[
+            Union[
+                pandas.DataFrame,
+                pandas.Series,
+                TypeVar("pyspark.sql.dataframe.DataFrame"),  # noqa: F821
+                TypeVar("hsfs.training_dataset.TrainingDataset"),  # noqa: F821
+                numpy.ndarray,
+            ]
+        ] = None,
+        predictions: Optional[
+            Union[
+                pandas.DataFrame,
+                pandas.Series,
+                TypeVar("pyspark.sql.dataframe.DataFrame"),  # noqa: F821
+                numpy.ndarray,
+            ]
+        ] = None,
+    ):
+
         if inputs is not None:
             self.inputs = self._convert_to_signature(inputs)
 
         if predictions is not None:
             self.predictions = self._convert_to_signature(predictions)
 
-
     def _convert_to_signature(self, data):
         return ModelSignatureSpec(data)
 
     def json(self):
-        return json.dumps(self, default=lambda o: getattr(o, '__dict__', o), sort_keys=True, indent=2)
+        return json.dumps(
+            self, default=lambda o: getattr(o, "__dict__", o), sort_keys=True, indent=2
+        )

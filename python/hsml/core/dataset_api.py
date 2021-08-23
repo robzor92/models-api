@@ -19,10 +19,10 @@ import os
 from hsml.client.exceptions import RestAPIError
 import time
 
-from hsml import client, util
+from hsml import client
+
 
 class DatasetApi:
-
     def __init__(self):
         pass
 
@@ -39,22 +39,19 @@ class DatasetApi:
         base_params = self._get_flow_base_params(file_name, num_chunks, size)
 
         chunk_number = 1
-        with open(local_abs_path, 'rb') as f:
+        with open(local_abs_path, "rb") as f:
             while True:
-              chunk = f.read(self.DEFAULT_FLOW_CHUNK_SIZE)
-              if not chunk:
-                  break
+                chunk = f.read(self.DEFAULT_FLOW_CHUNK_SIZE)
+                if not chunk:
+                    break
 
-              query_params = base_params
-              query_params["flowCurrentChunkSize"] = len(chunk)
-              query_params["flowChunkNumber"] = chunk_number
+                query_params = base_params
+                query_params["flowCurrentChunkSize"] = len(chunk)
+                query_params["flowChunkNumber"] = chunk_number
 
-              self._upload_request(
-                  query_params, upload_path, file_name, chunk
-              )
+                self._upload_request(query_params, upload_path, file_name, chunk)
 
-              chunk_number += 1
-
+                chunk_number += 1
 
     def _get_flow_base_params(self, file_name, num_chunks, size):
         return {
@@ -80,17 +77,28 @@ class DatasetApi:
     def download(self, path, download_path):
 
         _client = client.get_instance()
-        path_params = ["project", _client._project_id, "dataset", "download", "with_auth", path]
-        query_params = {'type': 'DATASET'}
+        path_params = [
+            "project",
+            _client._project_id,
+            "dataset",
+            "download",
+            "with_auth",
+            path,
+        ]
+        query_params = {"type": "DATASET"}
         print(path_params)
 
-        with _client._send_request("GET", path_params, query_params=query_params, stream=True) as response:
+        with _client._send_request(
+            "GET", path_params, query_params=query_params, stream=True
+        ) as response:
             with open(download_path, "wb") as f:
                 downloaded = 0
-                file_size = response.headers.get('Content-Length')
+                file_size = response.headers.get("Content-Length")
                 if not file_size:
                     print("Downloading file ...", end=" ")
-                for chunk in response.iter_content(chunk_size=self.DEFAULT_FLOW_CHUNK_SIZE):
+                for chunk in response.iter_content(
+                    chunk_size=self.DEFAULT_FLOW_CHUNK_SIZE
+                ):
                     f.write(chunk)
                     downloaded += len(chunk)
                     if file_size:
@@ -98,8 +106,6 @@ class DatasetApi:
                         print("Progress: " + str(progress) + "%")
                 if not file_size:
                     print("DONE")
-
-
 
     def get(self, remote_path):
         """Save model metadata to the model registry.
@@ -110,18 +116,9 @@ class DatasetApi:
         :rtype: Model
         """
         _client = client.get_instance()
-        path_params = [
-            "project",
-            _client._project_id,
-            "dataset",
-            remote_path
-        ]
+        path_params = ["project", _client._project_id, "dataset", remote_path]
         headers = {"content-type": "application/json"}
-        return _client._send_request(
-                "GET",
-                path_params,
-                headers=headers
-            )
+        return _client._send_request("GET", path_params, headers=headers)
 
     def path_exists(self, remote_path):
         """Save model metadata to the model registry.
@@ -146,20 +143,12 @@ class DatasetApi:
         :rtype: Model
         """
         _client = client.get_instance()
-        path_params = [
-            "project",
-            _client._project_id,
-            "dataset",
-            remote_path
-        ]
-        query_params = {'action': 'listing', 'sort_by': sort_by, 'limit': limit}
+        path_params = ["project", _client._project_id, "dataset", remote_path]
+        query_params = {"action": "listing", "sort_by": sort_by, "limit": limit}
         headers = {"content-type": "application/json"}
         return _client._send_request(
-                "GET",
-                path_params,
-                headers=headers,
-                query_params=query_params
-            )
+            "GET", path_params, headers=headers, query_params=query_params
+        )
 
     def chmod(self, remote_path, permissions):
         """Save model metadata to the model registry.
@@ -170,19 +159,11 @@ class DatasetApi:
         :rtype: Model
         """
         _client = client.get_instance()
-        path_params = [
-            "project",
-            _client._project_id,
-            "dataset",
-            remote_path
-        ]
+        path_params = ["project", _client._project_id, "dataset", remote_path]
         headers = {"content-type": "application/json"}
-        query_params = {'action': 'PERMISSION', 'permissions': permissions}
+        query_params = {"action": "PERMISSION", "permissions": permissions}
         return _client._send_request(
-            "PUT",
-            path_params,
-            headers=headers,
-            query_params=query_params
+            "PUT", path_params, headers=headers, query_params=query_params
         )
 
     def mkdir(self, remote_path):
@@ -194,20 +175,17 @@ class DatasetApi:
         :rtype: Model
         """
         _client = client.get_instance()
-        path_params = [
-            "project",
-            _client._project_id,
-            "dataset",
-            remote_path
-        ]
-        query_params = {'action': 'create', 'searchable': 'true', 'generate_readme': 'false', 'type': "DATASET"}
+        path_params = ["project", _client._project_id, "dataset", remote_path]
+        query_params = {
+            "action": "create",
+            "searchable": "true",
+            "generate_readme": "false",
+            "type": "DATASET",
+        }
         headers = {"content-type": "application/json"}
         return _client._send_request(
-                "POST",
-                path_params,
-                headers=headers,
-                query_params=query_params
-            )
+            "POST", path_params, headers=headers, query_params=query_params
+        )
 
     def rm(self, remote_path):
         """Save model metadata to the model registry.
@@ -218,16 +196,8 @@ class DatasetApi:
         :rtype: Model
         """
         _client = client.get_instance()
-        path_params = [
-            "project",
-            _client._project_id,
-            "dataset",
-            remote_path
-        ]
-        return _client._send_request(
-                "DELETE",
-                path_params
-            )
+        path_params = ["project", _client._project_id, "dataset", remote_path]
+        return _client._send_request("DELETE", path_params)
 
     def _path_exists(self, remote_path):
         """
@@ -250,75 +220,86 @@ class DatasetApi:
         except Exception:
             return False
 
-    def _archive(self, remote_path, destination_path=None, block=False, timeout=120, action='unzip'):
-            """
-            Create an archive (zip file) of a file or directory in a Hopsworks dataset.
+    def _archive(
+        self,
+        remote_path,
+        destination_path=None,
+        block=False,
+        timeout=120,
+        action="unzip",
+    ):
+        """
+        Create an archive (zip file) of a file or directory in a Hopsworks dataset.
 
-            Args:
-                :remote_path: the path to the remote file or directory in the dataset.
-                :action: Allowed values are zip/unzip. Whether to compress/extract respectively.
-                :block: whether this method should wait for the zipping process to complete before returning.
-                :timeout: number of seconds to wait for the action to complete before returning.
-            Returns:
-                None
-            """
+        Args:
+            :remote_path: the path to the remote file or directory in the dataset.
+            :action: Allowed values are zip/unzip. Whether to compress/extract respectively.
+            :block: whether this method should wait for the zipping process to complete before returning.
+            :timeout: number of seconds to wait for the action to complete before returning.
+        Returns:
+            None
+        """
 
-            _client = client.get_instance()
-            path_params = [
-                "project",
-                _client._project_id,
-                "dataset",
-                remote_path
-            ]
+        _client = client.get_instance()
+        path_params = ["project", _client._project_id, "dataset", remote_path]
 
-            query_params = {'action': action}
+        query_params = {"action": action}
 
-            if destination_path is not None:
-                query_params['destination_path'] = destination_path
-                query_params['destination_type'] = 'DATASET'
+        if destination_path is not None:
+            query_params["destination_path"] = destination_path
+            query_params["destination_type"] = "DATASET"
 
-            headers = {"content-type": "application/json"}
+        headers = {"content-type": "application/json"}
 
-            print(_client._send_request(
-                "POST",
-                path_params,
-                headers=headers,
-                query_params=query_params
-            ))
+        print(
+            _client._send_request(
+                "POST", path_params, headers=headers, query_params=query_params
+            )
+        )
 
-            if block is True:
-                # Wait for zip file to appear. When it does, check that parent dir zipState is not set to CHOWNING
-                count = 0
-                while count < timeout:
-                    if action is "zip":
-                      zip_path = remote_path + ".zip"
-                      # Get the status of the zipped file
-                      if destination_path is None:
-                          zip_exists = self._path_exists(zip_path)
-                      else:
-                          zip_exists = self._path_exists(destination_path + "/" + os.path.split(zip_path)[1])
-                      print(zip_exists)
-                      # Get the zipState of the directory being zipped
-                      dir_status = self.get(remote_path)
-                      print(dir_status)
-                      zip_state = dir_status['zipState'] if 'zipState' in dir_status else None
-                      print(zip_state)
-                      if zip_exists and zip_state == 'NONE' :
-                          return
-                      else:
-                          time.sleep(1)
-                    elif action is "unzip":
-                      # Get the status of the unzipped dir
-                      unzipped_dir_exists = self._path_exists(remote_path[:-4])
-                      # Get the zipState of the zip being extracted
-                      dir_status = self.get(remote_path)
-                      zip_state = dir_status['zipState'] if 'zipState' in dir_status else None
-                      if unzipped_dir_exists and zip_state == 'NONE' :
-                          return
-                      else:
-                          time.sleep(1)
-                    count += 1
-                raise Exception("Timeout of {} seconds exceeded while {} {}.".format(timeout, action, remote_path))
+        if block is True:
+            # Wait for zip file to appear. When it does, check that parent dir zipState is not set to CHOWNING
+            count = 0
+            while count < timeout:
+                if action == "zip":
+                    zip_path = remote_path + ".zip"
+                    # Get the status of the zipped file
+                    if destination_path is None:
+                        zip_exists = self._path_exists(zip_path)
+                    else:
+                        zip_exists = self._path_exists(
+                            destination_path + "/" + os.path.split(zip_path)[1]
+                        )
+                    print(zip_exists)
+                    # Get the zipState of the directory being zipped
+                    dir_status = self.get(remote_path)
+                    print(dir_status)
+                    zip_state = (
+                        dir_status["zipState"] if "zipState" in dir_status else None
+                    )
+                    print(zip_state)
+                    if zip_exists and zip_state == "NONE":
+                        return
+                    else:
+                        time.sleep(1)
+                elif action == "unzip":
+                    # Get the status of the unzipped dir
+                    unzipped_dir_exists = self._path_exists(remote_path[:-4])
+                    # Get the zipState of the zip being extracted
+                    dir_status = self.get(remote_path)
+                    zip_state = (
+                        dir_status["zipState"] if "zipState" in dir_status else None
+                    )
+                    if unzipped_dir_exists and zip_state == "NONE":
+                        return
+                    else:
+                        time.sleep(1)
+                count += 1
+            raise Exception(
+                "Timeout of {} seconds exceeded while {} {}.".format(
+                    timeout, action, remote_path
+                )
+            )
 
     def unzip(self, remote_path, block=False, timeout=120):
         """
@@ -338,7 +319,7 @@ class DatasetApi:
         Returns:
             None
         """
-        self._archive(remote_path, block=block, timeout=timeout, action='unzip')
+        self._archive(remote_path, block=block, timeout=timeout, action="unzip")
 
     def zip(self, remote_path, destination_path=None, block=False, timeout=120):
         """
@@ -358,7 +339,13 @@ class DatasetApi:
         Returns:
             None
         """
-        self._archive(remote_path, destination_path=destination_path, block=block, timeout=timeout, action='zip')
+        self._archive(
+            remote_path,
+            destination_path=destination_path,
+            block=block,
+            timeout=timeout,
+            action="zip",
+        )
 
     def move(self, source_path, destination_path):
         """
@@ -374,19 +361,11 @@ class DatasetApi:
         """
 
         _client = client.get_instance()
-        path_params = [
-            "project",
-            _client._project_id,
-            "dataset",
-            source_path
-        ]
+        path_params = ["project", _client._project_id, "dataset", source_path]
 
-        query_params = {'action': 'move', 'destination_path': destination_path}
+        query_params = {"action": "move", "destination_path": destination_path}
         headers = {"content-type": "application/json"}
 
         _client._send_request(
-            "POST",
-            path_params,
-            headers=headers,
-            query_params=query_params
+            "POST", path_params, headers=headers, query_params=query_params
         )

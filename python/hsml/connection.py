@@ -15,7 +15,6 @@
 #
 
 import os
-import importlib.util
 
 from requests.exceptions import ConnectionError
 
@@ -28,6 +27,7 @@ HOPSWORKS_PORT_DEFAULT = 443
 SECRETS_STORE_DEFAULT = "parameterstore"
 HOSTNAME_VERIFICATION_DEFAULT = True
 CERT_FOLDER_DEFAULT = "hops"
+
 
 class Connection:
     """A Model registry connection object.
@@ -186,9 +186,6 @@ class Connection:
             else:
                 client.init("hopsworks")
 
-            # init engine
-            #engine.init(self._engine)
-
             self._models_api = models_api.ModelsApi()
         except (TypeError, ConnectionError):
             self._connected = False
@@ -205,7 +202,6 @@ class Connection:
         """
         client.stop()
         self._models_api = None
-        engine.stop()
         self._connected = False
         print("Connection closed.")
 

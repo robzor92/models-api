@@ -24,8 +24,10 @@ import pandas as pd
 
 from json import JSONEncoder
 
+
 class VersionWarning(Warning):
     pass
+
 
 class MLEncoder(JSONEncoder):
     def default(self, obj):
@@ -36,7 +38,7 @@ class MLEncoder(JSONEncoder):
 
 
 class NumpyEncoder(JSONEncoder):
-    """ Special json encoder for numpy types.
+    """Special json encoder for numpy types.
     Note that some numpy types doesn't have native python equivalence,
     hence json.dumps will raise TypeError.
     In this case, you'll need to convert your numpy types into its closest python equivalence.
@@ -52,7 +54,7 @@ class NumpyEncoder(JSONEncoder):
 
         if isinstance(obj, np.ndarray):
             if obj.dtype == np.object:
-                return [try_convert(x)[0] for x in obj.tolist()]
+                return [self.convert(x)[0] for x in obj.tolist()]
             elif obj.dtype == np.bytes_:
                 return np.vectorize(encode_binary)(obj), True
             else:
@@ -69,17 +71,22 @@ class NumpyEncoder(JSONEncoder):
         return obj, False
 
     def default(self, obj):  # pylint: disable=E0202
-        res, converted = convert(obj)
+        res, converted = self.convert(obj)
         if converted:
             return res
         else:
             return super().default(obj)
 
+
 def _is_numpy_scalar(x):
     return np.isscalar(x) or x is None
 
+
 def _is_ndarray(x):
-    return isinstance(x, np.ndarray) or (isinstance(x, dict) and all([isinstance(ary, np.ndarray) for ary in x.values()]))
+    return isinstance(x, np.ndarray) or (
+        isinstance(x, dict) and all([isinstance(ary, np.ndarray) for ary in x.values()])
+    )
+
 
 def _handle_tensor_input(input_tensor: Union[np.ndarray, dict]):
     if isinstance(input_tensor, dict):
@@ -90,11 +97,13 @@ def _handle_tensor_input(input_tensor: Union[np.ndarray, dict]):
     else:
         return {"data": input_tensor.tolist()}
 
+
 def input_example_to_json(input_example):
     if _is_ndarray(input_example):
         return _handle_tensor_input(input_example)
     else:
         return _handle_dataframe_input(input_example)
+
 
 def _handle_dataframe_input(input_ex):
     if isinstance(input_ex, pd.DataFrame):
@@ -106,8 +115,10 @@ def _handle_dataframe_input(input_ex):
     else:
         raise AssertionError
 
+
 def zip(zip_file_path, dir_to_zip_path):
-    return shutil.make_archive(zip_file_path + "/archive", 'zip', dir_to_zip_path)
+    return shutil.make_archive(zip_file_path + "/archive", "zip", dir_to_zip_path)
+
 
 def unzip(zip_file_path, extract_dir=None):
     return shutil.unpack_archive(zip_file_path, extract_dir=extract_dir)
