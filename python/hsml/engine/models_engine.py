@@ -79,7 +79,6 @@ class Engine:
 
         _client = client.get_instance()
         model_instance._project_name = _client._project_name
-        #model_instance._experiment_project_name = _client._project_name
 
         if model_instance.input_example is not None:
             input_example_path = os.getcwd() + "/input_example.json"
