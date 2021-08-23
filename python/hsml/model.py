@@ -72,14 +72,7 @@ class Model:
         self._user_full_name = user_full_name
         self._input_example = input_example
         self._signature = signature
-
-        self._training_dataset = None
-        if training_dataset is not None:
-            td_location_split = training_dataset.location.split('/')
-            for i in range(len(td_location_split)):
-                if td_location_split[i]=='Projects':
-                    self._training_dataset = td_location_split[i+1] + ':' + training_dataset.name + ':' + str(training_dataset.version)
-
+        self._training_dataset = training_dataset
         self._model_registry_id = model_registry_id
 
         self._models_api = models_api.ModelsApi()

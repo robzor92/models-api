@@ -102,6 +102,12 @@ class Engine:
             os.remove(signature_path)
             model_instance.signature = dataset_model_version_path + "/signature.json"
 
+        if model_instance.training_dataset is not None:
+            td_location_split = model_instance.training_dataset.location.split('/')
+            for i in range(len(td_location_split)):
+                if td_location_split[i]=='Projects':
+                    model_instance._training_dataset = td_location_split[i+1] + ':' + model_instance.training_dataset.name + ':' + str(model_instance.training_dataset.version)
+
         self._models_api.put(model_instance, model_query_params)
 
         zip_out_dir=None
