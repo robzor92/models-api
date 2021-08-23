@@ -73,6 +73,4 @@ class ColumnarSignature:
         return columns
 
     def to_dict(self):
-        return {
-            "columns": self.columns
-        }
+        return self.columns
