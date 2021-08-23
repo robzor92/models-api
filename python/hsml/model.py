@@ -73,11 +73,12 @@ class Model:
         self._input_example = input_example
         self._signature = signature
 
+        self._training_dataset = None
         if training_dataset is not None:
-            td_location_split = td.location.split('/')
+            td_location_split = training_dataset.location.split('/')
             for i in range(len(td_location_split)):
                 if td_location_split[i]=='Projects':
-                    self._training_dataset = td_location_split[i+1] + ':' + td.name + ':' + str(td.version)
+                    self._training_dataset = td_location_split[i+1] + ':' + training_dataset.name + ':' + str(training_dataset.version)
 
         self._model_registry_id = model_registry_id
 
@@ -263,7 +264,7 @@ class Model:
 
     @property
     def training_dataset(self):
-        """_training_dataset of the model."""
+        """training_dataset of the model."""
         return self._training_dataset
 
     @training_dataset.setter
