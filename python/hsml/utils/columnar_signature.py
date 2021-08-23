@@ -41,7 +41,7 @@ class ColumnarSignature:
 
         if isinstance(columnar_obj, pandas.DataFrame):
             self.columns = self._convert_pandas_df_to_signature(columnar_obj)
-        else:
+        elif isinstance(columnar_obj, pandas.Series):
             self.columns = self._convert_pandas_series_to_signature(columnar_obj)
 
     def _convert_pandas_df_to_signature(self, columnar_obj):
