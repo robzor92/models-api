@@ -30,9 +30,13 @@ class Signature:
             inputs=None,
             predictions=None
         ):
+        
+        if inputs is not None:
+            self.inputs = self._convert_to_signature(inputs)
 
-        self.inputs = self._convert_to_signature(inputs)
-        self.predictions = self._convert_to_signature(predictions)
+        if predictions is not None:
+            self.predictions = self._convert_to_signature(predictions)
+
 
     def _convert_to_signature(self, data):
         return ModelSignatureSpec(data)
