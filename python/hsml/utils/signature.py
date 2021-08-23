@@ -19,6 +19,7 @@ import json
 from hsml import util
 import numpy
 import pandas
+from typing import Optional, Union, TypeVar
 
 from hsml.utils.model_signature_spec import ModelSignatureSpec
 
@@ -27,8 +28,8 @@ class Signature:
 
     def __init__(
             self,
-            inputs: Optional[Union[pandas.core.frame.DataFrame, TypeVar("pyspark.sql.dataframe.DataFrame"), TypeVar("hsfs.training_dataset.TrainingDataset"), pandas.Series, numpy.ndarray]] = None,
-            predictions: Optional[Union[pandas.core.frame.DataFrame, TypeVar("pyspark.sql.dataframe.DataFrame"), pandas.Series, numpy.ndarray]] = None
+            inputs: Optional[Union[pandas.DataFrame, pandas.Series, TypeVar("pyspark.sql.dataframe.DataFrame"), TypeVar("hsfs.training_dataset.TrainingDataset"), numpy.ndarray]] = None,
+            predictions: Optional[Union[pandas.DataFrame, pandas.Series, TypeVar("pyspark.sql.dataframe.DataFrame"), numpy.ndarray]] = None
         ):
         
         if inputs is not None:
