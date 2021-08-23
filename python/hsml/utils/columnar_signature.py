@@ -17,6 +17,7 @@
 from hsml.utils.column import Column
 from typing import Dict, List, Union, Optional
 import pandas
+import importlib
 
 class ColumnarSignature:
     """Metadata object representing a columnar signature for a model."""
@@ -25,24 +26,29 @@ class ColumnarSignature:
             self,
             columnar_obj: Optional[Union[pandas.core.frame.DataFrame]] = None
     ):
-        try:
-            import pyspark
-            if isinstance(columnar_obj, pyspark.sql.dataframe.DataFrame):
-                self.columns = self._convert_spark_to_signature(columnar_obj)
-        except:
-            pass
-
-        try:
-            import hsfs
-            if isinstance(columnar_obj, hsfs.training_dataset.TrainingDataset):
-                self.columns = self._convert_td_to_signature(columnar_obj)
-        except:
-            pass
 
         if isinstance(columnar_obj, pandas.DataFrame):
             self.columns = self._convert_pandas_df_to_signature(columnar_obj)
+            return
         elif isinstance(columnar_obj, pandas.Series):
             self.columns = self._convert_pandas_series_to_signature(columnar_obj)
+            return
+
+        pyspark_spec = importlib.util.find_spec("pyspark")
+        if pyspark_spec is not None:
+            pyspark = importlib.util.module_from_spec(pyspark_spec)
+            if isinstance(columnar_obj, pyspark.sql.dataframe.DataFrame):
+                self.columns = self._convert_spark_to_signature(columnar_obj)
+                return
+
+        hsfs_spec = importlib.util.find_spec("hsfs")
+        if hsfs_spec is not None:
+            hsfs = importlib.util.module_from_spec(hsfs_spec)
+            if isinstance(columnar_obj, hsfs.training_dataset.TrainingDataset):
+                self.columns = self._convert_spark_to_signature(columnar_obj)
+                return
+
+        raise Exception("Not supported")
 
     def _convert_pandas_df_to_signature(self, columnar_obj):
         pandas_columns = columnar_obj.columns
