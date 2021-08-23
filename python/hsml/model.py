@@ -74,7 +74,6 @@ class Model:
         self._signature = signature
 
         self._training_dataset = None
-        raise Exception(training_dataset.location)
         if training_dataset is not None:
             td_location_split = training_dataset.location.split('/')
             for i in range(len(td_location_split)):
