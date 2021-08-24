@@ -33,8 +33,8 @@ setup(
     description="HSML: An environment independent client to interact with the Hopsworks Experiments, Model Registry and Serving service",
     license="Apache License 2.0",
     keywords="Hopsworks, ML, Models, Machine Learning Models, TensorFlow, PyTorch, Machine Learning, MLOps, DataOps",
-    url="https://github.com/logicalclocks/models-api",
-    download_url="https://github.com/logicalclocks/models-api/releases/tag/"
+    url="https://github.com/logicalclocks/machine-learning-api",
+    download_url="https://github.com/logicalclocks/machine-learning-api/releases/tag/"
     + __version__,
     packages=find_packages(),
     long_description=read("../README.md"),
