@@ -18,7 +18,9 @@ import json
 import humps
 
 from hsml import util
+
 from hsml.core import models_api, dataset_api
+
 from hsml.engine import models_engine
 
 
@@ -58,7 +60,7 @@ class Model:
         self._version = version
 
         if description is None:
-            self._description = 'A collection of models for ' + name
+            self._description = "A collection of models for " + name
         else:
             self._description = description
 
@@ -81,7 +83,9 @@ class Model:
 
     def save(self, model_path, await_registration=480):
         """Persist the model metadata object to the model registry."""
-        return self._models_engine.save(self, model_path, await_registration=await_registration)
+        return self._models_engine.save(
+            self, model_path, await_registration=await_registration
+        )
 
     def download(self):
         """Download the model files to a local folder."""
@@ -108,7 +112,7 @@ class Model:
             return [cls(**model) for model in json_decamelized["items"]]
         else:
             return cls(**json_decamelized)
-            
+
     def update_from_response_json(self, json_dict):
         json_decamelized = humps.decamelize(json_dict)
         _ = json_decamelized.pop("type")
@@ -131,7 +135,7 @@ class Model:
             "description": self._description,
             "inputExample": self._input_example,
             "metrics": self._metrics,
-            "trainingDataset": self._training_dataset
+            "trainingDataset": self._training_dataset,
         }
 
     @property

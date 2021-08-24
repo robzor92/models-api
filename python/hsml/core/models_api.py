@@ -14,11 +14,10 @@
 #   limitations under the License.
 #
 
-from hsml import client
-from hsml import model
+from hsml import client, model
+
 
 class ModelsApi:
-
     def __init__(self):
         pass
 
@@ -35,7 +34,7 @@ class ModelsApi:
             "project",
             _client._project_id,
             "models",
-            model_instance.name + "_" + str(model_instance.version)
+            model_instance.name + "_" + str(model_instance.version),
         ]
         headers = {"content-type": "application/json"}
         print("sending")
@@ -46,7 +45,7 @@ class ModelsApi:
                 path_params,
                 headers=headers,
                 query_params=query_params,
-                data=model_instance.json()
+                data=model_instance.json(),
             ),
         )
 
@@ -65,9 +64,9 @@ class ModelsApi:
             "project",
             _client._project_id,
             "models",
-            name + "_" + str(version)
+            name + "_" + str(version),
         ]
-        query_params = {'expand': 'trainingdatasets'}
+        query_params = {"expand": "trainingdatasets"}
         model_json = _client._send_request("GET", path_params, query_params)
         return model.Model.from_response_json(model_json)
 
@@ -83,16 +82,12 @@ class ModelsApi:
         """
 
         _client = client.get_instance()
-        path_params = [
-            "project",
-            _client._project_id,
-            "models"
-        ]
+        path_params = ["project", _client._project_id, "models"]
 
-        query_params = {'expand': 'trainingdatasets', 'filter_by': 'name_eq:' + name}
+        query_params = {"expand": "trainingdatasets", "filter_by": "name_eq:" + name}
         if metric is not None and direction is not None:
-            query_params['sort_by'] = metric + ':' + direction
-            query_params['limit'] = '1'
+            query_params["sort_by"] = metric + ":" + direction
+            query_params["limit"] = "1"
 
         model_json = _client._send_request("GET", path_params, query_params)
         return model.Model.from_response_json(model_json)
@@ -104,12 +99,7 @@ class ModelsApi:
         :type model_instance: Model
         """
         _client = client.get_instance()
-        path_params = [
-            "project",
-            _client._project_id,
-            "models",
-            model_instance.id
-        ]
+        path_params = ["project", _client._project_id, "models", model_instance.id]
         _client._send_request("DELETE", path_params)
 
     def update_metadata(

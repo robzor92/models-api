@@ -86,7 +86,6 @@ class DatasetApi:
             path,
         ]
         query_params = {"type": "DATASET"}
-        print(path_params)
 
         with _client._send_request(
             "GET", path_params, query_params=query_params, stream=True
@@ -105,7 +104,7 @@ class DatasetApi:
                         progress = round(downloaded / int(file_size) * 100, 3)
                         print("Progress: " + str(progress) + "%")
                 if not file_size:
-                    print("DONE")
+                    print("Download complete")
 
     def get(self, remote_path):
         """Save model metadata to the model registry.
@@ -270,14 +269,11 @@ class DatasetApi:
                         zip_exists = self._path_exists(
                             destination_path + "/" + os.path.split(zip_path)[1]
                         )
-                    print(zip_exists)
                     # Get the zipState of the directory being zipped
                     dir_status = self.get(remote_path)
-                    print(dir_status)
                     zip_state = (
                         dir_status["zipState"] if "zipState" in dir_status else None
                     )
-                    print(zip_state)
                     if zip_exists and zip_state == "NONE":
                         return
                     else:
