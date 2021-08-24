@@ -19,7 +19,8 @@ import humps
 
 from hsml import util
 from hsml.core import models_api
-from hsml.framework import tensorflow  # noqa: F401
+from hsml.framework.tensorflow import tf_signature  # noqa: F401
+from hsml.framework.python import py_signature  # noqa: F401
 
 
 class ModelRegistry:
@@ -32,7 +33,8 @@ class ModelRegistry:
 
         self._models_api = models_api.ModelsApi()
 
-        self._tensorflow = tensorflow
+        self._tensorflow = tf_signature
+        self._python = py_signature
 
     @classmethod
     def from_response_json(cls, json_dict):
