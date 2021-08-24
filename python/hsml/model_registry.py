@@ -133,3 +133,8 @@ class ModelRegistry:
     def tensorflow(self):
         """Number of models in the model registry."""
         return self._tensorflow
+
+    @property
+    def python(self):
+        """Number of models in the model registry."""
+        return self._python
