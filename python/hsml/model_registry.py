@@ -19,7 +19,6 @@ import humps
 
 from hsml import util
 from hsml.core import models_api
-
 from hsml.framework import tensorflow  # noqa: F401
 
 
@@ -32,6 +31,8 @@ class ModelRegistry:
         self._num_models = num_models
 
         self._models_api = models_api.ModelsApi()
+
+        self._tensorflow = tensorflow
 
     @classmethod
     def from_response_json(cls, json_dict):
@@ -125,3 +126,8 @@ class ModelRegistry:
     def num_models(self):
         """Number of models in the model registry."""
         return self._num_models
+
+    @property
+    def tensorflow(self):
+        """Number of models in the model registry."""
+        return self._tensorflow
