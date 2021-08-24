@@ -17,8 +17,8 @@
 from typing import Optional, Union, TypeVar
 import pandas
 import numpy
-import hsml
 from hsml.utils.signature import Signature
+from hsml.tensorflow.model import Model
 
 
 def create_model(
@@ -83,7 +83,7 @@ def create_model(
     # Returns
         `Model`. The model metadata object.
     """
-    return hsml.tensorflow.model.Model(
+    return Model(
         id=None,
         name=name,
         version=version,
