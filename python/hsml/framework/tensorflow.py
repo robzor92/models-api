@@ -83,7 +83,7 @@ def create_model(
     # Returns
         `Model`. The model metadata object.
     """
-    return model.Model(
+    return model.tensorflow.Model(
         id=None,
         name=name,
         version=version,
