@@ -28,10 +28,12 @@ class ColumnarSignature:
     ):
 
         pyspark_spec = importlib.util.find_spec("pyspark")
-        pyspark = importlib.util.module_from_spec(pyspark_spec)
+        if pyspark_spec is not None:
+            pyspark = importlib.util.module_from_spec(pyspark_spec)
 
         hsfs_spec = importlib.util.find_spec("hsfs")
-        hsfs = importlib.util.module_from_spec(hsfs_spec)
+        if hsfs_spec is not None:
+            hsfs = importlib.util.module_from_spec(hsfs_spec)
 
         if isinstance(columnar_obj, pandas.DataFrame):
             self.columns = self._convert_pandas_df_to_signature(columnar_obj)
