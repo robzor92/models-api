@@ -15,16 +15,14 @@
 #
 
 from hsml.utils.tensor import Tensor
-from typing import Dict, List, Union, Optional
+from typing import Union, Optional
 import numpy
+
 
 class TensorSignature:
     """Metadata object representing a tensor signature for a model."""
 
-    def __init__(
-            self,
-            numpy_obj: Optional[Union[numpy.ndarray]] = None
-    ):
+    def __init__(self, numpy_obj: Optional[Union[numpy.ndarray]] = None):
 
         self.tensor = self._convert_tensor_to_signature(numpy_obj)
 
