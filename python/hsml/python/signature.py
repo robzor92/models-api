@@ -18,7 +18,7 @@ from typing import Optional, Union, TypeVar
 import pandas
 import numpy
 from hsml.utils.signature import Signature
-from hsml.framework.python.model import Model
+from hsml.python.model import Model
 
 
 def create_model(

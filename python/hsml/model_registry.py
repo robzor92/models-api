@@ -19,8 +19,8 @@ import humps
 
 from hsml import util
 from hsml.core import models_api
-from hsml.framework.tensorflow import signature as tf_signature  # noqa: F401
-from hsml.framework.python import signature as py_signature  # noqa: F401
+from hsml.tensorflow import signature as tf_signature  # noqa: F401
+from hsml.python import signature as py_signature  # noqa: F401
 
 
 class ModelRegistry:
