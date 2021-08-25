@@ -37,14 +37,14 @@ class ModelsApi:
             model_instance.name + "_" + str(model_instance.version),
         ]
         headers = {"content-type": "application/json"}
-        return model.Model.update_from_response_json(
+        return model_instance.update_from_response_json(
             _client._send_request(
                 "PUT",
                 path_params,
                 headers=headers,
                 query_params=query_params,
                 data=model_instance.json(),
-            ),
+            )
         )
 
     def get(self, name, version):
