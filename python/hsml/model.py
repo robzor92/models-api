@@ -44,6 +44,7 @@ class Model:
         signature=None,
         training_dataset=None,
         input_example=None,
+        framework=None,
         model_registry_id=None,
         href=None,
         expand=None,
@@ -73,6 +74,7 @@ class Model:
         self._program = program
         self._user_full_name = user_full_name
         self._input_example = input_example
+        self._framework = framework
         self._signature = signature
         self._training_dataset = training_dataset
         self._model_registry_id = model_registry_id
@@ -134,6 +136,7 @@ class Model:
             "version": self._version,
             "description": self._description,
             "inputExample": self._input_example,
+            "framework": self._framework,
             "metrics": self._metrics,
             "trainingDataset": self._training_dataset,
         }
@@ -247,6 +250,15 @@ class Model:
     @input_example.setter
     def input_example(self, input_example):
         self._input_example = input_example
+
+    @property
+    def framework(self):
+        """framework of the model."""
+        return self._framework
+
+    @framework.setter
+    def framework(self, framework):
+        self._framework = framework
 
     @property
     def signature(self):

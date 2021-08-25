@@ -37,6 +37,7 @@ class Model(Model):
         signature=None,
         training_dataset=None,
         input_example=None,
+        framework="PYTHON",
         model_registry_id=None,
         href=None,
         expand=None,
@@ -60,4 +61,5 @@ class Model(Model):
             signature=signature,
             training_dataset=training_dataset,
             input_example=input_example,
+            framework=framework,
         )
