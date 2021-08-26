@@ -258,7 +258,7 @@ class Engine:
             self._dataset_api.download(
                 model_instance._environment[0], tmp_dir.name + "/environment.yml"
             )
-            with open(tmp_dir.name + "/environment.yml", "rb") as f:
+            with open(tmp_dir.name + "/environment.yml", "r") as f:
                 return f.read()
         finally:
             if tmp_dir is not None and os.path.exists(tmp_dir.name):
