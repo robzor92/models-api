@@ -24,8 +24,8 @@ import pandas as pd
 from json import JSONEncoder
 
 from hsml.tensorflow.model import Model as TFModel
-from hsml.python.model import Model as TorchModel
-from hsml.python.model import Model as SkLearnModel
+from hsml.torch.model import Model as TorchModel
+from hsml.sklearn.model import Model as SkLearnModel
 from hsml.python.model import Model as PyModel
 
 
