@@ -139,6 +139,8 @@ class Model:
             "framework": self._framework,
             "metrics": self._metrics,
             "trainingDataset": self._training_dataset,
+            "environment": self._environment,
+            "program": self._program,
         }
 
     @property
