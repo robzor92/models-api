@@ -24,6 +24,8 @@ import pandas as pd
 from json import JSONEncoder
 
 from hsml.tensorflow.model import Model as TFModel
+from hsml.python.model import Model as TorchModel
+from hsml.python.model import Model as SkLearnModel
 from hsml.python.model import Model as PyModel
 
 
@@ -91,10 +93,12 @@ def _is_ndarray(x):
 
 
 def set_model_class(model):
-    print("func")
-    print(model)
     if model["framework"] == "TENSORFLOW":
         return TFModel(**model)
+    if model["framework"] == "TORCH":
+        return TorchModel(**model)
+    if model["framework"] == "SKLEARN":
+        return SkLearnModel(**model)
     elif model["framework"] == "PYTHON":
         return PyModel(**model)
 

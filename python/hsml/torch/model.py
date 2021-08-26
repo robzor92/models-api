@@ -61,7 +61,7 @@ class Model(Model):
             signature=signature,
             training_dataset=training_dataset,
             input_example=input_example,
-            framework="TENSORFLOW",
+            framework="TORCH",
         )
 
     def update_from_response_json(self, json_dict):
