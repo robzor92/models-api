@@ -38,6 +38,7 @@ class Model(Model):
         signature=None,
         training_dataset=None,
         input_example=None,
+        framework=None,
         model_registry_id=None,
         href=None,
         expand=None,
