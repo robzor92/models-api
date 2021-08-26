@@ -19,8 +19,10 @@ import humps
 
 from hsml import util
 from hsml.core import models_api
-from hsml.tensorflow import signature as tf_signature  # noqa: F401
-from hsml.python import signature as py_signature  # noqa: F401
+from hsml.tensorflow import signature as tensorflow_signature  # noqa: F401
+from hsml.python import signature as python_signature  # noqa: F401
+from hsml.sklearn import signature as sklearn_signature  # noqa: F401
+from hsml.torch import signature as torch_signature  # noqa: F401
 
 
 class ModelRegistry:
@@ -33,8 +35,10 @@ class ModelRegistry:
 
         self._models_api = models_api.ModelsApi()
 
-        self._tensorflow = tf_signature
-        self._python = py_signature
+        self._tensorflow = tensorflow_signature
+        self._python = python_signature
+        self._sklearn = sklearn_signature
+        self._torch = torch_signature
 
     @classmethod
     def from_response_json(cls, json_dict):
@@ -138,3 +142,13 @@ class ModelRegistry:
     def python(self):
         """Number of models in the model registry."""
         return self._python
+
+    @property
+    def sklearn(self):
+        """Number of models in the model registry."""
+        return self._sklearn
+
+    @property
+    def torch(self):
+        """Number of models in the model registry."""
+        return self._torch
