@@ -105,7 +105,8 @@ class Model:
         """
         self._models_api.delete(self)
 
-    def from_response_json(self, json_dict):
+    @classmethod
+    def from_response_json(cls, json_dict):
         json_decamelized = humps.decamelize(json_dict)
         if "count" in json_decamelized:
             if json_decamelized["count"] == 0:
