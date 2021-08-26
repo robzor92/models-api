@@ -23,9 +23,6 @@ from hsml.core import models_api, dataset_api
 
 from hsml.engine import models_engine
 
-from hsml.tensorflow.model import Model as TFModel
-from hsml.python.model import Model as PyModel
-
 
 class Model:
     """Metadata object representing a model in the Model Registry."""
@@ -113,17 +110,9 @@ class Model:
         if "count" in json_decamelized:
             if json_decamelized["count"] == 0:
                 return []
-            return [self.set_model_class(model) for model in json_decamelized["items"]]
+            return [util.set_model_class(model) for model in json_decamelized["items"]]
         else:
-            return self.set_model_class(json_decamelized)
-
-    def set_model_class(self, model):
-        print("func")
-        print(model)
-        if model["framework"] == "TENSORFLOW":
-            return TFModel(**model)
-        elif model["framework"] == "PYTHON":
-            return PyModel(**model)
+            return util.set_model_class(json_decamelized)
 
     def update_from_response_json(self, json_dict):
         json_decamelized = humps.decamelize(json_dict)

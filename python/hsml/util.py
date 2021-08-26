@@ -23,6 +23,9 @@ import pandas as pd
 
 from json import JSONEncoder
 
+from hsml.tensorflow.model import Model as TFModel
+from hsml.python.model import Model as PyModel
+
 
 class VersionWarning(Warning):
     pass
@@ -85,6 +88,15 @@ def _is_ndarray(x):
     return isinstance(x, np.ndarray) or (
         isinstance(x, dict) and all([isinstance(ary, np.ndarray) for ary in x.values()])
     )
+
+
+def set_model_class(model):
+    print("func")
+    print(model)
+    if model["framework"] == "TENSORFLOW":
+        return TFModel(**model)
+    elif model["framework"] == "PYTHON":
+        return PyModel(**model)
 
 
 def _handle_tensor_input(input_tensor: Union[np.ndarray, dict]):
