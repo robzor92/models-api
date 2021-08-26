@@ -202,11 +202,6 @@ class DatasetApi:
         """
         Check if path exists.
 
-        Example usage:
-
-        >>> from hops import dataset
-        >>> dataset.path_exists("Projects/project_name/Resources/myremotefile.txt")
-
         Args:
             :remote_path: the path to the remote file or directory in the dataset
 
@@ -250,10 +245,8 @@ class DatasetApi:
 
         headers = {"content-type": "application/json"}
 
-        print(
-            _client._send_request(
-                "POST", path_params, headers=headers, query_params=query_params
-            )
+        _client._send_request(
+            "POST", path_params, headers=headers, query_params=query_params
         )
 
         if block is True:
@@ -301,11 +294,6 @@ class DatasetApi:
         """
         Extract the dir or file in Hopsworks, specified by the remote_path.
 
-        Example usage:
-
-        >>> from hops import dataset
-        >>> dataset.extract("Projects/project_name/Resources/myremotefile.zip")
-
         Args:
             :remote_path: the path to the remote file or directory in the dataset
             :project_name: whether this method should wait for the zipping process to complete before returning.
@@ -321,10 +309,6 @@ class DatasetApi:
         """
         Extract the dir or file in Hopsworks, specified by the remote_path.
 
-        Example usage:
-
-        >>> from hops import dataset
-        >>> dataset.extract("Projects/project_name/Resources/myremotefile.zip")
 
         Args:
             :remote_path: the path to the remote file or directory in the dataset

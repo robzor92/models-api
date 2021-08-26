@@ -188,7 +188,9 @@ class Model:
 
     @property
     def environment(self):
-        """Anaconda environment of the model."""
+        """input_example of the model."""
+        if self._environment is not None and isinstance(self._environment, list):
+            self._environment = self._models_engine.read_environment(self)
         return self._environment
 
     @environment.setter

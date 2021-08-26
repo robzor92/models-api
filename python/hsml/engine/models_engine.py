@@ -252,6 +252,18 @@ class Engine:
             if tmp_dir is not None and os.path.exists(tmp_dir.name):
                 tmp_dir.cleanup()
 
+    def read_environment(self, model_instance):
+        try:
+            tmp_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
+            self._dataset_api.download(
+                model_instance._environment[0], tmp_dir.name + "/environment.yml"
+            )
+            with open(tmp_dir.name + "/environment.yml", "rb") as f:
+                return json.loads(f.read())
+        finally:
+            if tmp_dir is not None and os.path.exists(tmp_dir.name):
+                tmp_dir.cleanup()
+
     def read_signature(self, model_instance):
         try:
             tmp_dir = tempfile.TemporaryDirectory(dir=os.getcwd())
