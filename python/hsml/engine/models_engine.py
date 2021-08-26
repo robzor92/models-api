@@ -259,7 +259,7 @@ class Engine:
                 model_instance._environment[0], tmp_dir.name + "/environment.yml"
             )
             with open(tmp_dir.name + "/environment.yml", "rb") as f:
-                return json.loads(f.read())
+                return f.read()
         finally:
             if tmp_dir is not None and os.path.exists(tmp_dir.name):
                 tmp_dir.cleanup()
