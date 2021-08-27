@@ -207,10 +207,10 @@ class Engine:
                 print(
                     "Model not available during polling, set a higher value for await_registration to wait longer."
                 )
-        except Exception as e:
+        except BaseException as be:
             # Clean up failed export in the models dataset
             self._dataset_api.rm(dataset_model_version_path)
-            raise e
+            raise be
 
     def download(self, model_instance):
         model_name_path = (
