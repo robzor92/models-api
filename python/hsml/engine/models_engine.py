@@ -177,8 +177,6 @@ class Engine:
 
             self._dataset_api.rm(unzipped_model_dir)
 
-            raise Exception("wooops " + str(dataset_model_version_path))
-
             if await_registration > 0:
                 sleep_seconds = 5
                 for i in range(int(await_registration / sleep_seconds)):
