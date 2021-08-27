@@ -52,10 +52,13 @@ class Model:
         count=None,
         type=None,
     ):
+
         if id is None:
             self._id = name + "_" + str(version)
         else:
             self._id = id
+
+        self._path = "Models/" + name + "/" + str(version)
 
         self._name = name
         self._version = version
@@ -301,6 +304,15 @@ class Model:
     @experiment_project_name.setter
     def experiment_project_name(self, experiment_project_name):
         self._experiment_project_name = experiment_project_name
+
+    @property
+    def path(self):
+        """path of the model."""
+        return self._path
+
+    @path.setter
+    def path(self, path):
+        self._path = path
 
     def add_tag(self, name: str, value):
         """Attach a tag to a feature group.
