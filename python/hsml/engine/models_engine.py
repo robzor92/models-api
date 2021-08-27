@@ -43,6 +43,9 @@ class Engine:
 
     def save(self, model_instance, local_model_path, await_registration=480):
 
+        if model_instance._metrics is not None:
+            util.validate_metrics(model_instance._metrics)
+
         dataset_models_root_path = "Models"
 
         if not self._dataset_api.path_exists(dataset_models_root_path):

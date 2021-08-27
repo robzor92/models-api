@@ -28,6 +28,8 @@ from hsml.torch.model import Model as TorchModel
 from hsml.sklearn.model import Model as SkLearnModel
 from hsml.python.model import Model as PyModel
 
+from six import string_types
+
 
 class VersionWarning(Warning):
     pass
@@ -137,3 +139,33 @@ def zip(zip_file_path, dir_to_zip_path):
 
 def unzip(zip_file_path, extract_dir=None):
     return shutil.unpack_archive(zip_file_path, extract_dir=extract_dir)
+
+
+def validate_metrics(metrics):
+    if not isinstance(metrics, dict):
+        raise TypeError(
+            "provided metrics is of instance {}, expected a dict".format(type(metrics))
+        )
+
+    for metric in metrics:
+        if not isinstance(metric, string_types):
+            raise TypeError(
+                "provided metrics key is of instance {}, expected a string".format(
+                    type(metric)
+                )
+            )
+        validate_metric_value(metrics[metric])
+
+
+def validate_metric_value(opt_val):
+    try:
+        int(opt_val)
+        return opt_val
+    except Exception:
+        pass
+    try:
+        float(opt_val)
+        return opt_val
+    except Exception:
+        pass
+    raise TypeError("Metric value is of type {}, expect a number".format(type(opt_val)))
