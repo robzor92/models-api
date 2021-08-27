@@ -36,7 +36,7 @@ class Engine:
         self._dataset_api = dataset_api.DatasetApi()
 
         pydoop_spec = importlib.util.find_spec("pydoop")
-        if pydoop_spec is None:
+        if pydoop_spec is None or "IS_LOCAL_TEST" in os.environ:
             self._engine = local_engine.Engine()
         else:
             self._engine = hopsworks_engine.Engine()
@@ -285,3 +285,19 @@ class Engine:
         finally:
             if tmp_dir is not None and os.path.exists(tmp_dir.name):
                 tmp_dir.cleanup()
+
+    def add_tag(self, model, name, value):
+        """Attach a name/value tag to a feature group."""
+        self._dataset_api.add(model, name, value)
+
+    def delete_tag(self, model, name):
+        """Remove a tag from a feature group."""
+        self._dataset_api.delete(model, name)
+
+    def get_tag(self, model, name):
+        """Get tag with a certain name."""
+        return self._dataset_api.get(model, name)[name]
+
+    def get_tags(self, model):
+        """Get all tags for a feature group."""
+        return self._dataset_api.get(model)

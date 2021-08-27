@@ -70,7 +70,7 @@ class Model:
         self._experiment_id = experiment_id
         self._project_name = project_name
         self._experiment_project_name = experiment_project_name
-        self._metrics = metrics
+        self._training_metrics = metrics
         self._program = program
         self._user_full_name = user_full_name
         self._input_example = input_example
@@ -137,7 +137,7 @@ class Model:
             "description": self._description,
             "inputExample": self._input_example,
             "framework": self._framework,
-            "metrics": self._metrics,
+            "metrics": self._training_metrics,
             "trainingDataset": self._training_dataset,
             "environment": self._environment,
             "program": self._program,
@@ -218,13 +218,13 @@ class Model:
         self._experiment_project_name = experiment_project_name
 
     @property
-    def metrics(self):
+    def training_metrics(self):
         """metrics of the model."""
-        return self._metrics
+        return self._training_metrics
 
-    @metrics.setter
-    def metrics(self, metrics):
-        self._metrics = metrics
+    @training_metrics.setter
+    def training_metrics(self, training_metrics):
+        self._training_metrics = training_metrics
 
     @property
     def program(self):
@@ -301,3 +301,45 @@ class Model:
     @experiment_project_name.setter
     def experiment_project_name(self, experiment_project_name):
         self._experiment_project_name = experiment_project_name
+
+    def add_tag(self, name: str, value):
+        """Attach a tag to a feature group.
+        A tag consists of a <name,value> pair. Tag names are unique identifiers across the whole cluster.
+        The value of a tag can be any valid json - primitives, arrays or json objects.
+        # Arguments
+            name: Name of the tag to be added.
+            value: Value of the tag to be added.
+        # Raises
+            `RestAPIError` in case the backend fails to add the tag.
+        """
+
+        self._models_engine.add_tag(self, name, value)
+
+    def delete_tag(self, name: str):
+        """Delete a tag attached to a feature group.
+        # Arguments
+            name: Name of the tag to be removed.
+        # Raises
+            `RestAPIError` in case the backend fails to delete the tag.
+        """
+        self._models_engine.delete_tag(self, name)
+
+    def get_tag(self, name: str):
+        """Get the tags of a feature group.
+        # Arguments
+            name: Name of the tag to get.
+        # Returns
+            tag value
+        # Raises
+            `RestAPIError` in case the backend fails to retrieve the tag.
+        """
+        return self._models_engine.get_tag(self, name)
+
+    def get_tags(self):
+        """Retrieves all tags attached to a feature group.
+        # Returns
+            `Dict[str, obj]` of tags.
+        # Raises
+            `RestAPIError` in case the backend fails to retrieve the tags.
+        """
+        return self._models_engine.get_tags(self)

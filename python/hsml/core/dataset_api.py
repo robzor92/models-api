@@ -16,10 +16,11 @@
 
 import math
 import os
+import json
 from hsml.client.exceptions import RestAPIError
 import time
 
-from hsml import client
+from hsml import client, tag
 
 
 class DatasetApi:
@@ -349,3 +350,90 @@ class DatasetApi:
         _client._send_request(
             "POST", path_params, headers=headers, query_params=query_params
         )
+
+    def add(self, path, name, value):
+        """Attach a name/value tag to a training dataset or feature group.
+
+        A tag consists of a name/value pair. Tag names are unique identifiers.
+        The value of a tag can be any valid json - primitives, arrays or json objects.
+
+        :param metadata_instance: metadata object of the instance to add the
+            tag for
+        :type metadata_instance: TrainingDataset, FeatureGroup
+        :param name: name of the tag to be added
+        :type name: str
+        :param value: value of the tag to be added
+        :type value: str
+        """
+        _client = client.get_instance()
+        path_params = [
+            "project",
+            _client._project_id,
+            "dataset",
+            "tags",
+            "schema",
+            name,
+            path,
+        ]
+        headers = {"content-type": "application/json"}
+        json_value = json.dumps(value)
+        _client._send_request("PUT", path_params, headers=headers, data=json_value)
+
+    def delete(self, path, name):
+        """Delete a tag.
+
+        Tag names are unique identifiers.
+
+        :param metadata_instance: metadata object of training dataset
+            to delete the tag for
+        :type metadata_instance: TrainingDataset, FeatureGroup
+        :param name: name of the tag to be removed
+        :type name: str
+        """
+        _client = client.get_instance()
+        path_params = [
+            "project",
+            _client._project_id,
+            "dataset",
+            "tags",
+            "schema",
+            name,
+            path,
+        ]
+        _client._send_request("DELETE", path_params)
+
+    def get_tags(self, path, name: str = None):
+        """Get the tags.
+
+        Gets all tags if no tag name is specified.
+
+        :param metadata_instance: metadata object of training dataset
+            to get the tags for
+        :type metadata_instance: TrainingDataset, FeatureGroup
+        :param name: tag name
+        :type name: str
+        :return: dict of tag name/values
+        :rtype: dict
+        """
+        _client = client.get_instance()
+        path_params = [
+            "project",
+            _client._project_id,
+            "dataset",
+            "tags",
+        ]
+
+        if name is not None:
+            path_params.append("schema")
+            path_params.append(name)
+        else:
+            path_params.append("all")
+
+        path_params.append(path)
+
+        return {
+            tag._name: json.loads(tag._value)
+            for tag in tag.Tag.from_response_json(
+                _client._send_request("GET", path_params)
+            )
+        }
