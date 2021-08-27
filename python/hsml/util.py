@@ -130,7 +130,9 @@ def _handle_dataframe_input(input_ex):
     elif isinstance(input_ex, pd.Series):
         return input_ex.to_dict()
     else:
-        raise AssertionError
+        raise TypeError(
+            "{} is not a supported input example type".format(type(input_ex))
+        )
 
 
 def zip(zip_file_path, dir_to_zip_path):
