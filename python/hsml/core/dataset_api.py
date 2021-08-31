@@ -20,7 +20,7 @@ import json
 from hsml.client.exceptions import RestAPIError
 import time
 
-from hsml import client, tag
+from hsml import client
 
 
 class DatasetApi:
@@ -431,9 +431,4 @@ class DatasetApi:
 
         path_params.append(path)
 
-        return {
-            tag._name: json.loads(tag._value)
-            for tag in tag.Tag.from_response_json(
-                _client._send_request("GET", path_params)
-            )
-        }
+        return _client._send_request("GET", path_params)
