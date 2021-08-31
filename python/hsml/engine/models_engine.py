@@ -296,8 +296,8 @@ class Engine:
 
     def get_tag(self, model, name):
         """Get tag with a certain name."""
-        return self._dataset_api.get(model.path, name)[name]
+        return self._dataset_api.get_tags(model.path, name)[name]
 
     def get_tags(self, model):
         """Get all tags for a feature group."""
-        return self._dataset_api.get(model.path)
+        return self._dataset_api.get_tags(model.path)
