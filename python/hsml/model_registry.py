@@ -28,10 +28,9 @@ from hsml.torch import signature as torch_signature  # noqa: F401
 class ModelRegistry:
     DEFAULT_VERSION = 1
 
-    def __init__(self, project_name, project_id, num_models=None):
+    def __init__(self, project_name, project_id):
         self._project_name = project_name
         self._project_id = project_id
-        self._num_models = num_models
 
         self._models_api = models_api.ModelsApi()
 
@@ -127,11 +126,6 @@ class ModelRegistry:
     def project_id(self):
         """Id of the project in which the model registry is located."""
         return self._project_id
-
-    @property
-    def num_models(self):
-        """Number of models in the model registry."""
-        return self._num_models
 
     @property
     def tensorflow(self):
