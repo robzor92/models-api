@@ -49,7 +49,7 @@ class Engine:
         dataset_models_root_path = "Models"
 
         if not self._dataset_api.path_exists(dataset_models_root_path):
-            raise RestAPIError(
+            raise AssertionError(
                 "Models dataset does not exist in this project. Please enable the Serving service or create it manually."
             )
 
