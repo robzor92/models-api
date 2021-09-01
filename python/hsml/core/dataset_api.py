@@ -431,8 +431,9 @@ class DatasetApi:
 
         path_params.append(path)
 
-        attached_tags = tag.Tag.from_response_json(
-            _client._send_request("GET", path_params)
-        )
-
-        return attached_tags
+        return {
+            tag._name: json.loads(tag._value)
+            for tag in tag.Tag.from_response_json(
+                _client._send_request("GET", path_params)
+            )
+        }
