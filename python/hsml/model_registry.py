@@ -60,7 +60,7 @@ class ModelRegistry:
 
         if version is None:
             warnings.warn(
-                "No version provided for getting feature group `{}`, defaulting to `{}`.".format(
+                "No version provided for getting model `{}`, defaulting to `{}`.".format(
                     name, self.DEFAULT_VERSION
                 ),
                 util.VersionWarning,
