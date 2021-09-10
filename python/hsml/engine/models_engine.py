@@ -217,9 +217,8 @@ class Engine:
                     "Model not available during polling, set a higher value for await_registration to wait longer."
                 )
         except BaseException as be:
-            raise be
-        finally:
             self._dataset_api.rm(dataset_model_version_path)
+            raise be
 
     def download(self, model_instance):
         model_name_path = (
