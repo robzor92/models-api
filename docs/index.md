@@ -1,4 +1,4 @@
-# Hopsworks Feature Store
+# Hopsworks Model Registry
 
 <p align="center">
   <a href="https://community.hopsworks.ai"><img
