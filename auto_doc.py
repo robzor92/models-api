@@ -9,7 +9,16 @@ PAGES = {
         "connection_methods": keras_autodoc.get_methods(
             "hsml.connection.Connection", exclude=["connection"]
         ),
-    }
+    },
+    "model_registry.md": {
+        "mr_get": ["hsml.connection.Connection.get_model_registry"],
+        "mr_properties": keras_autodoc.get_properties(
+            "hsml.model_registry.ModelRegistry"
+        ),
+        "mr_methods": keras_autodoc.get_methods(
+            "hsml.model_registry.ModelRegistry", exclude=["from_response_json"]
+        ),
+    },
 }
 
 hsml_dir = pathlib.Path(__file__).resolve().parents[0]

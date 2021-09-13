@@ -1,4 +1,4 @@
-# Hopsworks Model Registry
+# Hopsworks Feature Store
 
 <p align="center">
   <a href="https://community.hopsworks.ai"><img
@@ -6,19 +6,19 @@
     alt="Hopsworks Community"
   /></a>
     <a href="https://docs.hopsworks.ai"><img
-    src="https://img.shields.io/badge/docs-HSML-orange"
+    src="https://img.shields.io/badge/docs-HSFS-orange"
     alt="Hopsworks Feature Store Documentation"
   /></a>
-  <a href="https://pypi.org/project/hsml/"><img
-    src="https://img.shields.io/pypi/v/hsml?color=blue"
+  <a href="https://pypi.org/project/hsfs/"><img
+    src="https://img.shields.io/pypi/v/hsfs?color=blue"
     alt="PyPiStatus"
   /></a>
-  <a href="https://archiva.hops.works/#artifact/com.logicalclocks/hsml"><img
-    src="https://img.shields.io/badge/java-HSML-green"
+  <a href="https://archiva.hops.works/#artifact/com.logicalclocks/hsfs"><img
+    src="https://img.shields.io/badge/java-HSFS-green"
     alt="Scala/Java Artifacts"
   /></a>
-  <a href="https://pepy.tech/project/hsml/month"><img
-    src="https://pepy.tech/badge/hsml/month"
+  <a href="https://pepy.tech/project/hsfs/month"><img
+    src="https://pepy.tech/badge/hsfs/month"
     alt="Downloads"
   /></a>
   <a href="https://github.com/psf/black"><img
@@ -26,12 +26,18 @@
     alt="CodeStyle"
   /></a>
   <a><img
-    src="https://img.shields.io/pypi/l/hsml?color=green"
+    src="https://img.shields.io/pypi/l/hsfs?color=green"
     alt="License"
   /></a>
 </p>
 
-HSML is the library to interact with the Hopsworks Model Registry. The library makes it easy to export models with meaningful metadata and manage versioning.
+HSFS is the library to interact with the Hopsworks Feature Store. The library makes creating new features, feature groups and training datasets easy.
+
+The library is environment independent and can be used in two modes:
+
+- Spark mode: For data engineering jobs that create and write features into the feature store or generate training datasets. It requires a Spark environment such as the one provided in the Hopsworks platform or Databricks. In Spark mode, HSFS provides bindings both for Python and JVM languages.
+
+- Python mode: For data science jobs to explore the features available in the feature store, generate training datasets and feed them in a training pipeline. Python mode requires just a Python interpreter and can be used both in Hopsworks from Python Jobs/Jupyter Kernels, Amazon SageMaker or KubeFlow.
 
 The library automatically configures itself based on the environment it is run.
 However, to connect from an external environment such as Databricks or AWS Sagemaker,
@@ -39,50 +45,113 @@ additional connection information, such as host and port, is required. For more 
 
 ## Getting Started On Hopsworks
 
-Instantiate a connection and get the project model registry handler
+Instantiate a connection and get the project feature store handler
 ```python
-import hsml
+import hsfs
 
-connection = hsml.connection()
-mr = connection.get_model_registry()
+connection = hsfs.connection()
+fs = connection.get_feature_store()
 ```
 
-Create a new model
+Create a new feature group
 ```python
-model = mr.tensorflow.create_model("mnist",
+fg = fs.create_feature_group("rain",
                         version=1,
-                        description="A model description",
-                        metrics={"accuracy": 0.94, "loss": 0.0432})
+                        description="Rain features",
+                        primary_key=['date', 'location_id'],
+                        online_enabled=True)
 
-mr.save("model_directory")
+fg.save(dataframe)
 ```
 
-Get the exported model
+Upsert new data in to the feature group with `time_travel_format="HUDI"`".
 ```python
-mnist_1 = mr.get_model(name="mnist", version=1)
+fg.insert(upsert_df)
 ```
 
-Download all the model artifacts
+Retrieve commit timeline metdata of the feature group with `time_travel_format="HUDI"`".
 ```python
-local_directory = mnist_1.download()
+fg.commit_details()
 ```
 
-Delete the model from the model registry
+"Reading feature group as of specific point in time".
 ```python
-mnist_1.delete()
+fg = fs.get_feature_group("rain", 1)
+fg.read("2020-10-20 07:34:11").show()
+```
+
+Read updates  that occurred between specified points in time.
+```python
+fg = fs.get_feature_group("rain", 1)
+fg.read_changes("2020-10-20 07:31:38", "2020-10-20 07:34:11").show()
+```
+
+Join features together
+```python
+feature_join = rain_fg.select_all()
+                    .join(temperature_fg.select_all(), on=["date", "location_id"])
+                    .join(location_fg.select_all())
+feature_join.show(5)
+```
+
+join feature groups that correspond to specific point in time
+```python
+feature_join = rain_fg.select_all()
+                    .join(temperature_fg.select_all(), on=["date", "location_id"])
+                    .join(location_fg.select_all())
+                    .as_of("2020-10-31")
+feature_join.show(5)
+```
+
+join feature groups that correspond to different time
+```python
+rain_fg_q = rain_fg.select_all().as_of("2020-10-20 07:41:43")
+temperature_fg_q = temperature_fg.select_all().as_of("2020-10-20 07:32:33")
+location_fg_q = location_fg.select_all().as_of("2020-10-20 07:33:08")
+joined_features_q = rain_fg_q.join(temperature_fg_q).join(location_fg_q)
+```
+
+Use the query object to create a training dataset:
+```python
+td = fs.create_training_dataset("rain_dataset",
+                                version=1,
+                                data_format="tfrecords",
+                                description="A test training dataset saved in TfRecords format",
+                                splits={'train': 0.7, 'test': 0.2, 'validate': 0.1})
+
+td.save(feature_join)
+```
+
+Feed the training dataset to a TensorFlow model:
+```python
+tf_data_object = training_dataset.tf_data(target_name="label",
+                                          split="train",
+                                          is_training=True)
+train_input = tf_data_object.tf_record_dataset(batch_size=32,
+                                               num_epochs=5,
+                                               process=True)
+```
+
+A short introduction to the Scala API:
+```scala
+import com.logicalclocks.hsfs._
+val connection = HopsworksConnection.builder().build()
+val fs = connection.getFeatureStore();
+val attendances_features_fg = fs.getFeatureGroup("games_features", 1);
+attendances_features_fg.show(1)
 ```
 
 You can find more examples on how to use the library in our [hops-examples](https://github.com/logicalclocks/hops-examples) repository.
 
 ## Documentation
 
-Documentation is available at [Hopsworks Model Registry Documentation](https://docs.hopsworks.ai/).
+Documentation is available at [Hopsworks Feature Store Documentation](https://docs.hopsworks.ai/).
 
 ## Issues
 
-For general questions about the usage of Hopsworks and the Model Registry please open a topic on [Hopsworks Community](https://community.hopsworks.ai/).
+For general questions about the usage of Hopsworks and the Feature Store please open a topic on [Hopsworks Community](https://community.hopsworks.ai/).
 
-Please report any issue using [Github issue tracking](https://github.com/logicalclocks/machine-learning-api/issues).
+Please report any issue using [Github issue tracking](https://github.com/logicalclocks/feature-store-api/issues).
 
 
 ## Contributing

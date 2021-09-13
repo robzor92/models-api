@@ -13,7 +13,7 @@ The Hopsworks model registry is a centralized repository, within an organization
 
 In this Quickstart Guide we are going to focus on the left side of the picture above. In particular how data scientists can create models and publish them to the model registry to make them available for further development and serving.
 
-### HSFS library
+### HSML library
 
 The Hopsworks model registry library is called `hsml` (**H**opswork**s** **M**achine **L**earning).
 The library is Apache V2 licensed and available [here](https://github.com/logicalclocks/machine-learning-api). The library is currently available for Python.
@@ -45,16 +45,16 @@ By default `connection.get_model_registry()` returns the model registry of the p
 
 ### Models
 
-Assuming you have done some model training, having export a model to a directory on a local file path, the model artifacts and additional metadata can now be saved to the Model Registry. See the [example notebooks](https://github.com/logicalclocks/hops-examples/blob/master/notebooks/ml/hsml).
+Assuming you have done some model training, and exported a model to a directory on a local file path, the model artifacts and additional metadata can now be saved to the Model Registry. See the [example notebooks](https://github.com/logicalclocks/hops-examples/blob/master/notebooks/ml/hsml).
 
 #### Creation
 
-Create a model named `mnist`. As you can see, you have the possibility to make settings on the Model, such as the `version` number, or `metrics` parameter which is set to attach model training metrics on the model. The [Model Guide](generated/model.md) guides through the full configuration of Models.
+Create a model named `mnist`. As you can see, you have the possibility to set parameters for the Model, such as the `version` number, or `metrics` which is set to attach model training metrics on the model. The [Model Guide](generated/model.md) guides through the full configuration of Models.
 
 === "Python"
 
     ```python
-    mnist_model_meta = mr.create_model(name="mnist",
+    mnist_model_meta = mr.tensorflow.create_model(name="mnist",
         version=1,
         metrics={"accuracy": 0.94},
         description="mnist model description")
@@ -86,7 +86,7 @@ Using the Model Registry object, you can retrieve handles to the entities, such 
     tf.saved_model.load(model_download_path)
     ```
 
-To seamlessly combine HSML with model serving components the library makes it simple to also query for the best performing model. In this instance, we get the best model version with the highest `accuracy` metric attached.
+To seamlessly combine HSML with model serving components the library makes it simple to also query for the best performing model. In this instance, we get the best model version by querying for the model version with the highest `accuracy` metric attached.
 
 === "Python"
 
@@ -94,125 +94,3 @@ To seamlessly combine HSML with model serving components the library makes it si
     mnist_model_meta = mr.get_best_model('mnist', 'accuracy', 'max')
 
     ```
-
-#### Input examples and Signatures
-
-HSML provides an API similar to Pandas to join feature groups together and to select features from different feature groups.
-The easies query you can write is by selecting all the features from a feature group and join them with all the features of another feature group.
-
-You can use the `select_all()` method of a feature group to select all its features. HSFS relies on the Hopsworks feature store to identify which features of the two feature groups to use as joining condition.
-If you don't specify anything, Hopsworks will use the largest matching subset of primary keys with the same name.
-
-In the example below, `sales_fg` has `store`, `dept` and `date` as composite primary key while `exogenous_fg` has only `store` and `date`. So Hopsworks will set as joining condition `store` and `date`.
-
-=== "Python"
-
-    ```python
-    sales_fg = fs.get_feature_group('sales_fg')
-    exogenous_fg = fs.get_feature_group('exogenous_fg')
-
-    query = sales_fg.select_all().join(exogenous_fg.select_all())
-
-    # print first 5 rows of the query
-    query.show(5)
-    ```
-
-=== "Scala"
-
-    ```scala
-    val exogenousFg = fs.getFeatureGroup("exogenous_fg")
-    val salesFg = fs.getFeatureGroup("sales_fg")
-
-    val query = salesFg.selectAll().join(exogenousFg.selectAll())
-
-    // print first 5 rows of the query
-    query.show(5)
-    ```
-
-For a more complex joins, and details about overwriting the join keys and join type, the programming interface guide explains the `Query` interface as well as
-
-### Training Datasets
-
-Once a Data Scientist has found the features she needs for her model, she can create a training dataset to materialize the features in the desired file format. The Hopsworks Feature Store supports a variety of file formats, matching the Data Scientists' favourite Machine Learning Frameworks.
-
-#### Creation
-
-You can either create a training dataset from a `Query` object or directly from a Spark or Pandas DataFrame. Spark and Pandas give you more flexibility, but it has drawbacks for reproducability at inference time, when the Feature Vector needs to be reconstructed. The idea of the Feature Store is to have ready-engineered features available for Data Scientists to be selected for training datasets. With this assumption, it should not be necessary to perform additional engineering, but instead joining, filtering and point in time querying should be enough to generate training datasets.
-
-=== "Python"
-
-    ```python
-    store_fg = fs.get_feature_group("store_fg")
-    sales_fg = fs.get_feature_group('sales_fg')
-    exogenous_fg = fs.get_feature_group('exogenous_fg')
-
-    query = sales_fg.select_all() \
-        .join(store_fg.select_all()) \
-        .join(exogenous_fg.select(['fuel_price', 'unemployment', 'cpi']))
-
-    td = fs.create_training_dataset(
-        name = "sales_model",
-        description = "Dataset to train the sales model",
-        data_format = "tfrecord",
-        splits = {"train": 0.7, "test": 0.2, "validate": 0.1},
-        version = 1)
-
-    td.save(query)
-    ```
-
-=== "Scala"
-
-    ```scala
-    val storeFg = fs.getFeatureGroup("store_fg")
-    val exogenousFg = fs.getFeatureGroup("exogenous_fg")
-    val salesFg = fs.getFeatureGroup("sales_fg")
-
-    query = (salesFg.selectAll()
-        .join(storeFg.selectAll())
-        .join(exogenousFg.select(Seq("fuel_price", "unemployment", "cpi").asJava)))
-
-    val td = (fs.createTrainingDataset()
-                          .name("sales_model")
-                          .description("Dataset to train the sales model")
-                          .version(1)
-                          .dataFormat(DataFormat.TFRECORD)
-                          .splits(Map("train" -> Double.box(0.7), "test" -> Double.box(0.2), "validate" -> Double.box(0.1))
-                          .build())
-
-    td.save(query)
-    ```
-
-#### Retrieval
-
-If you want to use a previously created training dataset to train a machine learning model, you can get the training dataset similarly to how you get a feature group.
-
-=== "Python"
-
-    ```python
-    td = fs.get_training_dataset("sales_model")
-
-    df = td.read(split="train")
-    ```
-
-=== "Scala"
-
-    ```scala
-    val td = fs.getTrainingDataset("sales_model")
-
-    val df = td.read("train")
-    ```
-
-Either you read the data into a DataFrame again, or you use the provided utility methods, to instantiate for example a [`tf.data.Dataset`](https://www.tensorflow.org/guide/data), which can directly be passed to a TensorFlow model.
-
-=== "Python"
-
-    ```python
-    train_input_feeder = training_dataset.feed(target_name="label",
-                                            split="train",
-                                            is_training=True)
-    train_input = train_input_feeder.tf_record_dataset()
-    ```
-
-=== "Scala"
-
-    This functionality is only available in the Python API.

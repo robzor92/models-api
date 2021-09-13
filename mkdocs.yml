@@ -9,66 +9,22 @@ repo_url: https://github.com/logicalclocks/hopsworks
 edit_uri: ""
 
 nav:
-  - Feature Store:
-    - Introduction: index.md
-    - Quickstart: quickstart.md
-    - Integrations:
-      - Overview: setup.md
-      - Storage Connectors:
-        - Overview: integrations/storage-connectors.md
-        - ADLS: integrations/storage-connectors/adls.md
-        - HopsFS: integrations/storage-connectors/hopsfs.md
-        - JDBC: integrations/storage-connectors/jdbc.md
-        - Redshift: integrations/storage-connectors/redshift.md
-        - S3: integrations/storage-connectors/s3.md
-        - Snowflake: integrations/storage-connectors/snowflake.md
-        - AWS Credential passthrough:
-          - Resource role to project mapping : integrations/role_mapping.md
-          - Assume role : integrations/assume_role.md
-      - Databricks:
-        - Networking: integrations/databricks/networking.md
-        - Hopsworks API Key: integrations/databricks/api_key.md
-        - Configuration: integrations/databricks/configuration.md
-      - AWS Sagemaker: integrations/sagemaker.md
-      - AWS EMR:
-        - Networking: integrations/emr/networking.md
-        - Configure EMR for the Hopsworks Feature Store: integrations/emr/emr_configuration.md
-      - Azure HDInsight: integrations/hdinsight.md
-      - Azure Machine Learning:
-        - Designer: integrations/mlstudio_designer.md
-        - Notebooks: integrations/mlstudio_notebooks.md
-      - Python: integrations/python.md
-      - Spark: integrations/spark.md
-    - Guides:
-      - Overview: overview.md
-      - Project/Connection: generated/project.md
-      - Feature Store: generated/feature_store.md
-      - Feature Group: generated/feature_group.md
-      - Storage Connector: generated/storage_connector.md
-      - Feature: generated/feature.md
-      - Training Dataset: generated/training_dataset.md
-      - Query vs. Dataframe: generated/query_vs_dataframe.md
-      - Statistics: generated/statistics.md
-      - Feature Validation: generated/feature_validation.md
-      - Feature Store Tags: generated/tags.md
-    - API Reference:
-      - Connection: generated/api/connection_api.md
-      - FeatureStore: generated/api/feature_store_api.md
-      - FeatureGroup: generated/api/feature_group_api.md
-      - TrainingDataset: generated/api/training_dataset_api.md
-      - Storage Connector: generated/api/storage_connector_api.md
-      - Feature: generated/api/feature_api.md
-      - Rule Definiton: generated/api/rule_definition_api.md
-      - Rule: generated/api/rule_api.md
-      - Expectation: generated/api/expectation_api.md
-      - Validation: generated/api/validation_api.md
-    - Contributing: CONTRIBUTING.md
   - Machine Learning:
       - Introduction: index.md
       - Quickstart: quickstart.md
-  - Hopsworks Platform: https://hopsworks.readthedocs.io/en/stable/index.html
-  - Examples: https://examples.hopsworks.ai/
-  - Community: https://community.hopsworks.ai/
+      - Integrations:
+          - Overview: setup.md
+          - Python: integrations/python.md
+      - Guides:
+          - Overview: overview.md
+          - Project/Connection: generated/project.md
+          - Model Registry: generated/feature_store.md
+          - Model: generated/feature_group.md
+      - API Reference:
+          - Connection: generated/api/connection_api.md
+          - FeatureStore: generated/api/model_registry_api.md
+          - FeatureGroup: generated/api/model_api.md
+      - Contributing: CONTRIBUTING.md
 
 theme:
   name: material
