@@ -1,4 +1,4 @@
-# FeatureGroup
+# Model
 
 {{fg}}
 

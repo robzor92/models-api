@@ -9,7 +9,7 @@ repo_url: https://github.com/logicalclocks/hopsworks
 edit_uri: ""
 
 nav:
-  - Machine Learning:
+  - Model Registry:
       - Introduction: index.md
       - Quickstart: quickstart.md
       - Integrations:
