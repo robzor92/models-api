@@ -45,113 +45,19 @@ additional connection information, such as host and port, is required. For more 
 
 ## Getting Started On Hopsworks
 
-Instantiate a connection and get the project feature store handler
-```python
-import hsfs
 
-connection = hsfs.connection()
-fs = connection.get_feature_store()
-```
-
-Create a new feature group
-```python
-fg = fs.create_feature_group("rain",
-                        version=1,
-                        description="Rain features",
-                        primary_key=['date', 'location_id'],
-                        online_enabled=True)
-
-fg.save(dataframe)
-```
-
-Upsert new data in to the feature group with `time_travel_format="HUDI"`".
-```python
-fg.insert(upsert_df)
-```
-
-Retrieve commit timeline metdata of the feature group with `time_travel_format="HUDI"`".
-```python
-fg.commit_details()
-```
-
-"Reading feature group as of specific point in time".
-```python
-fg = fs.get_feature_group("rain", 1)
-fg.read("2020-10-20 07:34:11").show()
-```
-
-Read updates  that occurred between specified points in time.
-```python
-fg = fs.get_feature_group("rain", 1)
-fg.read_changes("2020-10-20 07:31:38", "2020-10-20 07:34:11").show()
-```
-
-Join features together
-```python
-feature_join = rain_fg.select_all()
-                    .join(temperature_fg.select_all(), on=["date", "location_id"])
-                    .join(location_fg.select_all())
-feature_join.show(5)
-```
-
-join feature groups that correspond to specific point in time
-```python
-feature_join = rain_fg.select_all()
-                    .join(temperature_fg.select_all(), on=["date", "location_id"])
-                    .join(location_fg.select_all())
-                    .as_of("2020-10-31")
-feature_join.show(5)
-```
-
-join feature groups that correspond to different time
-```python
-rain_fg_q = rain_fg.select_all().as_of("2020-10-20 07:41:43")
-temperature_fg_q = temperature_fg.select_all().as_of("2020-10-20 07:32:33")
-location_fg_q = location_fg.select_all().as_of("2020-10-20 07:33:08")
-joined_features_q = rain_fg_q.join(temperature_fg_q).join(location_fg_q)
-```
-
-Use the query object to create a training dataset:
-```python
-td = fs.create_training_dataset("rain_dataset",
-                                version=1,
-                                data_format="tfrecords",
-                                description="A test training dataset saved in TfRecords format",
-                                splits={'train': 0.7, 'test': 0.2, 'validate': 0.1})
-
-td.save(feature_join)
-```
-
-Feed the training dataset to a TensorFlow model:
-```python
-tf_data_object = training_dataset.tf_data(target_name="label",
-                                          split="train",
-                                          is_training=True)
-train_input = tf_data_object.tf_record_dataset(batch_size=32,
-                                               num_epochs=5,
-                                               process=True)
-```
-
-A short introduction to the Scala API:
-```scala
-import com.logicalclocks.hsfs._
-val connection = HopsworksConnection.builder().build()
-val fs = connection.getFeatureStore();
-val attendances_features_fg = fs.getFeatureGroup("games_features", 1);
-attendances_features_fg.show(1)
-```
 
 You can find more examples on how to use the library in our [hops-examples](https://github.com/logicalclocks/hops-examples) repository.
 
 ## Documentation
 
-Documentation is available at [Hopsworks Feature Store Documentation](https://docs.hopsworks.ai/).
+Documentation is available at [Hopsworks Model Registry Documentation](https://docs.hopsworks.ai/).
 
 ## Issues
 
 For general questions about the usage of Hopsworks and the Feature Store please open a topic on [Hopsworks Community](https://community.hopsworks.ai/).
 
-Please report any issue using [Github issue tracking](https://github.com/logicalclocks/feature-store-api/issues).
+Please report any issue using [Github issue tracking](https://github.com/logicalclocks/machine-learning-api/issues).
 
 
 ## Contributing
