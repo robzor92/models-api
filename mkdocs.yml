@@ -18,12 +18,12 @@ nav:
       - Guides:
           - Overview: overview.md
           - Project/Connection: generated/project.md
-          - Model Registry: generated/feature_store.md
-          - Model: generated/feature_group.md
+          - Model Registry: generated/model_registry.md
+          - Model: generated/model.md
       - API Reference:
           - Connection: generated/api/connection_api.md
-          - FeatureStore: generated/api/model_registry_api.md
-          - FeatureGroup: generated/api/model_api.md
+          - ModelRegistry: generated/api/model_registry_api.md
+          - Model: generated/api/model_api.md
       - Contributing: CONTRIBUTING.md
 
 theme:
