@@ -1,8 +1,6 @@
 # Quickstart Guide
 
-The Hopsworks feature store is a centralized repository, within an organization, to manage machine learning features. A feature is a measurable property of a phenomenon. It could be a simple value such as the age of a customer, or it could be an aggregated value, such as the number of transactions made by a customer in the last 30 days.
-
-A feature is not restricted to an numeric value, it could be a string representing an address, or an image.
+The Hopsworks model registry is a centralized repository, within an organization, to manage machine learning models. A model is the product of training a machine learning algorithm with training data. It could be an image classifier used to detect objects in an image, such as for example detecting cancer in an MRI scan.
 
 <p align="center">
   <figure>
@@ -13,161 +11,93 @@ A feature is not restricted to an numeric value, it could be a string representi
   </figure>
 </p>
 
-A feature store is not a pure storage service, it goes hand-in-hand with feature computation. Feature engineering is the process of transforming raw data into a format that is compatible and understandable for predictive models.
-
-In this Quickstart Guide we are going to focus on the left side of the picture above. In particular how data engeneers can create features and push them to the Hopsworks feature store so that they are available to the data scientists
+In this Quickstart Guide we are going to focus on the left side of the picture above. In particular how data scientists can create models and publish them to the model registry to make them available for further development and serving.
 
 ### HSFS library
 
-The Hopsworks feature feature store library is called `hsfs` (**H**opswork**s** **F**eature **S**tore).
-The library is Apache V2 licensed and available [here](https://github.com/logicalclocks/feature-store-api). The library is currently available for Python and JVM languages such as Scala and Java.
-If you want to connect to the Feature Store from outside Hopsworks, see our [integration guides](setup.md).
+The Hopsworks model registry library is called `hsml` (**H**opswork**s** **M**achine **L**earning).
+The library is Apache V2 licensed and available [here](https://github.com/logicalclocks/machine-learning-api). The library is currently available for Python.
+If you want to connect to the Model Registry from outside Hopsworks, see our [integration guides](setup.md).
 
-The library is build around metadata-objects, representing entities within the Feature Store. You can modify metadata by changing it in the metadata-objects and subsequently persisting it to the Feature Store. In fact, the Feature Store itself is also represented by an object. Furthermore, these objects have methods to save data along with the entities in the feature store. This data can be materialized from [Spark or Pandas DataFrames, or the `HSFS`-**Query** abstraction](generated/query_vs_dataframe.md).
+The library is build around metadata-objects, representing entities within the Model Registry. You can modify metadata by changing it in the metadata-objects and subsequently persisting it to the Model Registry. In fact, the Model Registry itself is also represented by an object. Furthermore, these objects have methods to save model artifacts along with the entities in the model registry.
 
 ### Guide Notebooks
 
-This guide is based on a [series of notebooks](https://github.com/logicalclocks/hops-examples/tree/master/notebooks/featurestore/hsfs), which is available in the Feature Store Demo Tour Project on Hopsworks.
+This guide is based on a [series of notebooks](https://github.com/logicalclocks/hops-examples/tree/master/notebooks/ml/hsml), which is available in the Deep Learning Demo Tour Project on Hopsworks.
 
-### Connection, Project and Feature Store
+### Connection, Project and Model Registry
 
-The first step is to establish a connection with your Hopsworks Feature Store instance and retrieve the object that represents the Feature Store you'll be working with.
+The first step is to establish a connection with your Hopsworks Model Registry instance and retrieve the object that represents the Model Registry you'll be working with.
 
-By default `connection.get_feature_store()` returns the feature store of the project you are working with. However, it accepts also a project name as parameter to select a different feature store.
+By default `connection.get_model_registry()` returns the model registry of the project you are working with. However, it accepts also a project name as parameter to select a different model registry.
 
 === "Python"
 
     ```python
-    import hsfs
+    import hsml
 
     # Create a connection
-    connection = hsfs.connection()
+    connection = hsml.connection()
 
-    # Get the feature store handle for the project's feature store
-    fs = connection.get_feature_store()
+    # Get the model registry handle for the project's model registry
+    mr = connection.get_model_registry()
     ```
 
-=== "Scala"
+### Models
 
-    ``` scala
-    import com.logicalclocks.hsfs._
-    import scala.collection.JavaConverters._
-
-    // Create a connection
-    val connection = HopsworksConnection.builder().build();
-
-    // Get the feature store handle for the project's feature store
-    val fs = connection.getFeatureStore();
-    ```
-
-You can inspect the Feature Store's meta data by accessing its attributes:
-
-=== "Python"
-
-    ```python
-    print(fs.name)
-    print(fs.description)
-    ```
-
-=== "Scala"
-
-    ```scala
-    println(fs.getName)
-    println(fs.getDescription)
-    ```
-
-### Example Data
-
-In order to use the example data, you need to unzip the `archive.zip` file which is located in `/Jupyter/hsfs/` when you are running the Quickstart from the Feature Store Demo Tour project. To do so, head to the *Data Sets* tab in Hopsworks, open the `/Jupyter/hsfs` directory, mark the `archive.zip`-file and click the *extract* button.
-
-<p align="center">
-  <figure>
-    <img src="../assets/images/extract-zip.png" width="400" alt="The Hopsworks Feature Store">
-    <figcaption>The Data Sets browser</figcaption>
-  </figure>
-</p>
-
-
-Of course you can also use your own data if you read it into a Spark DataFrame.
-
-### Feature Groups
-
-Assuming you have done some feature engineering on the raw data, having produced a DataFrame with Features, these can now be saved to the Feature Store. For examples of feature engineering on the provided Sales data, see the [example notebook](https://github.com/logicalclocks/hops-examples/blob/master/notebooks/featurestore/hsfs/feature_engineering.ipynb).
+Assuming you have done some model training, having export a model to a directory on a local file path, the model artifacts and additional metadata can now be saved to the Model Registry. See the [example notebooks](https://github.com/logicalclocks/hops-examples/blob/master/notebooks/ml/hsml).
 
 #### Creation
 
-Create a feature group named `store_fg`. The store is the primary key uniquely identifying all the remaining features in this feature group. As you can see, you have the possibility to make settings on the Feature Group, such as the version number, or the statistics which should be computed. The [Feature Group Guide](generated/feature_group.md) guides through the full configuration of Feature Groups.
+Create a model named `mnist`. As you can see, you have the possibility to make settings on the Model, such as the `version` number, or `metrics` parameter which is set to attach model training metrics on the model. The [Model Guide](generated/model.md) guides through the full configuration of Models.
 
 === "Python"
 
     ```python
-    store_fg_meta = fs.create_feature_group(name="store_fg",
+    mnist_model_meta = mr.create_model(name="mnist",
         version=1,
-        primary_key=["store"],
-        description="Store related features",
-        statistics_config={"enabled": True, "histograms": True, "correlations": True})
+        metrics={"accuracy": 0.94},
+        description="mnist model description")
     ```
 
-=== "Scala"
-
-    ```scala
-    val storeFgMeta = (fs.createFeatureGroup()
-        .name("store_fg")
-        .description("Store related features")
-        .version(1)
-        .primaryKeys(Seq("store").asJava)
-        .statisticsEnabled(True)
-        .histograms(True)
-        .correlations(True)
-        .build())
-    ```
-
-Up to this point we have just created the metadata object representing the feature group. However, we haven't saved the feature group in the feature store yet. To do so, we can call the method `save` on the metadata object created in the cell above.
+Up to this point we have just created the metadata object representing the model. However, we haven't saved the model in the model registry yet. To do so, we can call the method `save` on the metadata object created in the cell above.
+The `save` method takes a single parameter which is the path to the directory on the local filesystem which contains all your model artifacts.
 
 === "Python"
 
     ```python
-    store_fg_meta.save(store_dataframe)
-    ```
-
-=== "Scala"
-
-    ```scala
-    storeFgMeta.save(store_dataframe)
+    mnist_model_meta.save("/tmp/model_directory")
     ```
 
 #### Retrieval
 
-If there were feature groups previously created in your Feature Store, or you want to pick up where you left off before, you can retrieve and read feature groups in a similar fashion as creating them:
-Using the Feature Store object, you can retrieve handles to the entities, such as feature groups, in the Feature Store. By default, this will return the first version of an entity, if you want a more recent version, you need to specify the version. This is necessary, in order to make the code reproducible, as version changes indicate breaking schema changes.
+If there were models previously created in your Model Registry, or you want to pick up where you left off before, you can retrieve and read models in a similar fashion as creating them:
+Using the Model Registry object, you can retrieve handles to the entities, such as models, in the Model Registry. By default, this will return the first version of an entity, if you want a more recent version, you need to specify the version.
 
 === "Python"
 
     ```python
-    exogenous_fg_meta = fs.get_feature_group('exogenous_fg', version=1)
+    mnist_model_meta = mr.get_model('mnist', version=1)
 
-    # Read the data, by default selecting all features
-    exogenous_df = exogenous_fg_meta.read()
+    # Download the model
+    model_download_path = mnist_model_meta.download()
 
-    # Select a subset of features and read into dataframe
-    exogenous_df_subset = exogenous_fg_meta.select(["store", "fuel_price", "is_holiday"]).read()
+    # Load the model
+    tf.saved_model.load(model_download_path)
     ```
 
-=== "Scala"
+To seamlessly combine HSML with model serving components the library makes it simple to also query for the best performing model. In this instance, we get the best model version with the highest `accuracy` metric attached.
 
-    ```scala
-    val exogenousFgMeta= fs.getFeatureGroup("exogenous_fg", 1)
+=== "Python"
 
-    // Read the data, by default selecting all features
-    val exogenousDf = exogenousFgMeta.read()
+    ```python
+    mnist_model_meta = mr.get_best_model('mnist', 'accuracy', 'max')
 
-    // Select a subset of features and read into dataframe
-    val exogenousDfSubset = exogenousFgMeta.select(Seq("store", "fuel_price", "is_holiday").asJava).read()
     ```
 
-#### Joining
+#### Input examples and Signatures
 
-HSFS provides an API similar to Pandas to join feature groups together and to select features from different feature groups.
+HSML provides an API similar to Pandas to join feature groups together and to select features from different feature groups.
 The easies query you can write is by selecting all the features from a feature group and join them with all the features of another feature group.
 
 You can use the `select_all()` method of a feature group to select all its features. HSFS relies on the Hopsworks feature store to identify which features of the two feature groups to use as joining condition.
