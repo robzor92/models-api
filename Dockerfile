@@ -9,5 +9,6 @@ RUN pip3 install twine \
                  mkdocs-material==6.2.2 \
                  mike==0.5.5 \
                  git+https://github.com/moritzmeister/keras-autodoc@split-tags-properties
+                 git+https://github.com/robzor92/mkdocs-monorepo-plugin@allow_space_in_title
 
 RUN mkdir -p /.local && chmod -R 777 /.local

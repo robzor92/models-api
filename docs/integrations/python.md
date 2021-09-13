@@ -27,7 +27,7 @@ Create a file called `modelregistry.key` in your designated Python environment a
 !!! info
     You are only able to retrieve the API key once. If you did not manage to copy it to your clipboard, delete it and create a new one.
 
-## Install **HSFS**
+## Install **HSML**
 
 To be able to access the Hopsworks Model Registry, the `HSML` Python library needs to be installed in the environment from which you want to connect to the Model Registry. You can install the library through pip. We recommend using a Python environment manager such as *virtualenv* or *conda*.
 
@@ -53,13 +53,13 @@ You are now ready to connect to the Hopsworks Model Registry from your Python en
 ```python
 import hsml
 conn = hsml.connection(
-    host='my_instance',                 # DNS of your Feature Store instance
+    host='my_instance',                 # DNS of your Model Registry instance
     port=443,                           # Port to reach your Hopsworks instance, defaults to 443
-    project='my_project',               # Name of your Hopsworks Feature Store project
+    project='my_project',               # Name of your Hopsworks Model Registry project
     api_key_value='apikey',             # The API key to authenticate with Hopsworks
     hostname_verification=True          # Disable for self-signed certificates
 )
-fs = conn.get_model_registry()           # Get the project's default feature store
+fs = conn.get_model_registry()           # Get the project's default model registry
 ```
 
 !!! info "Ports"
