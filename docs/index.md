@@ -1,4 +1,4 @@
-# Hopsworks Feature Store
+# Hopsworks Model Registry Store
 
 <p align="center">
   <a href="https://community.hopsworks.ai"><img
@@ -6,19 +6,19 @@
     alt="Hopsworks Community"
   /></a>
     <a href="https://docs.hopsworks.ai"><img
-    src="https://img.shields.io/badge/docs-HSFS-orange"
-    alt="Hopsworks Feature Store Documentation"
+    src="https://img.shields.io/badge/docs-HSML-orange"
+    alt="Hopsworks Model Registry Documentation"
   /></a>
-  <a href="https://pypi.org/project/hsfs/"><img
-    src="https://img.shields.io/pypi/v/hsfs?color=blue"
+  <a href="https://pypi.org/project/hsml/"><img
+    src="https://img.shields.io/pypi/v/hsml?color=blue"
     alt="PyPiStatus"
   /></a>
-  <a href="https://archiva.hops.works/#artifact/com.logicalclocks/hsfs"><img
-    src="https://img.shields.io/badge/java-HSFS-green"
+  <a href="https://archiva.hops.works/#artifact/com.logicalclocks/hsml"><img
+    src="https://img.shields.io/badge/java-HSML-green"
     alt="Scala/Java Artifacts"
   /></a>
-  <a href="https://pepy.tech/project/hsfs/month"><img
-    src="https://pepy.tech/badge/hsfs/month"
+  <a href="https://pepy.tech/project/hsml/month"><img
+    src="https://pepy.tech/badge/hsml/month"
     alt="Downloads"
   /></a>
   <a href="https://github.com/psf/black"><img
@@ -26,12 +26,12 @@
     alt="CodeStyle"
   /></a>
   <a><img
-    src="https://img.shields.io/pypi/l/hsfs?color=green"
+    src="https://img.shields.io/pypi/l/hsml?color=green"
     alt="License"
   /></a>
 </p>
 
-HSFS is the library to interact with the Hopsworks Feature Store. The library makes creating new features, feature groups and training datasets easy.
+HSML is the library to interact with the Hopsworks Model Registry. The library makes creating new features, feature groups and training datasets easy.
 
 The library is environment independent and can be used in two modes:
 
