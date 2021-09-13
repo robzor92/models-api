@@ -9,10 +9,10 @@
 
     ```bash
     cd python
-    pip install -e ".[dev]"
+    pip install -e ".[hive,dev]"
     ```
 
-- Install [pre-commit](https://pre-commit.com/) and then activate its hooks. pre-commit is a framework for managing and maintaining multi-language pre-commit hooks. The HSML library uses pre-commit to ensure code-style and code formatting through [black](https://github.com/psf/black) and [flake8](https://gitlab.com/pycqa/flake8). Run the following commands from the `python` directory:
+- Install [pre-commit](https://pre-commit.com/) and then activate its hooks. pre-commit is a framework for managing and maintaining multi-language pre-commit hooks. The Feature Store uses pre-commit to ensure code-style and code formatting through [black](https://github.com/psf/black) and [flake8](https://gitlab.com/pycqa/flake8). Run the following commands from the `python` directory:
 
     ```bash
     cd python
@@ -26,8 +26,8 @@
 
     ```bash
     cd python
-    flake8 hsml
-    black hsml
+    flake8 hsfs
+    black hsfs
     ```
 
 ### Python documentation
@@ -60,8 +60,9 @@ We follow a few best practices for writing the Python documentation:
     If Python 3 type annotations are used, they are inserted automatically.
 
 
-2. REST Api implementations (e.g. ModelsApi etc.) should be fully documented with docstrings without defaults.
-3. Public Api such as metadata objects should be fully documented with defaults.
+2. Feature store entity engine methods (e.g. FeatureGroupEngine etc.) only require a single line docstring.
+3. REST Api implementations (e.g. FeatureGroupApi etc.) should be fully documented with docstrings without defaults.
+4. Public Api such as metadata objects should be fully documented with defaults.
 
 #### Setup and Build Documentation
 
@@ -74,14 +75,12 @@ We use `mkdocs` together with `mike` ([for versioning](https://github.com/jimpor
 
     ```bash
     pip install git+https://github.com/moritzmeister/keras-autodoc@split-tags-properties
-    pip install git+https://github.com/robzor92/mkdocs-monorepo-plugin@allow_space_in_title
-
     ```
 
-2. Install HSML with `docs` extras:
+2. Install HSFS with `docs` extras:
 
     ```bash
-    pip install -e .[dev,docs]
+    pip install -e .[hive,dev,docs]
     ```
 
 3. To build the docs, first run the auto doc script:
@@ -113,9 +112,9 @@ We use `mkdocs` together with `mike` ([for versioning](https://github.com/jimpor
 
 On docs.hopsworks.ai we implement the following versioning scheme:
 
-- current master branches (e.g. of hsml corresponding to master of Hopsworks): rendered as current Hopsworks snapshot version, e.g. **3.0.0-SNAPSHOT [dev]**, where `dev` is an alias to indicate that this is an unstable version.
-- the latest release: rendered with full current version, e.g. **3.0.1 [latest]** with `latest` alias to indicate that this is the latest stable release.
-- previous stable releases: rendered without alias, e.g. **3.0.0**.
+- current master branches (e.g. of hsfs corresponding to master of Hopsworks): rendered as current Hopsworks snapshot version, e.g. **2.2.0-SNAPSHOT [dev]**, where `dev` is an alias to indicate that this is an unstable version.
+- the latest release: rendered with full current version, e.g. **2.1.5 [latest]** with `latest` alias to indicate that this is the latest stable release.
+- previous stable releases: rendered without alias, e.g. **2.1.4**.
 
 ###### Build Instructions
 
@@ -183,7 +182,8 @@ To add new documentation for APIs, you need to add information about the method/
 ```python
 PAGES = {
     "connection.md": [
-        "hsml.connection.Connection.connection"
+        "hsfs.connection.Connection.connection",
+        "hsfs.connection.Connection.setup_databricks",
     ]
     "new_template.md": [
             "module",

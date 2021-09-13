@@ -19,6 +19,14 @@ PAGES = {
             "hsml.model_registry.ModelRegistry", exclude=["from_response_json"]
         ),
     },
+    "api/model_registry_api.md": {
+        "mr": ["hsfs.feature_store.FeatureStore"],
+        "mr_get": ["hsfs.connection.Connection.get_feature_store"],
+        "mr_properties": keras_autodoc.get_properties(
+            "hsfs.feature_store.FeatureStore"
+        ),
+        "mr_methods": keras_autodoc.get_methods("hsfs.feature_store.FeatureStore"),
+    },
 }
 
 hsml_dir = pathlib.Path(__file__).resolve().parents[0]
