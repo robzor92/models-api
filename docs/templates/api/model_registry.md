@@ -1,15 +1,15 @@
-# Feature Store
+# Model Registry
 
-{{fs}}
+{{mr}}
 
 ## Retrieval
 
-{{fs_get}}
+{{mr_get}}
 
 ## Properties
 
-{{fs_properties}}
+{{mr_properties}}
 
 ## Methods
 
-{{fs_methods}}
+{{mr_methods}}

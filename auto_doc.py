@@ -20,12 +20,12 @@ PAGES = {
         ),
     },
     "api/model_registry_api.md": {
-        "mr": ["hsfs.feature_store.FeatureStore"],
-        "mr_get": ["hsfs.connection.Connection.get_feature_store"],
+        "mr": ["hsml.model_registry.ModelRegistry"],
+        "mr_get": ["hsml.connection.Connection.get_model_registry"],
         "mr_properties": keras_autodoc.get_properties(
-            "hsfs.feature_store.FeatureStore"
+            "hsml.model_registry.ModelRegistry"
         ),
-        "mr_methods": keras_autodoc.get_methods("hsfs.feature_store.FeatureStore"),
+        "mr_methods": keras_autodoc.get_methods("hsml.model_registry.ModelRegistry"),
     },
 }
 

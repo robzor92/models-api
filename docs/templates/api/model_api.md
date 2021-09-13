@@ -1,19 +1,19 @@
 # Model
 
-{{fg}}
+{{md}}
 
 ## Creation
 
-{{fg_create}}
+{{md_create}}
 
 ## Retrieval
 
-{{fg_get}}
+{{md_get}}
 
 ## Properties
 
-{{fg_properties}}
+{{md_properties}}
 
 ## Methods
 
-{{fg_methods}}
+{{md_methods}}
