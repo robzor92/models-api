@@ -62,7 +62,7 @@ Retrieve the model object
 model_obj = mr.get_model('mnist', version=1)
 ```
 
-Download the best model version
+Download the model version with the highest accuracy
 ```python
 model_obj = mr.get_best_model('mnist', 'accuracy', 'max')
 
